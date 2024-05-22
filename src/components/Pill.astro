@@ -1,0 +1,36 @@
+---
+interface Props {
+    name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<li class="pill">
+    <span>{name}</span>
+</li>
+
+<style lang="scss">
+    @import "../styles/vars.scss";
+
+    .pill {
+        padding: 0 10px;
+
+        width: max-content;
+        height: 30px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 13px;
+
+        border-radius: 99999px;
+        border: 2px solid rgba($light, 0.04);
+        background-color: $dark;
+        color: $light;
+
+        list-style: none;
+    }
+</style>
