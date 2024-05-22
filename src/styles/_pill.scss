@@ -1,0 +1,31 @@
+.pill {
+    padding: 0 10px;
+
+    width: max-content;
+    height: 30px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 13px;
+
+    border-radius: 99999px;
+    border: 2px solid rgba($light, 0.04);
+    background-color: $dark;
+    color: $light;
+
+    list-style: none;
+
+    > a {
+        //text-decoration: none;
+        color: inherit;
+    }
+}
+
+.pill.large {
+    padding: 0 16px;
+    height: 40px;
+    font-size: 16px;
+}

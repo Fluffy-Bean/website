@@ -1,26 +1,39 @@
 ---
-import Layout from "./Layout.astro";
+import { getCollection } from 'astro:content';
 
-const { frontmatter } = Astro.props;
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+    const collection = await getCollection('posts')
+    return collection.map(post => {
+        return {
+            params: { slug: post.slug },
+            props: { post: post },
+        };
+    })
+}
+
+const { post } = Astro.props;
 ---
 
-<Layout title="Leggy Land" src={frontmatter.image.url} alt={frontmatter.image.alt}>
+<Layout title="Leggy Land" src={post.data.image.url} alt={post.data.image.alt}>
     <a id="back" href="/">Back</a>
-    <h1>{frontmatter.title}</h1>
-    <p>By {frontmatter.author}</p>
-
+    <h1>{post.data.title}</h1>
+    <p>{post.data.description}</p>
     <ul id="tags">
-        {frontmatter.tags.map(item => (
-            <li class="pill">#{item}</li>
+        {post.data.tags.map(item => (
+                <li class="pill">#{item}</li>
         ))}
     </ul>
-
     <hr>
-    <slot />
+
+    <div>
+        {post.body}
+    </div>
 </Layout>
 
 <style is:global lang="scss">
-    @import "../styles/vars";
+    @import "../../styles/vars";
 
     #back {
         margin-bottom: 32px;

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import "../styles/styles.scss";
 
 interface Props {
     title: string;
@@ -27,7 +27,7 @@ const { title, src, alt } = Astro.props;
     </head>
     <body>
         <div class="banner">
-            {src && <Image src={src} alt={alt} inferSize={true} />}
+            {src && <img src={src} alt={alt} />}
         </div>
         <main>
             <slot />
@@ -37,33 +37,11 @@ const { title, src, alt } = Astro.props;
 <style is:global lang="scss">
     @import "../styles/vars";
 
-    *, *::before, *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'IBM Plex Mono', monospace;
-    }
-
-    html {
-        min-height: 100vh;
-        font-size: 100%;
-    }
-
-    body {
-        min-height: 100vh;
-
-        display: flex;
-        flex-direction: column;
-
-        /*border-top: 2px solid $orange;*/
-        /*border-bottom: 2px solid $orange;*/
-        background-color: #261f1b;
-        color: $light
-    }
-
     .banner {
+        margin: 0 -16px;
+
         background-color: $gray;
-        height: 400px;
+        height: 700px;
 
         > img {
             width: 100%;
@@ -72,45 +50,6 @@ const { title, src, alt } = Astro.props;
             display: block;
 
             object-fit: cover;
-        }
-    }
-
-    main {
-        margin: -300px auto 0;
-        padding: 32px;
-
-        width: 100%;
-        max-width: 800px;
-
-        flex-grow: 1;
-
-        border-top-left-radius: $radius;
-        border-top-right-radius: $radius;
-        background-color: $dark;
-
-        box-shadow: 0 8px 8px rgba(#000, 0.3);
-        animation: mainSlide 1s cubic-bezier(0,1,0,1) forwards;
-
-        > h1 {
-            padding-bottom: 8px;
-        }
-
-        > hr {
-            margin: 32px 0;
-
-            height: 2px;
-
-            border: 0 solid transparent;
-            background-color: $gray;
-        }
-    }
-
-    @keyframes mainSlide {
-        0% {
-            transform: translateY(100px);
-        }
-        100% {
-            transform: translateY(0);
         }
     }
 
@@ -125,11 +64,18 @@ const { title, src, alt } = Astro.props;
         align-items: center;
     }
 
+    hr {
+        margin: 32px 0;
+
+        border: 0 solid transparent;
+        border-bottom: 2px solid $gray;
+    }
+
     section {
         padding-bottom: 32px;
 
         > h2 {
-            padding-bottom: 8px;
+            padding-bottom: 10px;
         }
 
         &:last-of-type {

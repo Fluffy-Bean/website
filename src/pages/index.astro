@@ -1,90 +1,109 @@
 ---
+import { getCollection } from 'astro:content';
+
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
-import Pill from "../components/Pill.astro";
+import Music from "../components/Music.astro";
+
+const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgres", "MySQL"];
+const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
+const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
+const projects = await getCollection('projects');
 ---
 
-<Layout title="Leggy Land">
+<Layout title="Leggy Land" src="/banner.webp" alt="Temporary Banner">
 	<h1>Leggy Land</h1>
-	<p>Made with Coffee</p>
+	<p>Made with Coffee, lots of it.</p>
+	<div style="margin-top: 16px" />
+	<Music />
+	<div style="margin-top: 16px" />
 
-	<hr>
+	<!--<hr>-->
 
 	<section>
 		<h2>Who am I</h2>
-		<p>
-			My name is Fluffy, I'm an 18-year-old nerd, who likes to code and tinker with computers!
-			<br /><br />
-			I specialise in Front-End development, but also enjoy working with the back end. My Favorite framework currently is Flask, but this website runs on Django, lol
-			<br /><br />
-			My favorite language is Python, but I also know how to use PHP, HTML, CSS/Sass, JavaScript, Docker, SQL, Shell Scripting, and a little bit of Rust.
-			<br /><br />
-			I also have experience in a few different systems, mainly Arch, Ubuntu and Proxmox.
-		</p>
+		<p>My name is Fluffy, I'm an 19-year-old nerd, who likes to code and tinker with computers!</p>
+		<br>
+		<p>I specialise in Front-End development, but also enjoy working with the back end. My Favorite framework currently is Flask, but this website runs on Django, lol</p>
+		<br>
+		<p>My favorite language is Python, but I also know how to use PHP, HTML, CSS/Sass, JavaScript, Docker, SQL, Shell Scripting, and a little bit of Rust.</p>
+		<br>
+		<p>I also have experience in a few different systems, mainly Arch, Ubuntu and Proxmox.</p>
 	</section>
 
 	<section>
-		<h2>Developer tools</h2>
-		<ul role="list" class="language-list">
-			<Pill name="Proxmox" />
-			<Pill name="JetBrain IDEs" />
-			<Pill name="Docker" />
+		<h2>Social Media</h2>
+		<ul role="list" class="pill-list">
+			<li class="pill large"><a href="#">Twitter</a></li>
+			<li class="pill large"><a href="#">BlueSky</a></li>
+			<li class="pill large"><a href="#">Discord</a></li>
+			<li class="pill large"><a href="#">Telegram</a></li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Tools</h2>
+		<ul role="list" class="pill-list">
+			{tools.map(tool => (
+				<li class="pill large">{tool}</li>
+			))}
 		</ul>
 	</section>
 
 	<section>
 		<h2>Languages</h2>
-		<ul role="list" class="language-list">
-			<Pill name="GoLang" />
-			<Pill name="Python" />
-			<Pill name="HTML" />
-			<Pill name="TypeScript" />
+		<ul role="list" class="pill-list">
+			{languages.map(language => (
+				<li class="pill large">{language}</li>
+			))}
 		</ul>
 	</section>
 
 	<section>
-		<h2>Web Frameworks</h2>
-		<ul role="list" class="language-list">
-			<Pill name="Gin" />
-			<Pill name="Echo" />
-			<Pill name="Flask" />
-			<Pill name="Svelte" />
-		</ul>
-	</section>
-
-	<section>
-		<h2>Game Frameworks</h2>
-		<ul role="list" class="language-list">
-			<Pill name="RayLib" />
+		<h2>Frameworks</h2>
+		<ul role="list" class="pill-list">
+			{frameworks.map(framework => (
+				<li class="pill large">{framework}</li>
+			))}
 		</ul>
 	</section>
 
 	<section>
 		<h2>Projects</h2>
 		<ul role="list" class="project-list">
+			{projects.map(project => (
+				<Card
+					href=`/projects/${project.slug}`
+					title={project.data.title}
+					body={project.data.description}
+				/>
+			))}
+		</ul>
+		<a href="/projects" id="see-all-projects">See Projects</a>
+	</section>
+
+	<section>
+		<h2>Recent Posts</h2>
+		<ul role="list" class="project-list">
 			<Card
 				href="/projects/example"
-				title="Python Gallery"
-				body="Abandoned Python based image Gallery"
+				title="Bruh"
+				body="Lmao"
 			/>
 			<Card
 				href="/projects/example"
-				title="Unnamed game"
-				body="First written in Python, then moved to Go + RayLib"
-			/>
-			<Card
-				href="/projects/example"
-				title="College Work"
-				body="Aurgh"
+				title="Aurgh"
+				body="Blowing up Blandfords"
 			/>
 		</ul>
+		<a href="/posts" id="see-all-posts">See Posts</a>
 	</section>
 </Layout>
 
 <style lang="scss">
 	@import "../styles/vars.scss";
 
-	.language-list {
+	.pill-list {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -96,5 +115,32 @@ import Pill from "../components/Pill.astro";
 		grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
 		gap: 16px;
 		padding: 0;
+	}
+
+	#see-all-projects,
+	#see-all-posts {
+		margin-top: 16px;
+		margin-left: auto;
+		padding: 0 32px;
+
+		width: max-content;
+		height: 35px;
+
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+
+		text-decoration: none;
+
+		border-radius: 9999px;
+		border: 0 solid $gray;
+		background-color: $gray;
+		color: $light;
+
+		&:hover, &:focus-visible {
+			background-color: lighten($gray, 1%);
+		}
 	}
 </style>

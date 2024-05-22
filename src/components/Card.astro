@@ -23,8 +23,10 @@ const { href, title, body } = Astro.props;
 <style lang="scss">
 	@import "../styles/vars.scss";
 
+	$corner-speed: 0.2s;
+
 	.link-card {
-		height: 150px;
+		height: 125px;
 
 		position: relative;
 
@@ -33,13 +35,14 @@ const { href, title, body } = Astro.props;
 		box-shadow: 0 0 0 rgba(#000, 0);
 		list-style: none;
 
-		transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 		overflow: hidden;
 
 		> a {
 			padding: 16px;
 			height: 100%;
 			display: block;
+
+			text-decoration: none;
 
 			border-radius: $radius;
 			border: 2px solid $gray;
@@ -59,40 +62,50 @@ const { href, title, body } = Astro.props;
 			border-top: 2px solid $gray;
 			border-left: 2px solid $gray;
 			background-color: $dark;
+			background-image: linear-gradient(135deg, $dark, darken($dark, 1%));
 			color: $light;
 
-			transition: right 0.3s ease-in-out, bottom 0.3s ease-in-out;
+			box-shadow: -4px -4px 0 rgba(#000, 0);
+
+			transition: right $corner-speed ease-in-out, bottom $corner-speed ease-in-out, box-shadow $corner-speed ease-in-out;
+			pointer-events: none;
+			overflow: hidden;
 			z-index: +3;
 
 			&::after {
 				content: '';
 
-				height: 2px;
+				height: 100px;
 				width: 100px;
 
 				position: absolute;
-				top: 3px;
-				left: calc(-150%);
+				top: -16px;
+				left: -16px;
 
 				transform: rotate(-45deg);
 
-				background-color: #382e28;
+				border-top: 2px solid $gray;
+				background-color: $dark;
 
-				transition: left 0.3s ease-in-out;
+				transition: left $corner-speed ease-in-out, top $corner-speed ease-in-out;
 			}
 		}
 
 		&:hover, &:focus-within {
-			/*box-shadow: 0 8px 8px rgba(#000, 0.3);*/
-			/*transform: translateY(-8px);*/
+			> a {
+				text-decoration: underline;
+				outline: none;
+			}
 
 			.link-card-corner {
 				bottom: 0;
 				right: 0;
 
+				box-shadow: -4px -4px 10px rgba(#000, 0.1);
+
 				&::after {
 					top: 3px;
-					left: calc(-50% + 2px);
+					left: 3px;
 				}
 			}
 		}

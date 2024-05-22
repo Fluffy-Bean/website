@@ -1,0 +1,58 @@
+---
+---
+
+<div id="current-music">
+    <img src="/leg.webp" alt="Track cover art" id="current-music-image"/>
+    <ul>
+        <li id="current-music-title">Track Name</li>
+        <li id="current-music-artist">by Artist</li>
+        <li id="current-music-album">on Album</li>
+    </ul>
+</div>
+
+<script>
+    const request = await fetch("https://lastfm-last-played.biancarosa.com.br/Fluffy_Bean_/latest-song");
+    const data = await request.json();
+
+    console.log(data);
+
+    document.getElementById("current-music-image").src = data["track"]["image"][1]["#text"];
+    document.getElementById("current-music-title").innerText = `Listening to ${data["track"]["name"]}`;
+    document.getElementById("current-music-artist").innerText = `by ${data["track"]["artist"]["#text"]}`;
+    document.getElementById("current-music-album").innerText = `on ${data["track"]["album"]["#text"]}`;
+</script>
+
+<style lang="scss">
+    @import "../styles/vars.scss";
+
+    #current-music {
+        padding: 8px;
+
+        display: flex;
+        flex-direction: row;
+
+        border-radius: $radius;
+        border: 2px solid $gray;
+        background-color: $dark;
+        color: $light;
+
+        > img {
+            margin-right: 16px;
+
+            width: 64px;
+            height: 64px;
+
+            border-radius: $radius;
+        }
+
+        > ul {
+            display: flex;
+            flex-direction: column;
+
+            > li {
+                font-size: 16px;
+                list-style: none;
+            }
+        }
+    }
+</style>

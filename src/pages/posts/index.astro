@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
+
+const posts = await getCollection('posts');
+---
+
+<Layout title="Leggy Land" src="/banner.webp" alt="Temporary Banner">
+    <a id="back" href="/">Back</a>
+    <h1>All Posts</h1>
+    <p>Some regrettable, some not so bad...</p>
+
+    <hr>
+
+    <ul role="list" class="project-list">
+        {posts.map(project => (
+            <Card
+                href=`/projects/${project.slug}`
+                title={project.data.title}
+                body={project.data.description}
+            />
+        ))}
+    </ul>
+</Layout>
+
+<style lang="scss">
+    @import "../../styles/vars.scss";
+
+    .project-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
+        gap: 16px;
+        padding: 0;
+    }
+
+    #back {
+        margin-bottom: 32px;
+        padding: 0 32px;
+
+        width: max-content;
+        height: 35px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        text-decoration: none;
+
+        border-radius: 9999px;
+        border: 0 solid $gray;
+        background-color: $gray;
+        color: $light;
+
+        &:hover, &:focus-visible {
+            background-color: lighten($gray, 1%);
+        }
+    }
+</style>

@@ -1,0 +1,23 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+html {
+    min-height: 100vh;
+    font-size: 100%;
+}
+
+body {
+    padding: 0 16px;
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: #261f1b;
+    color: $light
+}
