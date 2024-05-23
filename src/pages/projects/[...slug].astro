@@ -22,9 +22,7 @@ const { project } = Astro.props;
     <h1>{project.data.title}</h1>
     <p>{project.data.description}</p>
     <ul id="tags">
-        {project.data.tags.map(item => (
-                <li class="pill">#{item}</li>
-        ))}
+        {project.data.tags.map((item: string) => ( <li class="pill">#{item}</li> ))}
     </ul>
     <hr>
 

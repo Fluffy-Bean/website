@@ -10,9 +10,7 @@ const { frontmatter } = Astro.props;
     <p>By {frontmatter.author}</p>
 
     <ul id="tags">
-        {frontmatter.tags.map(item => (
-            <li class="pill">#{item}</li>
-        ))}
+        {frontmatter.tags.map((item: string) => ( <li class="pill">#{item}</li> ))}
     </ul>
 
     <hr>
