@@ -5,10 +5,9 @@ import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Music from "../components/Music.astro";
 
-const tools: string[] = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgres", "MySQL"];
-const languages: string[] = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
-const frameworks: string[] = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
-
+const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgres", "MySQL"];
+const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
+const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
 const projects = await getCollection('projects');
 const posts = await getCollection('posts');
 ---
@@ -18,7 +17,7 @@ const posts = await getCollection('posts');
 	<p>Made with Coffee, lots of it.</p>
 
 	<div style="margin: 16px 0">
-		<Music client:load />
+		<Music />
 	</div>
 
 	<section>
