@@ -1,14 +1,14 @@
 ---
 ---
 
-<div id="current-music">
+<a id="current-music" href="https://www.last.fm/user/Fluffy_Bean_">
     <img src="/leg.webp" alt="Track cover art" id="current-music-image"/>
     <ul>
         <li id="current-music-title">Track Name</li>
         <li id="current-music-artist">by Artist</li>
         <li id="current-music-album">on Album</li>
     </ul>
-</div>
+</a>
 
 <script>
     const request = await fetch("https://lastfm-last-played.biancarosa.com.br/Fluffy_Bean_/latest-song");
@@ -26,14 +26,15 @@
     @import "../styles/vars.scss";
 
     #current-music {
-        padding: 8px;
+        padding: 16px;
 
         display: flex;
         flex-direction: row;
 
+        text-decoration: none;
+
         border-radius: $radius;
-        border: 2px solid $gray;
-        background-color: $dark;
+        background-color: $gray;
         color: $light;
 
         > img {
@@ -54,5 +55,13 @@
                 list-style: none;
             }
         }
+
+        &:hover, &:focus-visible {
+            background-color: lighten($gray, 1%);
+        }
+    }
+
+    #current-music-title {
+        font-weight: bold;
     }
 </style>

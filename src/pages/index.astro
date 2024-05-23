@@ -9,16 +9,16 @@ const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgre
 const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
 const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
 const projects = await getCollection('projects');
+const posts = await getCollection('posts');
 ---
 
 <Layout title="Leggy Land" src="/banner.webp" alt="Temporary Banner">
 	<h1>Leggy Land</h1>
 	<p>Made with Coffee, lots of it.</p>
-	<div style="margin-top: 16px" />
-	<Music />
-	<div style="margin-top: 16px" />
 
-	<!--<hr>-->
+	<div style="margin: 16px 0">
+		<Music />
+	</div>
 
 	<section>
 		<h2>Who am I</h2>
@@ -85,16 +85,13 @@ const projects = await getCollection('projects');
 	<section>
 		<h2>Recent Posts</h2>
 		<ul role="list" class="project-list">
-			<Card
-				href="/projects/example"
-				title="Bruh"
-				body="Lmao"
-			/>
-			<Card
-				href="/projects/example"
-				title="Aurgh"
-				body="Blowing up Blandfords"
-			/>
+			{posts.map(project => (
+				<Card
+					href=`/posts/${project.slug}`
+					title={project.data.title}
+					body={project.data.description}
+				/>
+			))}
 		</ul>
 		<a href="/posts" id="see-all-posts">See Posts</a>
 	</section>
