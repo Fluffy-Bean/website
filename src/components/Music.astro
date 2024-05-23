@@ -15,10 +15,10 @@
         const request = await fetch("https://lastfm-last-played.biancarosa.com.br/Fluffy_Bean_/latest-song");
         const data = await request.json();
 
-        ( <HTMLImageElement>document.querySelector("#music-image") ).src = data["track"]["image"][1]["#text"];
-        ( <HTMLParagraphElement>document.querySelector("#music-title") ).innerText = `Listening to ${data["track"]["name"]}`;
-        ( <HTMLParagraphElement>document.querySelector("#music-artist") ).innerText = `by ${data["track"]["artist"]["#text"]}`;
-        ( <HTMLParagraphElement>document.querySelector("#music-album") ).innerText = `on ${data["track"]["album"]["#text"]}`;
+        ( document.querySelector("#music-image") as HTMLImageElement ).src = data["track"]["image"][1]["#text"];
+        ( document.querySelector("#music-title") as HTMLParagraphElement ).innerText = `Listening to ${data["track"]["name"]}`;
+        ( document.querySelector("#music-artist") as HTMLParagraphElement ).innerText = `by ${data["track"]["artist"]["#text"]}`;
+        ( document.querySelector("#music-album") as HTMLParagraphElement ).innerText = `on ${data["track"]["album"]["#text"]}`;
     });
 </script>
 
