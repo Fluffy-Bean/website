@@ -14,12 +14,15 @@
     const request = await fetch("https://lastfm-last-played.biancarosa.com.br/Fluffy_Bean_/latest-song");
     const data = await request.json();
 
-    console.log(data);
+    const image= document.querySelector("#current-music-image") as HTMLImageElement;
+    const title = document.querySelector("#current-music-title") as HTMLParagraphElement;
+    const artist = document.querySelector("#current-music-artist") as HTMLParagraphElement;
+    const album = document.querySelector("#current-music-album") as HTMLParagraphElement;
 
-    document.getElementById("current-music-image").src = data["track"]["image"][1]["#text"];
-    document.getElementById("current-music-title").innerText = `Listening to ${data["track"]["name"]}`;
-    document.getElementById("current-music-artist").innerText = `by ${data["track"]["artist"]["#text"]}`;
-    document.getElementById("current-music-album").innerText = `on ${data["track"]["album"]["#text"]}`;
+    image.src = data["track"]["image"][1]["#text"];
+    title.innerText = `Listening to ${data["track"]["name"]}`;
+    artist.innerText = `by ${data["track"]["artist"]["#text"]}`;
+    album.innerText = `on ${data["track"]["album"]["#text"]}`;
 </script>
 
 <style lang="scss">
