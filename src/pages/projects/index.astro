@@ -8,7 +8,7 @@ const projects = await getCollection('projects');
 ---
 
 <Layout title="Leggy Land" src="/banner.webp" alt="Temporary Banner">
-    <a id="back" href="/">Back</a>
+    <a class="button" id="back" href="/">Back</a>
     <h1>All Projects</h1>
     <p>Too many, so many</p>
 
@@ -37,26 +37,5 @@ const projects = await getCollection('projects');
 
     #back {
         margin-bottom: 32px;
-        padding: 0 32px;
-
-        width: max-content;
-        height: 35px;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-
-        text-decoration: none;
-
-        border-radius: 9999px;
-        border: 0 solid $gray;
-        background-color: $gray;
-        color: $light;
-
-        &:hover, &:focus-visible {
-            background-color: lighten($gray, 1%);
-        }
     }
 </style>

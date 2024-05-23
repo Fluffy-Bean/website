@@ -12,65 +12,59 @@ const projects = await getCollection('projects');
 const posts = await getCollection('posts');
 ---
 
-<Layout title="Leggy Land" src="/banner.webp" alt="Temporary Banner">
+<Layout title="Leggy Land" src="/banner-alt.webp" alt="Temporary Banner">
 	<h1>Leggy Land</h1>
 	<p>Made with Coffee, lots of it.</p>
 
 	<div style="margin: 16px 0">
-		<Music />
+		<Music client:load />
 	</div>
 
 	<section>
 		<h2>Who am I</h2>
-		<p>My name is Fluffy, I'm an 19-year-old nerd, who likes to code and tinker with computers!</p>
+		<p>My name is Fluffy or Michał, I'm 19 and like computers</p>
 		<br>
-		<p>I specialise in Front-End development, but also enjoy working with the back end. My Favorite framework currently is Flask, but this website runs on Django, lol</p>
+		<p>I mainly do website stuff, work with the front and backend, but I also like networking and breaking things</p>
 		<br>
-		<p>My favorite language is Python, but I also know how to use PHP, HTML, CSS/Sass, JavaScript, Docker, SQL, Shell Scripting, and a little bit of Rust.</p>
+		<p>My favorite language currently is Go, but I also know a few other languages that are listed below!</p>
 		<br>
-		<p>I also have experience in a few different systems, mainly Arch, Ubuntu and Proxmox.</p>
+		<p>I use Arch btw.</p>
 	</section>
 
 	<section>
-		<h2>Social Media</h2>
-		<ul role="list" class="pill-list">
-			<li class="pill large"><a href="#">Twitter</a></li>
-			<li class="pill large"><a href="#">BlueSky</a></li>
-			<li class="pill large"><a href="#">Discord</a></li>
-			<li class="pill large"><a href="#">Telegram</a></li>
+		<h2>Find me on</h2>
+		<ul class="pill-list">
+			<li><a class="button" href="#">Twitter</a></li>
+			<li><a class="button" href="#">BlueSky</a></li>
+			<li><a class="button" href="#">Discord</a></li>
+			<li><a class="button" href="#">Telegram</a></li>
 		</ul>
 	</section>
 
 	<section>
 		<h2>Tools</h2>
-		<ul role="list" class="pill-list">
-			{tools.map(tool => (
-				<li class="pill large">{tool}</li>
-			))}
+		<ul class="pill-list">
+			{tools.map(tool => ( <li class="pill large">{tool}</li> ))}
 		</ul>
 	</section>
 
 	<section>
 		<h2>Languages</h2>
-		<ul role="list" class="pill-list">
-			{languages.map(language => (
-				<li class="pill large">{language}</li>
-			))}
+		<ul class="pill-list">
+			{languages.map(language => ( <li class="pill large">{language}</li> ))}
 		</ul>
 	</section>
 
 	<section>
 		<h2>Frameworks</h2>
-		<ul role="list" class="pill-list">
-			{frameworks.map(framework => (
-				<li class="pill large">{framework}</li>
-			))}
+		<ul class="pill-list">
+			{frameworks.map(framework => ( <li class="pill large">{framework}</li> ))}
 		</ul>
 	</section>
 
 	<section>
 		<h2>Projects</h2>
-		<ul role="list" class="project-list">
+		<ul class="project-list">
 			{projects.map(project => (
 				<Card
 					href=`/projects/${project.slug}`
@@ -79,12 +73,12 @@ const posts = await getCollection('posts');
 				/>
 			))}
 		</ul>
-		<a href="/projects" id="see-all-projects">See Projects</a>
+		<a class="button" id="see-all-projects" href="/projects">See Projects</a>
 	</section>
 
 	<section>
 		<h2>Recent Posts</h2>
-		<ul role="list" class="project-list">
+		<ul class="project-list">
 			{posts.map(project => (
 				<Card
 					href=`/posts/${project.slug}`
@@ -93,7 +87,7 @@ const posts = await getCollection('posts');
 				/>
 			))}
 		</ul>
-		<a href="/posts" id="see-all-posts">See Posts</a>
+		<a class="button" id="see-all-posts" href="/posts">See Posts</a>
 	</section>
 </Layout>
 
@@ -105,6 +99,10 @@ const posts = await getCollection('posts');
 		flex-direction: row;
 		flex-wrap: wrap;
 		gap: 8px;
+
+		> li {
+			list-style: none;
+		}
 	}
 
 	.project-list {
@@ -118,26 +116,5 @@ const posts = await getCollection('posts');
 	#see-all-posts {
 		margin-top: 16px;
 		margin-left: auto;
-		padding: 0 32px;
-
-		width: max-content;
-		height: 35px;
-
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		gap: 8px;
-
-		text-decoration: none;
-
-		border-radius: 9999px;
-		border: 0 solid $gray;
-		background-color: $gray;
-		color: $light;
-
-		&:hover, &:focus-visible {
-			background-color: lighten($gray, 1%);
-		}
 	}
 </style>

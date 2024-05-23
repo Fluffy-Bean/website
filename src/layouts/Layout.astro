@@ -40,8 +40,11 @@ const { title, src, alt } = Astro.props;
     .banner {
         margin: 0 -16px;
 
-        background-color: $gray;
         height: 700px;
+
+        background-color: rgba($light, 0.01);
+
+        box-shadow: 0 8px 8px rgba(#000, 0.3);
 
         > img {
             width: 100%;
