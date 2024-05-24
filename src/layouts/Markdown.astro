@@ -1,0 +1,62 @@
+---
+interface Props {
+    post: any,
+}
+
+const { post } = Astro.props;
+
+const { Content } = await post.render();
+---
+
+<a class="button" href="/" id="home">Home</a>
+
+<h1>{post.data.title}</h1>
+<p>{post.data.description}</p>
+<ul id="tags">
+    {post.data.tags.map((item: string) => ( <li class="pill">#{item}</li> ))}
+</ul>
+
+<hr>
+
+<div id="markdown">
+    <Content />
+</div>
+
+<hr>
+
+<ul id="controls">
+    <li><a class="button" href="/">Prev</a></li>
+    <li><a class="button" href="/">Next</a></li>
+</ul>
+
+<style is:global lang="scss">
+    @import "../styles/vars";
+
+    #home {
+        margin-bottom: 32px;
+    }
+
+    #tags {
+        padding-top: 16px;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #markdown {
+        flex-grow: 1;
+    }
+
+    #controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+
+        > li {
+            list-style: none;
+        }
+    }
+</style>
