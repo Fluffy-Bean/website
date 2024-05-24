@@ -34,7 +34,6 @@ const { Content } = await post.render();
 
     #home { margin-bottom: 32px; }
     #tags { padding-top: 16px; }
-    #markdown { flex-grow: 1; }
 
     #controls {
         display: flex;
@@ -44,6 +43,66 @@ const { Content } = await post.render();
 
         > li {
             list-style: none;
+        }
+    }
+
+    #markdown {
+        flex-grow: 1;
+
+        a {
+            text-decoration: none;
+            color: $orange;
+            transition: all 0.1s ease-in-out;
+
+            &:hover, &:focus-visible {
+                text-decoration: underline;
+            }
+        }
+
+        ol, ul {
+            padding-left: 32px;
+        }
+
+        hr {
+            margin: 16px 0;
+            border: 0;
+            border-top: 2px solid $gray;
+        }
+
+        code {
+            padding: 2px 4px;
+
+            font-size: 13px;
+
+            border-radius: $radius;
+            background-color: $gray;
+            color: $light;
+
+            overflow-x: auto
+        }
+
+        pre {
+            padding: 8px;
+
+            white-space: pre-wrap;
+            word-wrap: break-word;
+
+            border-radius: $radius;
+            background-color: $gray !important;
+            color: $light;
+
+            overflow-x: scroll;
+
+            > code {
+                padding: 0;
+            }
+        }
+
+        blockquote {
+            margin: 8px 0 8px 16px;
+            padding: 0 8px;
+            font-style: italic;
+            border-left: 2px solid $orange;
         }
     }
 </style>
