@@ -3,11 +3,12 @@ import { getCollection } from 'astro:content';
 
 import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
+import BannerImg from "../../../public/banner-alt.webp";
 
 const posts = await getCollection('posts');
 ---
 
-<Layout title="Leggy Land" src="/banner-alt.webp" alt="Temporary Banner">
+<Layout title="Leggy Land - All Posts" src={BannerImg} alt="Temporary Banner">
     <a class="button" id="home" href="/">Home</a>
 
     <h1>All Posts</h1>

@@ -1,8 +1,11 @@
 ---
+import { Image } from "astro:assets";
+
+import leg from "../../public/leg.webp";
 ---
 
 <a class="button" id="music" href="https://www.last.fm/user/Fluffy_Bean_" target="_blank">
-    <img src="/leg.webp" alt="Track cover art" id="music-image"/>
+    <Image src={leg} width="64" height="64" loading="eager" alt="Track cover art" id="music-image" />
     <ul>
         <li id="music-title">Track Name</li>
         <li id="music-artist">by Artist</li>

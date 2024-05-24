@@ -19,6 +19,6 @@ export async function getStaticPaths() {
 const { post, prev, next } = Astro.props;
 ---
 
-<Layout title="Leggy Land" src={post.data.image.url} alt={post.data.image.alt}>
+<Layout title=`Leggy Land - ${post.data.title}` src={post.data.image.url} alt={post.data.image.alt}>
     <Markdown {post} {prev} {next} base="/posts" />
 </Layout>

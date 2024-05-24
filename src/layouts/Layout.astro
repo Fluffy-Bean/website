@@ -1,6 +1,8 @@
 ---
 import "../styles/styles.scss";
 
+import { Image } from "astro:assets";
+
 interface Props {
     title: string;
     src?: string,
@@ -28,7 +30,7 @@ const { title, src, alt } = Astro.props;
     <body>
         <div class="banner">
             {src && (
-                <img src={src} alt={alt} />
+                <Image src={src} width="1080" height="700" loading="eager" alt={alt}  />
                 <script>
                     const img = document.querySelector(".banner > img");
                     document.addEventListener("scroll", () => {
