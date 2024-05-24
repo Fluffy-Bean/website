@@ -15,11 +15,11 @@ const posts = await getPosts("posts");
 	<h1>Leggy Land</h1>
 	<p>Made with Coffee, lots of it.</p>
 
-	<div style="margin: 16px 0">
+	<div style="margin: 32px 0">
 		<Music />
 	</div>
 
-	<section>
+	<div class="section">
 		<h2>Who am I</h2>
 		<p>
 			My name is Michał, I go by Fluffy, I'm 19 and I like computers
@@ -30,9 +30,9 @@ const posts = await getPosts("posts");
 			<br><br>
 			I use Arch btw.
 		</p>
-	</section>
+	</div>
 
-	<section>
+	<div class="section">
 		<h2>Find me on</h2>
 		<ul class="pill-list">
 			<li><a class="button" href="https://www.twitter.com/fluffybeanUwU" target="_blank">Twitter</a></li>
@@ -40,30 +40,30 @@ const posts = await getPosts("posts");
 			<li><a class="button" href="https://t.me/Fluffy_Bean" target="_blank">Telegram</a></li>
 			<li><a class="button" href="https://github.com/Fluffy-Bean" target="_blank">GitHub</a></li>
 		</ul>
-	</section>
+	</div>
 
-	<section>
+	<div class="section">
 		<h2>Tools</h2>
 		<ul class="pill-list">
 			{tools.map(tool => ( <li class="pill large">{tool}</li> ))}
 		</ul>
-	</section>
+	</div>
 
-	<section>
+	<div class="section">
 		<h2>Languages</h2>
 		<ul class="pill-list">
 			{languages.map(language => ( <li class="pill large">{language}</li> ))}
 		</ul>
-	</section>
+	</div>
 
-	<section>
+	<div class="section">
 		<h2>Frameworks</h2>
 		<ul class="pill-list">
 			{frameworks.map(framework => ( <li class="pill large">{framework}</li> ))}
 		</ul>
-	</section>
+	</div>
 
-	<section>
+	<div class="section">
 		<h2>Projects</h2>
 		<ul class="project-list">
 			{projects.slice(0, 2).map(project => (
@@ -75,9 +75,9 @@ const posts = await getPosts("posts");
 			))}
 		</ul>
 		<a class="button" id="see-all-projects" href="/projects">All Projects</a>
-	</section>
+	</div>
 
-	<section>
+	<div class="section">
 		<h2>Recent Posts</h2>
 		<ul class="project-list">
 			{posts.slice(0, 2).map(project => (
@@ -89,7 +89,7 @@ const posts = await getPosts("posts");
 			))}
 		</ul>
 		<a class="button" id="see-all-posts" href="/posts">All Posts</a>
-	</section>
+	</div>
 </Layout>
 
 <style lang="scss">

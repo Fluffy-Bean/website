@@ -18,19 +18,14 @@ main {
     box-shadow: 0 8px 8px rgba(#000, 0.3);
     z-index: 10;
 
-    // causes problems on chrome
-    //animation: mainSlide 1s cubic-bezier(0,1,0,1) forwards;
-
     > h1 {
         padding-bottom: 8px;
     }
-}
 
-@keyframes mainSlide {
-    0% {
-        transform: translateY(100px);
-    }
-    100% {
-        transform: translateY(0);
+    > hr {
+        margin: 32px 0;
+
+        border: 0 solid transparent;
+        border-bottom: 2px solid $gray;
     }
 }

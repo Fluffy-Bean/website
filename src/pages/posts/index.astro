@@ -15,15 +15,10 @@ const posts = await getCollection('posts');
 
     <hr>
 
-    <!--<div class="search-box">-->
-    <!--    <label for="search">Search</label>-->
-    <!--    <input type="text" id="search" name="search" />-->
-    <!--</div>-->
-
     <ul role="list" class="project-list">
         {posts.map(project => (
             <Card
-                href=`/projects/${project.slug}`
+                href=`/posts/${project.slug}`
                 title={project.data.title}
                 body={project.data.description}
             />
@@ -32,59 +27,5 @@ const posts = await getCollection('posts');
 </Layout>
 
 <style lang="scss">
-    @import "../../styles/vars.scss";
-
-    .search-box {
-        padding: 8px 0 32px;
-
-        width: 100%;
-
-        position: relative;
-
-        > label {
-            padding: 0 8px;
-
-            position: absolute;
-            top: -4px;
-            left: 20px;
-
-            background: $dark;
-
-            pointer-events: none;
-            z-index: +1;
-        }
-
-        > input {
-            padding: 0 16px;
-
-            width: 100%;
-            height: 35px;
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-
-            text-decoration: none;
-
-            border-radius: 9999px;
-            border: 2px solid $gray;
-            background-color: $dark;
-            color: $light;
-
-            overflow: hidden;
-
-            &:hover {
-                border: 2px solid lighten($gray, 1%);
-            }
-
-            &:focus-visible {
-                outline: 0 solid transparent;
-                border: 2px solid $light;
-            }
-        }
-    }
-
     #home { margin-bottom: 32px; }
 </style>

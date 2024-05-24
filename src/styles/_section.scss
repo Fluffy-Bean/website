@@ -1,0 +1,11 @@
+.section {
+    padding-bottom: 32px;
+
+    > h2 {
+        padding-bottom: 10px;
+    }
+
+    &:last-of-type {
+        padding-bottom: 0;
+    }
+}
