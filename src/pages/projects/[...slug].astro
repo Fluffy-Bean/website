@@ -10,10 +10,12 @@ export async function getStaticPaths() {
             params: { slug: project.slug },
             props: { project: project },
         };
-    })
+    });
 }
 
 const { project } = Astro.props;
+
+const { Content } = await project.render()
 ---
 
 <Layout title="Leggy Land" src={project.data.image.url} alt={project.data.image.alt}>
@@ -27,7 +29,7 @@ const { project } = Astro.props;
     <hr>
 
     <div>
-        {project.body}
+        <Content />
     </div>
 </Layout>
 

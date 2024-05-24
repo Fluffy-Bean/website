@@ -1,6 +1,4 @@
 ---
-layout: ../../layouts/Markdown.astro
-
 title: GwaGwa
 description: :3
 image:

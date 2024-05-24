@@ -1,6 +1,4 @@
 ---
-layout: ../../layouts/Markdown.astro
-
 title: Project 2
 description: Another one
 image:

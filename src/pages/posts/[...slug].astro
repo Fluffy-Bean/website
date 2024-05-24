@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
 import Layout from "../../layouts/Layout.astro";
 
@@ -10,10 +10,12 @@ export async function getStaticPaths() {
             params: { slug: post.slug },
             props: { post: post },
         };
-    })
+    });
 }
 
 const { post } = Astro.props;
+
+const { Content } = await post.render()
 ---
 
 <Layout title="Leggy Land" src={post.data.image.url} alt={post.data.image.alt}>
@@ -26,7 +28,7 @@ const { post } = Astro.props;
     <hr>
 
     <div>
-        {post.body}
+        <Content />
     </div>
 </Layout>
 

@@ -1,6 +1,4 @@
 ---
-layout: ../../layouts/Markdown.astro
-
 title: Project 1
 description: Example Project Im working on
 image:

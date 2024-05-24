@@ -14,7 +14,10 @@ main {
     background-color: $dark;
 
     box-shadow: 0 8px 8px rgba(#000, 0.3);
-    animation: mainSlide 1s cubic-bezier(0,1,0,1) forwards;
+    z-index: 10;
+
+    // causes problems on chrome
+    //animation: mainSlide 1s cubic-bezier(0,1,0,1) forwards;
 
     > h1 {
         padding-bottom: 8px;

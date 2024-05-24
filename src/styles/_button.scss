@@ -15,8 +15,9 @@
     text-decoration: none;
 
     border-radius: 9999px;
-    border: 0 solid $gray;
-    background-color: rgba($light, 0.05);
+    border: 0 solid transparent;
+    //border: 2px solid rgba($light, 0.04);
+    background-color: rgba($light, 0.04);
     color: $light;
 
     overflow: hidden;
@@ -32,10 +33,10 @@
         left: 0;
 
         border-radius: 9999px;
-        background-color: rgba($light, 0.05);
+        background-color: rgba($light, 0.04);
 
-        transform: scale(0);
         opacity: 0;
+        transform: scaleX(0%);
         pointer-events: none;
     }
 
@@ -43,10 +44,9 @@
         outline: 0 solid transparent;
 
         &:before {
-            transform: scale(1);
             opacity: 1;
-
-            transition: opacity 0.3s cubic-bezier(0,1,0,1), transform 0.5s cubic-bezier(0,1,0,1);
+            transform: scaleX(100%);
+            transition: opacity 0.5s cubic-bezier(0,1,0,1), transform 0.5s cubic-bezier(0,1,0,1);
         }
     }
 }

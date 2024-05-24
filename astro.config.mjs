@@ -1,7 +1,4 @@
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
-export default defineConfig({
-    site: 'https://Fuffy-Bean.github.io',
-    base: '/website',
-});
+export default defineConfig({});

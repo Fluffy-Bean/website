@@ -1,6 +1,4 @@
 ---
-layout: ../../layouts/Markdown.astro
-
 title: This is an example Post
 description: "Blamby ford"
 pubDate: 2022-07-08
@@ -14,4 +12,4 @@ tags:
   - "Fortnite"
 ---
 
-Gay Balls even
+aurgh
