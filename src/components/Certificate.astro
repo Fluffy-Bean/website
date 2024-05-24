@@ -1,0 +1,57 @@
+---
+const { certificate } = Astro.props;
+---
+
+<div class="certificate">
+    <h3>{certificate.data.title}</h3>
+    <p>{certificate.data.achieved}</p>
+    <p>By: {certificate.data.provider}</p>
+
+    {certificate.data.skills && (
+        <ul class="pill-list">
+            {certificate.data.skills.map(skill => (
+                <li class="pill">{skill}</li>
+            ))}
+        </ul>
+    )}
+
+    {certificate.data.link && (
+        <a href={certificate.data.link} class="button">View</a>
+    )}
+</div>
+
+<style lang="scss">
+    @import "../styles/vars.scss";
+
+    .certificate {
+        padding: 16px;
+
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        text-decoration: none;
+        text-align: center;
+
+        border-radius: $radius;
+        border: 2px solid $gray;
+        background-color: $dark;
+        color: $light;
+
+        > h3 {
+            margin-bottom: 4px;
+        }
+        > .pill-list {
+            margin-top: 4px;
+
+            justify-content: center;
+        }
+        > .button {
+            margin-top: 4px;
+        }
+    }
+</style>

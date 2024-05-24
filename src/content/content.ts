@@ -22,7 +22,19 @@ const projectsCollection = defineCollection({
     }),
 });
 
+const certificatesCollection = defineCollection({
+    type: "data",
+    schema: z.object({
+       title: z.string(),
+        provider: z.string(),
+        achieved: z.date(),
+        skills: z.array(z.string()).optional(),
+        link: z.string().optional(),
+    }),
+})
+
 export const collections = {
     "posts": postsCollection,
     "projects": projectsCollection,
+    "certificates": certificatesCollection,
 };

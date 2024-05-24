@@ -5,4 +5,8 @@
     flex-direction: column;
 
     gap: 16px;
+
+    > li {
+        list-style: none;
+    }
 }

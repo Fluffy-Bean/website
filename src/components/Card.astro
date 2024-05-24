@@ -10,9 +10,9 @@ const { href, title, body } = Astro.props;
 
 <li class="link-card">
 	<a href={href}>
-		<h2>
+		<h3>
 			{title}
-		</h2>
+		</h3>
 		<p>
 			{body}
 		</p>
@@ -32,7 +32,6 @@ const { href, title, body } = Astro.props;
 
 		border-radius: $radius;
 
-		box-shadow: 0 0 0 rgba(#000, 0);
 		list-style: none;
 		overflow: hidden;
 

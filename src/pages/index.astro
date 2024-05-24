@@ -1,12 +1,16 @@
 ---
-import { getPosts} from "../utils";
+import { getCollection } from "astro:content";
+
+import { getPosts } from "../utils";
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import Certificate from "../components/Certificate.astro";
 import Music from "../components/Music.astro";
 
 const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgres", "MySQL"];
 const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
 const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
+const certificates = await getCollection("certificates");
 const projects = await getPosts("projects");
 const posts = await getPosts("posts");
 ---
@@ -15,7 +19,7 @@ const posts = await getPosts("posts");
 	<h1>Leggy Land</h1>
 	<p>Made with Coffee, lots of it.</p>
 
-	<div style="margin: 32px 0">
+	<div style="margin: 16px 0 32px">
 		<Music />
 	</div>
 
@@ -33,7 +37,6 @@ const posts = await getPosts("posts");
 	</div>
 
 	<div class="section">
-		<h2>Find me on</h2>
 		<ul class="pill-list">
 			<li><a class="button" href="https://www.twitter.com/fluffybeanUwU" target="_blank">Twitter</a></li>
 			<li><a class="button" href="https://bsky.app/profile/leggy.dev" target="_blank">BlueSky</a></li>
@@ -60,6 +63,17 @@ const posts = await getPosts("posts");
 		<h2>Frameworks</h2>
 		<ul class="pill-list">
 			{frameworks.map(framework => ( <li class="pill large">{framework}</li> ))}
+		</ul>
+	</div>
+
+	<div class="section">
+		<h2>Certificates</h2>
+		<ul class="project-list">
+			{certificates.map(certificate => (
+				<li>
+					<Certificate {certificate} />
+				</li>
+			))}
 		</ul>
 	</div>
 
