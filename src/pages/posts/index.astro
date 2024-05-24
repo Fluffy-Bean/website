@@ -11,9 +11,14 @@ const posts = await getCollection('posts');
     <a class="button" id="home" href="/">Home</a>
 
     <h1>All Posts</h1>
-    <p>Some regrettable, some not so bad...</p>
+    <p>Egg Book</p>
 
     <hr>
+
+    <!--<div class="search-box">-->
+    <!--    <label for="search">Search</label>-->
+    <!--    <input type="text" id="search" name="search" />-->
+    <!--</div>-->
 
     <ul role="list" class="project-list">
         {posts.map(project => (
@@ -29,14 +34,57 @@ const posts = await getCollection('posts');
 <style lang="scss">
     @import "../../styles/vars.scss";
 
-    .project-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
-        gap: 16px;
-        padding: 0;
+    .search-box {
+        padding: 8px 0 32px;
+
+        width: 100%;
+
+        position: relative;
+
+        > label {
+            padding: 0 8px;
+
+            position: absolute;
+            top: -4px;
+            left: 20px;
+
+            background: $dark;
+
+            pointer-events: none;
+            z-index: +1;
+        }
+
+        > input {
+            padding: 0 16px;
+
+            width: 100%;
+            height: 35px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+
+            text-decoration: none;
+
+            border-radius: 9999px;
+            border: 2px solid $gray;
+            background-color: $dark;
+            color: $light;
+
+            overflow: hidden;
+
+            &:hover {
+                border: 2px solid lighten($gray, 1%);
+            }
+
+            &:focus-visible {
+                outline: 0 solid transparent;
+                border: 2px solid $light;
+            }
+        }
     }
 
-    #home {
-        margin-bottom: 32px;
-    }
+    #home { margin-bottom: 32px; }
 </style>

@@ -1,6 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
-
+import { getPosts} from "../utils";
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Music from "../components/Music.astro";
@@ -8,8 +7,8 @@ import Music from "../components/Music.astro";
 const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgres", "MySQL"];
 const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
 const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
-const projects = await getCollection('projects');
-const posts = await getCollection('posts');
+const projects = await getPosts("projects");
+const posts = await getPosts("posts");
 ---
 
 <Layout title="Leggy Land" src="/banner-alt.webp" alt="Temporary Banner">
@@ -67,7 +66,7 @@ const posts = await getCollection('posts');
 	<section>
 		<h2>Projects</h2>
 		<ul class="project-list">
-			{projects.map(project => (
+			{projects.slice(0, 2).map(project => (
 				<Card
 					href=`/projects/${project.slug}`
 					title={project.data.title}
@@ -75,13 +74,13 @@ const posts = await getCollection('posts');
 				/>
 			))}
 		</ul>
-		<a class="button" id="see-all-projects" href="/projects">See Projects</a>
+		<a class="button" id="see-all-projects" href="/projects">All Projects</a>
 	</section>
 
 	<section>
 		<h2>Recent Posts</h2>
 		<ul class="project-list">
-			{posts.map(project => (
+			{posts.slice(0, 2).map(project => (
 				<Card
 					href=`/posts/${project.slug}`
 					title={project.data.title}
@@ -89,30 +88,12 @@ const posts = await getCollection('posts');
 				/>
 			))}
 		</ul>
-		<a class="button" id="see-all-posts" href="/posts">See Posts</a>
+		<a class="button" id="see-all-posts" href="/posts">All Posts</a>
 	</section>
 </Layout>
 
 <style lang="scss">
 	@import "../styles/vars.scss";
-
-	.pill-list {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 8px;
-
-		> li {
-			list-style: none;
-		}
-	}
-
-	.project-list {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
-		gap: 16px;
-		padding: 0;
-	}
 
 	#see-all-projects,
 	#see-all-posts {

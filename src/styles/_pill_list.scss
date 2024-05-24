@@ -1,0 +1,11 @@
+.pill-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    // if the anchor tag has the pill class
+    > li {
+        list-style: none;
+    }
+}

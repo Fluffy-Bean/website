@@ -3,7 +3,7 @@ interface Props {
     post: any,
 }
 
-const { post } = Astro.props;
+const { post, prev, next, base } = Astro.props;
 
 const { Content } = await post.render();
 ---
@@ -12,7 +12,7 @@ const { Content } = await post.render();
 
 <h1>{post.data.title}</h1>
 <p>{post.data.description}</p>
-<ul id="tags">
+<ul id="tags" class="pill-list">
     {post.data.tags.map((item: string) => ( <li class="pill">#{item}</li> ))}
 </ul>
 
@@ -25,29 +25,16 @@ const { Content } = await post.render();
 <hr>
 
 <ul id="controls">
-    <li><a class="button" href="/">Prev</a></li>
-    <li><a class="button" href="/">Next</a></li>
+    <li>{prev && <a class="button" href=`${base}/${prev.slug}` id="prev">{prev.data.title}</a>}</li>
+    <li>{next && <a class="button" href=`${base}/${next.slug}` id="next">{next?.data.title}</a>}</li>
 </ul>
 
 <style is:global lang="scss">
     @import "../styles/vars";
 
-    #home {
-        margin-bottom: 32px;
-    }
-
-    #tags {
-        padding-top: 16px;
-
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    #markdown {
-        flex-grow: 1;
-    }
+    #home { margin-bottom: 32px; }
+    #tags { padding-top: 16px; }
+    #markdown { flex-grow: 1; }
 
     #controls {
         display: flex;

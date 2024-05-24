@@ -10,7 +10,7 @@ const projects = await getCollection('projects');
 <Layout title="Leggy Land" src="/banner-alt.webp" alt="Temporary Banner">
     <a class="button" id="home" href="/">Home</a>
     <h1>All Projects</h1>
-    <p>Too many, so many</p>
+    <p>Come back next week for 4 new projects!</p>
 
     <hr>
 
@@ -26,16 +26,5 @@ const projects = await getCollection('projects');
 </Layout>
 
 <style lang="scss">
-    @import "../../styles/vars.scss";
-
-    .project-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
-        gap: 16px;
-        padding: 0;
-    }
-
-    #home {
-        margin-bottom: 32px;
-    }
+    #home { margin-bottom: 32px; }
 </style>

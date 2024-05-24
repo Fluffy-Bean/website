@@ -1,22 +1,24 @@
 ---
-import { getCollection } from "astro:content";
-
+import { getPosts } from "../../utils";
 import Layout from "../../layouts/Layout.astro";
 import Markdown from "../../layouts/Markdown.astro";
 
 export async function getStaticPaths() {
-    const collection = await getCollection('posts')
-    return collection.map(post => {
-        return {
-            params: { slug: post.slug },
-            props: { post: post },
-        };
-    });
+    const collection = await getPosts("posts");
+
+    return collection.map((post, i) => ({
+        params: { slug: post.slug },
+        props: {
+            post: post,
+            prev: i > 0 ? collection[i - 1] : undefined,
+            next: i < collection.length - 1 ? collection[i + 1] : undefined
+        }
+    }));
 }
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 ---
 
 <Layout title="Leggy Land" src={post.data.image.url} alt={post.data.image.alt}>
-    <Markdown post={post} />
+    <Markdown {post} {prev} {next} base="/posts" />
 </Layout>
