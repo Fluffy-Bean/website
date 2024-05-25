@@ -1,4 +1,6 @@
 ---
+#draft: true
+
 title: This is an example Post
 description: "Cheat Sheet for Markdown"
 pubDate: 2022-07-08
@@ -80,7 +82,7 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 ### Fenced Code Block
 
-```
+```json
 {
   "firstName": "John",
   "lastName": "Smith",

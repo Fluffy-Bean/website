@@ -17,12 +17,13 @@ const posts = await getPosts("posts");
 ---
 
 <Layout title="Leggy Land" src={BannerImg} alt="Temporary Banner">
-	<h1>Leggy Land</h1>
-	<p>Made with Coffee, lots of it.</p>
-
-	<div style="margin: 16px 0 32px">
+	<div class="header">
+		<h1>Leggy Land</h1>
+		<p>Made with Coffee, lots of it.</p>
 		<Music />
 	</div>
+
+	<hr>
 
 	<div class="section">
 		<h2>Who am I</h2>
@@ -49,21 +50,33 @@ const posts = await getPosts("posts");
 	<div class="section">
 		<h2>Tools</h2>
 		<ul class="pill-list">
-			{tools.map(tool => ( <li class="pill large">{tool}</li> ))}
+			{tools.map(tool => (
+				<li class="pill large">
+					{tool}
+				</li>
+			))}
 		</ul>
 	</div>
 
 	<div class="section">
 		<h2>Languages</h2>
 		<ul class="pill-list">
-			{languages.map(language => ( <li class="pill large">{language}</li> ))}
+			{languages.map(language => (
+				<li class="pill large">
+					{language}
+				</li>
+			))}
 		</ul>
 	</div>
 
 	<div class="section">
 		<h2>Frameworks</h2>
 		<ul class="pill-list">
-			{frameworks.map(framework => ( <li class="pill large">{framework}</li> ))}
+			{frameworks.map(framework => (
+				<li class="pill large">
+					{framework}
+				</li>
+			))}
 		</ul>
 	</div>
 

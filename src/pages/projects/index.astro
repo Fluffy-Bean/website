@@ -1,17 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
-
+import { getPosts } from "../../utils";
 import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
 import BannerImg from "../../../public/banner-alt.webp";
 
-const projects = await getCollection('projects');
+const projects = await getPosts("projects");
 ---
 
 <Layout title="Leggy Land - All Projects" src={BannerImg} alt="Temporary Banner">
     <a class="button" id="home" href="/">Home</a>
-    <h1>All Projects</h1>
-    <p>Come back next week for 4 new projects!</p>
+
+    <div class="header">
+        <h1>All Projects</h1>
+        <p>Come back next week for 4 new projects!</p>
+    </div>
 
     <hr>
 
