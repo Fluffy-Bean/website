@@ -84,9 +84,9 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 ```json
 {
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
+    "firstName": "John",
+    "lastName": "Smith",
+    "age": 25
 }
 ```
 
