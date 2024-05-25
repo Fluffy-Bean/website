@@ -27,12 +27,13 @@ body {
     color: $light;
 }
 
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
     list-style: none;
 }
 
-img, picture {
+img,
+picture {
     max-width: 100%;
     display: block;
 }
