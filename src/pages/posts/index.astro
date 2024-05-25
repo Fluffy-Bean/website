@@ -1,6 +1,7 @@
 ---
 import { getPosts } from "../../utils";
 import Layout from "../../layouts/Layout.astro";
+import HomeButton from "../../components/HomeButton.astro";
 import Card from "../../components/Card.astro";
 import BannerImg from "../../../public/banner-alt.webp";
 
@@ -8,7 +9,7 @@ const posts = await getPosts("posts");
 ---
 
 <Layout title="Leggy Land - All Posts" src={BannerImg} alt="Temporary Banner">
-    <a class="button" id="home" href="/">Home</a>
+    <HomeButton />
 
     <div class="header">
         <h1>All Posts</h1>
@@ -27,7 +28,3 @@ const posts = await getPosts("posts");
         ))}
     </ul>
 </Layout>
-
-<style lang="scss">
-    #home { margin-bottom: 32px; }
-</style>

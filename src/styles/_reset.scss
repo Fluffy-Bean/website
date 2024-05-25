@@ -10,6 +10,9 @@
 html {
     min-height: 100vh;
     font-size: 100%;
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
 }
 
 body {
@@ -22,4 +25,14 @@ body {
 
     background-color: #261f1b;
     color: $light;
+}
+
+ul[role='list'],
+ol[role='list'] {
+    list-style: none;
+}
+
+img, picture {
+    max-width: 100%;
+    display: block;
 }
