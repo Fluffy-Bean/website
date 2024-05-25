@@ -6,6 +6,6 @@ export async function getPosts(collection: keyof ContentEntryMap) {
         return data.draft !== true
     })
     return posts.sort((a, b) =>
-        a.data.pubDate && b.data.pubDate ? +b.data.pubDate - +a.data.pubDate : 0
+        a.data.pubDate && b.data.pubDate ? Number(b.data.pubDate) - Number(a.data.pubDate) : 0
     )
 }
