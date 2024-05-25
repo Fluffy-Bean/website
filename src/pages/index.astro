@@ -1,12 +1,13 @@
 ---
 import { getCollection } from "astro:content";
+import { getImage } from "astro:assets";
 
 import { getPosts } from "../utils";
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Certificate from "../components/Certificate.astro";
 import Music from "../components/Music.astro";
-import BannerImg from "../../public/banner-alt.webp";
+import BannerImg from "../assets/banner-alt.webp";
 
 const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgres", "MySQL"];
 const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
@@ -14,9 +15,11 @@ const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
 const certificates = await getCollection("certificates");
 const projects = await getPosts("projects");
 const posts = await getPosts("posts");
+
+const image = await getImage({src: BannerImg});
 ---
 
-<Layout title="Leggy Land" src={BannerImg} alt="Temporary Banner">
+<Layout title="Leggy Land" image={image.src} alt="alt">
 	<div class="header">
 		<h1>Leggy Land</h1>
 		<p>Made with Coffee, lots of it.</p>

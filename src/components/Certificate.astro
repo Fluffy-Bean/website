@@ -10,15 +10,15 @@ const { certificate } = Astro.props;
         <p>By: {certificate.data.provider}</p>
 
         {certificate.data.skills && (
-                <ul class="pill-list">
-                    {certificate.data.skills.map(skill => (
-                            <li class="pill">{skill}</li>
-                    ))}
-                </ul>
+            <ul class="pill-list">
+                {certificate.data.skills.map((skill: string) => (
+                    <li class="pill">{skill}</li>
+                ))}
+            </ul>
         )}
 
         {certificate.data.link && (
-                <a href={certificate.data.link} class="button">View</a>
+            <a href={certificate.data.link} class="button">View</a>
         )}
     </div>
 </div>

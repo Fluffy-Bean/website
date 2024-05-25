@@ -1,15 +1,22 @@
 ---
-import "../styles/styles.scss";
+import { Picture, getImage } from 'astro:assets';
 
-import { Image } from "astro:assets";
+import "../styles/styles.scss";
 
 interface Props {
     title: string;
-    src?: string,
+    image: string,
     alt: string,
 }
 
-const { title, src, alt } = Astro.props;
+const { title, image, alt } = Astro.props;
+
+let imageData = await getImage({
+    src: image,
+    format: "jpeg",
+    width: 1080,
+    height: 700,
+});
 ---
 
 <!doctype html>
@@ -20,7 +27,7 @@ const { title, src, alt } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
 
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/webp" href="/src/assets/leg.webp" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
@@ -29,19 +36,26 @@ const { title, src, alt } = Astro.props;
     </head>
     <body>
         <div class="banner">
-            {src && (
-                <Image src={src} width="1080" height="700" loading="eager" alt={alt}  />
-                <script>
-                    const img = document.querySelector(".banner > img");
-                    document.addEventListener("scroll", () => {
-                        img.style.top = `${window.scrollY}px`;
-                        img.style.filter = `blur(${window.scrollY / 100}px)`;
-                    })
-                </script>
-            )}
+            <Picture
+                src={imageData.src}
+                alt={alt}
+                width={1080}
+                height={700}
+                widths={[240, 540, 720, 1080]}
+                sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, 1080px`}
+                formats={['jpeg', 'webp']}
+                loading="eager"
+            />
         </div>
         <main>
             <slot />
         </main>
     </body>
+    <script>
+        const img = document.querySelector(".banner > picture > img") as HTMLImageElement;
+        document.addEventListener("scroll", () => {
+            img.style.top = `${window.scrollY}px`;
+            img.style.filter = `blur(${window.scrollY / 100}px)`;
+        })
+    </script>
 </html>

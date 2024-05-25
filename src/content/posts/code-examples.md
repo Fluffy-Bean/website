@@ -1,12 +1,12 @@
 ---
-title: Code Examples
-description: Aurghhhhhh
+title: "Code Examples"
+description: "Aurghhhhhh"
 pubDate: 2022-07-08
 image:
-    url: https://docs.astro.build/assets/arc.webp
-    alt: Tennis balls
+    url: "https://docs.astro.build/assets/arc.webp"
+    alt: "Tennis balls"
 tags:
-    - Gaybo
+    - "Gaybo"
 ---
 
 Penitc
