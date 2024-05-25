@@ -5,8 +5,8 @@ pubDate: 2022-07-08
 image:
     url: "https://docs.astro.build/assets/arc.webp"
     alt: "Thumbnail of Astro arcs."
-tags: 
-  - "Faggor"
+tags:
+    - "Faggor"
 ---
 
 # Markdown Cheat Sheet
@@ -22,7 +22,9 @@ These are the elements outlined in John Gruber’s original design document. All
 ### Heading
 
 # H1
+
 ## H2
+
 ### H3
 
 ### Bold
@@ -31,7 +33,7 @@ These are the elements outlined in John Gruber’s original design document. All
 
 ### Italic
 
-*italicized text*
+_italicized text_
 
 ### Blockquote
 
@@ -45,9 +47,9 @@ These are the elements outlined in John Gruber’s original design document. All
 
 ### Unordered List
 
-- First item
-- Second item
-- Third item
+-   First item
+-   Second item
+-   Third item
 
 ### Code
 
@@ -71,10 +73,10 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 ### Table
 
-| Syntax | Description |
-| ----------- | ----------- |
-| Header | Title |
-| Paragraph | Text |
+| Syntax    | Description |
+| --------- | ----------- |
+| Header    | Title       |
+| Paragraph | Text        |
 
 ### Fenced Code Block
 
@@ -107,9 +109,9 @@ term
 
 ### Task List
 
-- [x] Write the press release
-- [ ] Update the website
-- [ ] Contact the media
+-   [x] Write the press release
+-   [ ] Update the website
+-   [ ] Contact the media
 
 ### Emoji
 
