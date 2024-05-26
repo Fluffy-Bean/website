@@ -4,12 +4,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "IBM Plex Mono", monospace;
 }
 
 html {
     min-height: 100vh;
+
     font-size: 100%;
+    font-family: $font-regular;
+    font-weight: 420;
+    line-height: 1.5;
+
     text-size-adjust: none;
     -webkit-text-size-adjust: none;
     -moz-text-size-adjust: none;
@@ -27,9 +31,18 @@ body {
     color: $light;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+
 ul[role="list"],
 ol[role="list"] {
     list-style: none;
+}
+
+code *, pre * {
+    font-family: $font-mono !important;
 }
 
 img,
