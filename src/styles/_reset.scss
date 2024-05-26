@@ -31,17 +31,22 @@ body {
     color: $light;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 600;
 }
-
 
 ul[role="list"],
 ol[role="list"] {
     list-style: none;
 }
 
-code *, pre * {
+code *,
+pre * {
     font-family: $font-mono !important;
 }
 
