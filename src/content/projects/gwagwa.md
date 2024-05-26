@@ -10,6 +10,4 @@ tags:
 
 Im actually going to blow up
 
-
 I FUCKING HATE JAVASCRIPT
-
