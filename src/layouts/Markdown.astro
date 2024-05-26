@@ -1,4 +1,5 @@
 ---
+import { getMonth, getDaySuffix } from "../utils";
 import HomeButton from "../components/HomeButton.astro";
 
 interface Props {
@@ -9,17 +10,21 @@ interface Props {
 }
 
 const { post, prev, next, base } = Astro.props;
+
+const date = new Date(post.data.pubDate);
 ---
 
 <HomeButton />
 
 <div class="header">
     <h1>{post.data.title}</h1>
-    <p>{post.data.description}</p>
+    {post.data.pubDate ? (
+        <p>{date.getDate()}{getDaySuffix(date)} {getMonth(date)} {date.getFullYear()} • {post.data.description}</p>
+    ) : (
+        <p>{post.data.description}</p>
+    )}
     <ul id="tags" class="pill-list" role="list">
-        {post.data.tags.map((item: string) => (
-                <li class="pill">#{item}</li>
-        ))}
+        {post.data.tags.map((item: string) => ( <li class="pill">#{item}</li> ))}
     </ul>
 </div>
 

@@ -1,21 +1,26 @@
 ---
+import { getMonth, getDaySuffix } from "../utils";
+
 interface Props {
-	title: string;
-	body: string;
-	href: string;
+	post: any,
+	base: string,
 }
 
-const { href, title, body } = Astro.props;
+const { post, base } = Astro.props;
+
+const date = new Date(post.data.pubDate);
 ---
 
 <li class="link-card">
-	<a href={href}>
+	<a href=`${base}/${post.slug}`>
 		<h3>
-			{title}
+			{post.data.title}
 		</h3>
-		<p>
-			{body}
-		</p>
+			{post.data.pubDate ? (
+				<p>{date.getDate()}{getDaySuffix(date)} {getMonth(date)} {date.getFullYear()} • {post.data.description}</p>
+			) : (
+				<p>{post.data.description}</p>
+			)}
 	</a>
 	<div class="link-card-corner" />
 </li>
@@ -26,8 +31,6 @@ const { href, title, body } = Astro.props;
 	$corner-speed: 0.2s;
 
 	.link-card {
-		height: 125px;
-
 		position: relative;
 
 		border-radius: $radius;
@@ -37,7 +40,10 @@ const { href, title, body } = Astro.props;
 
 		> a {
 			padding: 16px;
+
 			height: 100%;
+			min-height: 81px;
+
 			display: block;
 
 			text-decoration: none;

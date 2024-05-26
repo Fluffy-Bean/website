@@ -18,12 +18,8 @@ const projects = await getPosts("projects");
     <hr>
 
     <ul role="list" class="project-list">
-        {projects.map(project => (
-            <Card
-                href=`/projects/${project.slug}`
-                title={project.data.title}
-                body={project.data.description}
-            />
+        {projects.map(post => (
+            <Card {post} base="/projects"/>
         ))}
     </ul>
 </Layout>

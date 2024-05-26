@@ -11,3 +11,35 @@ export async function getPosts(collection: keyof ContentEntryMap) {
             : 0,
     );
 }
+
+export function getMonth(date: Date): string {
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
+    return months[date.getMonth()];
+}
+
+export function getDaySuffix(date: Date): string {
+    let suffix = 'th';
+    if (date.getDate() % 10 === 1 && date.getDate() !== 11) {
+        suffix = 'st';
+    } else if (date.getDate() % 10 === 2 && date.getDate() !== 12) {
+        suffix = 'nd';
+    } else if (date.getDate() % 10 === 3 && date.getDate() !== 13) {
+        suffix = 'rd';
+    }
+
+    return suffix;
+}

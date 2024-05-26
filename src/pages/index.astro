@@ -93,12 +93,8 @@ const posts = await getPosts("posts");
 	<div class="section">
 		<h2>Projects</h2>
 		<ul class="project-list" role="list">
-			{projects.slice(0, 2).map(project => (
-				<Card
-					href=`/projects/${project.slug}`
-					title={project.data.title}
-					body={project.data.description}
-				/>
+			{projects.slice(0, 2).map(post => (
+				<Card {post} base="/projects"/>
 			))}
 		</ul>
 		<a class="button" id="see-all-projects" href="/projects">All Projects</a>
@@ -107,12 +103,8 @@ const posts = await getPosts("posts");
 	<div class="section">
 		<h2>Recent Posts</h2>
 		<ul class="project-list" role="list">
-			{posts.slice(0, 2).map(project => (
-				<Card
-					href=`/posts/${project.slug}`
-					title={project.data.title}
-					body={project.data.description}
-				/>
+			{posts.slice(0, 2).map(post => (
+				<Card {post} base="/posts" />
 			))}
 		</ul>
 		<a class="button" id="see-all-posts" href="/posts">All Posts</a>

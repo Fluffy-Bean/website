@@ -6,7 +6,7 @@ const postsCollection = defineCollection({
         draft: z.boolean().optional().default(false),
         title: z.string(),
         description: z.string(),
-        date: z.string().transform((str) => new Date(str)),
+        pubDate: z.string().transform((str) => new Date(str)),
         tags: z.array(z.string()),
     }),
 });
@@ -17,6 +17,7 @@ const projectsCollection = defineCollection({
         draft: z.boolean().optional().default(false),
         title: z.string(),
         description: z.string(),
+        pubDate: z.string().transform((str) => new Date(str)),
         tags: z.array(z.string()),
     }),
 });

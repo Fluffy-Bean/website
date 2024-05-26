@@ -1,6 +1,6 @@
 ---
 title: GwaGwa
-description: This astro page
+description: This is a very very very very very very very very very very very very long description of a post
 tags:
     - "GwaGwa"
     - "Gaming"
