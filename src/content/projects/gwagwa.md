@@ -1,9 +1,6 @@
 ---
 title: GwaGwa
-description: :3
-image:
-    url: "https://docs.astro.build/assets/arc.webp"
-    alt: "Thumbnail of Astro arcs."
+description: This astro page
 tags:
     - "GwaGwa"
     - "Gaming"
@@ -11,4 +8,8 @@ tags:
     - "Fortnite"
 ---
 
-gwagwa
+Im actually going to blow up
+
+
+I FUCKING HATE JAVASCRIPT
+

@@ -1,15 +1,10 @@
 ---
-import { Picture, getImage } from "astro:assets";
-
 import Layout from "../layouts/Layout.astro";
 import HomeButton from "../components/HomeButton.astro";
-import GwaGwa from "../assets/leg.jpg";
-import BannerImg from "../assets/banner-alt.webp";
-
-const image = await getImage({src: BannerImg});
+import GwaGwa from "../assets/fumble.jpg";
 ---
 
-<Layout title="LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG" image={image.src} alt="alt">
+<Layout title="LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG LEG">
     <HomeButton />
 
     <div class="header">
@@ -19,14 +14,11 @@ const image = await getImage({src: BannerImg});
 
     <hr>
 
-    <Picture
-        src={GwaGwa}
+    <img
+        src={GwaGwa.src}
         alt="Two Maned wolfs having a disagreement"
         width="851"
         height="575"
-        widths={[240, 540, 720, 851]}
-        sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, 851px`}
-        formats={["jpeg", "webp"]}
         style="height: auto"
     />
 </Layout>

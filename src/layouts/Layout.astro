@@ -1,7 +1,6 @@
 ---
-import { Picture, getImage } from 'astro:assets';
-
 import "../styles/styles.scss";
+import Banner from "../assets/banner.png";
 
 interface Props {
     title: string;
@@ -9,14 +8,7 @@ interface Props {
     alt: string,
 }
 
-const { title, image, alt } = Astro.props;
-
-let imageData = await getImage({
-    src: image,
-    format: "jpeg",
-    width: 1080,
-    height: 700,
-});
+const { title} = Astro.props;
 ---
 
 <!doctype html>
@@ -36,15 +28,13 @@ let imageData = await getImage({
     </head>
     <body>
         <div class="banner">
-            <Picture
-                src={imageData.src}
-                alt={alt}
-                width={1080}
-                height={700}
-                widths={[240, 540, 720, 1080]}
-                sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, 1080px`}
-                formats={['jpeg', 'webp']}
+            <img
+                src={Banner.src}
+                alt="Stretch of road leading to cloudy hills with houses in the horizon"
+                width="1080"
+                height="700"
                 loading="eager"
+                decoding="async"
             />
         </div>
         <main>
@@ -52,9 +42,10 @@ let imageData = await getImage({
         </main>
     </body>
     <script>
-        const img = document.querySelector(".banner > picture > img") as HTMLImageElement;
+        const img = document.querySelector(".banner > img") as HTMLImageElement;
         document.addEventListener("scroll", () => {
             img.style.top = `${window.scrollY}px`;
+            img.style.transform = `scale(${(window.scrollY / 10000) + 1})`;
             img.style.filter = `blur(${window.scrollY / 100}px)`;
         })
     </script>

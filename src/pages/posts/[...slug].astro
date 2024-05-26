@@ -17,8 +17,12 @@ export async function getStaticPaths() {
 }
 
 const { post, prev, next } = Astro.props;
+
+const { Content } = await post.render();
 ---
 
-<Layout title=`Leggy Land - ${post.data.title}` image={post.data.image.url} alt={post.data.image.alt}>
-    <Markdown {post} {prev} {next} base="/posts" />
+<Layout title=`Leggy Land - ${post.data.title}`>
+    <Markdown post={post} prev={prev} next={next} base="/posts">
+        <Content />
+    </Markdown>
 </Layout>

@@ -1,17 +1,13 @@
 ---
-import { getImage } from "astro:assets";
-
 import { getPosts } from "../../utils";
 import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
 import HomeButton from "../../components/HomeButton.astro";
-import BannerImg from "../../assets/banner-alt.webp";
 
-const image = await getImage({src: BannerImg});
 const projects = await getPosts("projects");
 ---
 
-<Layout title="Leggy Land - All Projects" image={image.src} alt="alt">
+<Layout title="Leggy Land - All Projects">
     <HomeButton />
 
     <div class="header">
