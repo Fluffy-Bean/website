@@ -3,10 +3,10 @@ import { z, defineCollection } from "astro:content";
 const postsCollection = defineCollection({
     type: "content",
     schema: z.object({
-        draft: z.boolean().optional(),
+        draft: z.boolean().optional().default(false),
         title: z.string(),
         description: z.string(),
-        pubDate: z.date(),
+        date: z.string().transform((str) => new Date(str)),
         tags: z.array(z.string()),
     }),
 });
@@ -14,7 +14,7 @@ const postsCollection = defineCollection({
 const projectsCollection = defineCollection({
     type: "content",
     schema: z.object({
-        draft: z.boolean().optional(),
+        draft: z.boolean().optional().default(false),
         title: z.string(),
         description: z.string(),
         tags: z.array(z.string()),

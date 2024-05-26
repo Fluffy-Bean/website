@@ -42,11 +42,14 @@ const { title} = Astro.props;
         </main>
     </body>
     <script>
+        function update(element: HTMLElement) {
+            element.style.top = `${window.scrollY * 0.75 }px`;
+            // element.style.transform = `scale(${(window.scrollY * 0.0001) + 1})`;
+            // element.style.filter = `blur(${window.scrollY * 0.005}px)`;
+        }
+
         const img = document.querySelector(".banner > img") as HTMLImageElement;
-        document.addEventListener("scroll", () => {
-            img.style.top = `${window.scrollY}px`;
-            img.style.transform = `scale(${(window.scrollY / 10000) + 1})`;
-            img.style.filter = `blur(${window.scrollY / 100}px)`;
-        })
+        document.addEventListener("scroll", () => update(img))
+        document.addEventListener("DOMContentLoaded", () => update(img))
     </script>
 </html>
