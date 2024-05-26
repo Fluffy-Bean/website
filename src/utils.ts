@@ -32,13 +32,13 @@ export function getMonth(date: Date): string {
 }
 
 export function getDaySuffix(date: Date): string {
-    let suffix = 'th';
+    let suffix = "th";
     if (date.getDate() % 10 === 1 && date.getDate() !== 11) {
-        suffix = 'st';
+        suffix = "st";
     } else if (date.getDate() % 10 === 2 && date.getDate() !== 12) {
-        suffix = 'nd';
+        suffix = "nd";
     } else if (date.getDate() % 10 === 3 && date.getDate() !== 13) {
-        suffix = 'rd';
+        suffix = "rd";
     }
 
     return suffix;
