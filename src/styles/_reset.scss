@@ -5,10 +5,18 @@
     padding: 0;
 
     scrollbar-color: $accent transparent;
-    ::-webkit-scrollbar { width: 8px }
-    ::-webkit-scrollbar-track { background: transparent }
-    ::-webkit-scrollbar-thumb { background: $accent }
-    ::-webkit-scrollbar-thumb:hover { background: $accent }
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: $accent;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: $accent;
+    }
 
     box-sizing: border-box;
 }
