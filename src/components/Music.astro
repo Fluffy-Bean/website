@@ -1,13 +1,18 @@
 ---
-import { Image } from "astro:assets";
-
 import leg from "../assets/leg.webp";
 ---
 
 <a class="button" id="music" href="https://www.last.fm/user/Fluffy_Bean_" target="_blank">
-    <Image src={leg} width="64" height="64" loading="eager" alt="Track cover art" id="music-image" />
+    <img
+        src={leg}
+        width="64"
+        height="64"
+        loading="eager"
+        alt="Track cover art"
+        id="music-image"
+    />
     <ul>
-        <li id="music-title">Track Name</li>
+        <li id="music-title" style="font-weight: 600;">Track Name</li>
         <li id="music-artist">by Artist</li>
         <li id="music-album">on Album</li>
     </ul>
@@ -24,50 +29,3 @@ import leg from "../assets/leg.webp";
         ( document.querySelector("#music-album") as HTMLParagraphElement ).innerText = `on ${data["track"]["album"]["#text"]}`;
     });
 </script>
-
-<style lang="scss">
-    @import "../styles/vars.scss";
-
-    #music {
-        padding: 16px;
-
-        width: unset;
-        height: unset;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: unset;
-        align-items: unset;
-
-        text-decoration: none;
-
-        border-radius: $radius;
-
-        &:before {
-            border-radius: $radius;
-        }
-
-        > img {
-            margin-right: 16px;
-
-            width: 64px;
-            height: 64px;
-
-            border-radius: $radius;
-        }
-
-        > ul {
-            display: flex;
-            flex-direction: column;
-
-            > li {
-                font-size: 16px;
-                list-style: none;
-            }
-        }
-    }
-
-    #music-title {
-        font-weight: 600;
-    }
-</style>
