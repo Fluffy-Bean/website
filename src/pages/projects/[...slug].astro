@@ -22,7 +22,7 @@ const { Content } = await post.render();
 ---
 
 <Layout title=`Leggy Land - ${post.data.title}`>
-    <Markdown post={post} prev={prev} next={next} base="/posts">
+    <Markdown post={post} prev={prev} next={next} base="projects">
         <Content />
     </Markdown>
 </Layout>
