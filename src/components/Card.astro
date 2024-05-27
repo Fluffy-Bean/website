@@ -52,6 +52,8 @@ const date = new Date(post.data.pubDate);
 			border: 2px solid $gray;
 			background-color: $dark;
 			color: $light;
+
+			transition: background-color $corner-speed ease-in-out;
 		}
 
 		.link-card-corner {
@@ -65,13 +67,16 @@ const date = new Date(post.data.pubDate);
 			border-top-left-radius: $radius;
 			border-top: 2px solid $gray;
 			border-left: 2px solid $gray;
+			background-image: linear-gradient(135deg, rgba($accent, 0.03), darken($dark, 1%));
 			background-color: $dark;
-			background-image: linear-gradient(135deg, $dark, darken($dark, 1%));
 			color: $light;
 
 			box-shadow: -4px -4px 0 rgba(#000, 0);
 
-			transition: right $corner-speed ease-in-out, bottom $corner-speed ease-in-out, box-shadow $corner-speed ease-in-out;
+			transition:
+				right $corner-speed ease-in-out,
+				bottom $corner-speed ease-in-out,
+				box-shadow $corner-speed ease-in-out;
 			pointer-events: none;
 			overflow: hidden;
 			z-index: +3;
@@ -97,6 +102,7 @@ const date = new Date(post.data.pubDate);
 
 		&:hover, &:focus-within {
 			> a {
+				background-color: rgba($accent, 0.03);
 				outline: none;
 			}
 

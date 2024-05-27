@@ -38,16 +38,22 @@
 
         z-index: +2;
 
-        > h3 {
-            margin-bottom: 4px;
+        > hr {
+            margin: calc(16px - 4px) 0;
+
+            border: 0 solid transparent;
+            border-bottom: 2px solid $gray;
         }
+
         > .pill-list {
             margin-top: 4px;
 
             justify-content: center;
         }
+
         > .button {
             margin-top: 4px;
+            padding: 0 32px;
         }
     }
 }

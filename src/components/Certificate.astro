@@ -1,5 +1,9 @@
 ---
+import { getMonth, getDaySuffix } from "../utils";
+
 const { certificate } = Astro.props;
+
+const date = new Date(certificate.data.achieved);
 ---
 
 <div class="certificate">
@@ -13,8 +17,9 @@ const { certificate } = Astro.props;
     </svg>
     <div>
         <h3>{certificate.data.title}</h3>
-        <p>{certificate.data.achieved}</p>
-        <p>By: {certificate.data.provider}</p>
+        <hr style="width: 100%">
+        <p>{date.getDate()}{getDaySuffix(date)} {getMonth(date)} {date.getFullYear()}</p>
+        <p>Presented by {certificate.data.provider}</p>
 
         {certificate.data.skills && (
             <ul class="pill-list">
@@ -22,6 +27,6 @@ const { certificate } = Astro.props;
             </ul>
         )}
 
-        {certificate.data.link && ( <a href={certificate.data.link} class="button">View</a> )}
+        {certificate.data.link && ( <a href={certificate.data.link} class="button">View Full</a> )}
     </div>
 </div>

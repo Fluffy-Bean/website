@@ -102,17 +102,22 @@ const date = new Date(post.data.pubDate);
         }
 
         a {
-            text-decoration: none;
+            text-decoration: underline;
+            
             color: $accent;
-            transition: all 0.1s ease-in-out;
 
             &:hover, &:focus-visible {
-                text-decoration: underline;
+                color: $light;
             }
 
-            &:not([class]) {
+            &:focus-visible {
+                border-radius: $radius;
+                outline: 1px solid $light;
+            }
+
+            &:is([class]) {
                 text-decoration-skip-ink: auto;
-                color: currentColor;
+                text-decoration: none;
             }
         }
 
@@ -150,33 +155,54 @@ const date = new Date(post.data.pubDate);
         table {
             width: 100%;
 
-            border: 1px solid $gray;
+            /*border: 1px solid $gray;*/
 
             border-collapse: collapse;
 
             tr {
-                border-bottom: 1px solid $gray;
+                /*border-bottom: 1px solid $gray;*/
 
-                &:last-of-type {
-                    border: 0 solid transparent;
+                &:nth-child(even) td {
+                    background-color: rgba($gray, 0.35);
                 }
 
-                th, td {
+                &:last-of-type {
+                    /*border: 0 solid transparent;*/
+                }
+
+                td {
                     padding: 8px 16px;
 
                     font-size: 13px;
 
                     border-right: 1px solid $gray;
 
+                    &:first-child {
+                        border-bottom-left-radius: $radius;
+                    }
+                    &:last-child {
+                        border-bottom-right-radius: $radius;
+                    }
                     &:last-of-type {
-                        border: 0 solid transparent;
+                        border-right: 0 solid transparent;
                     }
                 }
 
                 th {
-                    font-weight: bolder;
+                    padding: 8px 16px;
 
-                    background-color: $gray;
+                    font-size: 13px;
+                    font-weight: 500;
+
+                    background-color: rgba($accent, 0.3);
+                    color: $light;
+
+                    &:first-child {
+                        border-top-left-radius: $radius;
+                    }
+                    &:last-child {
+                        border-top-right-radius: $radius;
+                    }
                 }
             }
         }
@@ -220,6 +246,10 @@ const date = new Date(post.data.pubDate);
                 border-bottom-right-radius: 9999px;
                 background-color: $gray;
                 color: $light;
+            }
+
+            &:focus-visible {
+                outline: 1px solid $light;
             }
         }
 
