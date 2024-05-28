@@ -205,7 +205,8 @@ const tags = await getTagsBySlug(post.data.tags);
             border-top: 2px solid $gray;
         }
 
-        p code {
+        // Style code only if it's not a child of .astro-code
+        :not(.astro-code) > code {
             padding: 2px 4px;
 
             font-size: 13px;

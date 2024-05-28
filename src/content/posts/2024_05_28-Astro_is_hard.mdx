@@ -1,18 +1,28 @@
 ---
 title: Astro is hard....
-description: Arugh
+description: Writing blogs is even harder
 pubDate: 2024-05-28
 tags:
     - astro
     - typescript
 ---
 
-import Note from "../../components/Note.astro";
+Hello! Welcome to my new website, or at least as of writing this blog.
+It's been written from scratch with Astro, Typescript and a lot of suffering, mostly due to bugs and random annoyances...
 
-<Note text="I have no clue what I'm doing :3" />
+So where do I start, maybe _why_ I have chosen Astro over other existing options.
 
--   I've been trying to learn typescript through trying astro
--   Astro is hard, due to all the issues I've encountered
+## Why Astro
+TLDR: I don't know :3
+
+- I've been trying to learn typescript through trying astro
+- Astro is hard, due to all the issues I've encountered
+
+## The problems
+- Issue with Astros `getEntries()` not working, thus having to implement my own method
+- Fighting with Astro to display banner images, it won
+- Using external plugins for images/slides
+  - Specifically passing variables into scripts
 
 ```typescript
 export async function getTagsBySlug(
@@ -34,3 +44,8 @@ export async function getTagsBySlug(
     return tags;
 }
 ```
+
+## What I've learned
+- More experience writing in Typescript
+- Learning about MDX accidentally
+- Reading Documentation, ironically
