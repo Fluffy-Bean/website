@@ -3,7 +3,8 @@ title: This is an example Post
 description: "Cheat Sheet for Markdown"
 pubDate: 2022-07-08
 tags:
-    - "Faggor"
+    - "code"
+    - "fortnite"
 ---
 
 # Markdown Cheat Sheet

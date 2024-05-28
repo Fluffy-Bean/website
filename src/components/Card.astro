@@ -3,16 +3,15 @@ import { getMonth, getDaySuffix } from "../utils";
 
 interface Props {
 	post: any,
-	base: string,
 }
 
-const { post, base } = Astro.props;
+const { post } = Astro.props;
 
 const date = new Date(post.data.pubDate);
 ---
 
 <li class="link-card">
-	<a href=`${base}/${post.slug}`>
+	<a href=`/posts/${post.slug}`>
 		<h3>
 			{post.data.title}
 		</h3>

@@ -1,5 +1,6 @@
 ---
-import { getMonth, getDaySuffix } from "../utils";
+import { getMonth, getDaySuffix, getTagsBySlug } from "../utils";
+import Layout from "./Layout.astro";
 import HomeButton from "../components/HomeButton.astro";
 
 interface Props {
@@ -9,66 +10,88 @@ interface Props {
     base: string,
 }
 
-const { post, prev, next, base } = Astro.props;
+const { post, prev, next } = Astro.props;
 
+// 183 average w/p
+const readTime = `${Math.ceil(post.body.split(" ").length / 183)} min read`;
 const date = new Date(post.data.pubDate);
+const tags = await getTagsBySlug(post.data.tags);
 ---
 
-<HomeButton />
+<Layout
+    title=`Leggy Land - ${post.data.title}`
+    plugins={{
+        katex: true,
+    }}
+    seo={{
+        description: post.data.description,
+        tags: post.data.tags,
+    }}
+>
+    <HomeButton />
 
-<!-- If I ever move anything around, this will fucking break -->
-<a href=`https://github.com/Fluffy-Bean/website/tree/main/src/content/${base}/${post.id}` id="source" class="button">
-    Source
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path></svg>
-</a>
+    <!-- If I ever move anything around, this will fucking break -->
+    <a href=`https://github.com/Fluffy-Bean/website/tree/main/src/content/posts/${post.id}` id="source" class="button" aria-label="Source Code">
+        <span>Source Code</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path></svg>
+    </a>
 
-<div class="header">
-    <h1>{post.data.title}</h1>
-    {post.data.pubDate ? (
-        <p>{date.getDate()}{getDaySuffix(date)} {getMonth(date)} {date.getFullYear()} • {post.data.description}</p>
-    ) : (
-        <p>{post.data.description}</p>
-    )}
-    <ul id="tags" class="pill-list" role="list">
-        {post.data.tags.map((item: string) => ( <li class="pill">#{item}</li> ))}
+    <div class="header">
+        <h1>{post.data.title}</h1>
+        {post.data.pubDate ? (
+            <p>{date.getDate()}{getDaySuffix(date)} {getMonth(date)} {date.getFullYear()} • {readTime} • {post.data.description}</p>
+        ) : (
+            <p>{readTime} • {post.data.description}</p>
+        )}
+        <ul id="tags" class="pill-list" role="list">
+            {tags.map((tag) => (
+                <li>
+                    <a class="pill" href=`/search/${tag.slug}`>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 256 256"><path d="M216,152H168V104h48a8,8,0,0,0,0-16H168V40a8,8,0,0,0-16,0V88H104V40a8,8,0,0,0-16,0V88H40a8,8,0,0,0,0,16H88v48H40a8,8,0,0,0,0,16H88v48a8,8,0,0,0,16,0V168h48v48a8,8,0,0,0,16,0V168h48a8,8,0,0,0,0-16Zm-112,0V104h48v48Z"></path></svg>
+                        {tag.data.name}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+
+    <hr>
+
+    {post.data.base}
+
+    <div id="markdown">
+        <div style="margin-bottom: 32px" />
+        <slot></slot>
+        <div style="margin-top: 32px" />
+    </div>
+
+    {(prev || next) && ( <hr> )}
+
+    <ul id="controls" role="list">
+        <li>
+            {prev && (
+                <a class="button" href=`/posts/${prev.slug}` id="prev">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+                    Newer
+                </a>
+            )}
+        </li>
+        <li>
+            {next && (
+                <a class="button" href=`/posts/${next.slug}` id="next">
+                    Older
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                </a>
+            )}
+        </li>
     </ul>
-</div>
-
-<hr>
-
-<div id="markdown">
-    <div style="margin-bottom: 32px" />
-    <slot></slot>
-    <div style="margin-top: 32px" />
-</div>
-
-{(prev || next) && ( <hr> )}
-
-<ul id="controls" role="list">
-    <li>
-        {prev && (
-            <a class="button" href=`/${base}/${prev.slug}` id="prev">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
-                Newer
-            </a>
-        )}
-    </li>
-    <li>
-        {next && (
-            <a class="button" href=`/${base}/${next.slug}` id="next">
-                Older
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
-            </a>
-        )}
-    </li>
-</ul>
-
+</Layout>
 
 <style is:global lang="scss">
     @import "../styles/vars";
 
     #source {
-        padding: 0 20px;
+        padding: 0 10px;
 
         position: absolute;
         top: 8px;
@@ -77,9 +100,27 @@ const date = new Date(post.data.pubDate);
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
 
-        &:before {
+        transition: padding 1s cubic-bezier(0, 1, 0, 1);
+
+        > span {
+            display: none;
+        }
+
+        &::before {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+        }
+
+        &:hover {
+            padding: 0 20px;
+
+            > span {
+                display: block;
+            }
+
+            > svg {
+                display: none;
+            }
         }
     }
 
@@ -186,29 +227,25 @@ const date = new Date(post.data.pubDate);
         }
 
         table {
+            margin: 16px 0;
+
             width: 100%;
 
-            /*border: 1px solid $gray;*/
+            font-size: 13px;
 
             border-collapse: collapse;
+            /*border: 2px solid $gray;*/
 
             tr {
-                /*border-bottom: 1px solid $gray;*/
-
                 &:nth-child(even) td {
-                    background-color: rgba($gray, 0.35);
+                    background-color: rgba($gray, 0.15);
                 }
-
-                &:last-of-type {
-                    /*border: 0 solid transparent;*/
+                &:last-of-type > td {
+                    /*border-bottom: 2px solid $gray;*/
                 }
 
                 td {
                     padding: 8px 16px;
-
-                    font-size: 13px;
-
-                    border-right: 1px solid $gray;
 
                     &:first-child {
                         border-bottom-left-radius: $radius;
@@ -216,19 +253,15 @@ const date = new Date(post.data.pubDate);
                     &:last-child {
                         border-bottom-right-radius: $radius;
                     }
-                    &:last-of-type {
-                        border-right: 0 solid transparent;
-                    }
                 }
 
                 th {
                     padding: 8px 16px;
 
-                    font-size: 13px;
                     font-weight: 500;
 
-                    background-color: rgba($accent, 0.3);
-                    color: $light;
+                    border-bottom: 2px solid darken($gray, 2%);
+                    background-color: $gray;
 
                     &:first-child {
                         border-top-left-radius: $radius;
@@ -259,6 +292,7 @@ const date = new Date(post.data.pubDate);
             font-size: 13px;
 
             border-radius: $radius;
+            border: 2px solid rgba(#000, 0.1);
 
             &::before {
                 content: attr(data-language);
@@ -279,6 +313,8 @@ const date = new Date(post.data.pubDate);
                 border-bottom-right-radius: 9999px;
                 background-color: $gray;
                 color: $light;
+                
+                z-index: +1;
             }
 
             &:focus-visible {

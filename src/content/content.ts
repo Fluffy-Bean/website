@@ -1,28 +1,17 @@
-import { z, defineCollection } from "astro:content";
+import { z, defineCollection, reference } from "astro:content";
 
-const postsCollection = defineCollection({
+const posts = defineCollection({
     type: "content",
     schema: z.object({
         draft: z.boolean().optional().default(false),
         title: z.string(),
         description: z.string(),
         pubDate: z.string().transform((str) => new Date(str)),
-        tags: z.array(z.string()),
+        tags: z.array(reference("tags")),
     }),
 });
 
-const projectsCollection = defineCollection({
-    type: "content",
-    schema: z.object({
-        draft: z.boolean().optional().default(false),
-        title: z.string(),
-        description: z.string(),
-        pubDate: z.string().transform((str) => new Date(str)),
-        tags: z.array(z.string()),
-    }),
-});
-
-const certificatesCollection = defineCollection({
+const certificates = defineCollection({
     type: "data",
     schema: z.object({
         title: z.string(),
@@ -33,8 +22,15 @@ const certificatesCollection = defineCollection({
     }),
 });
 
+const tags = defineCollection({
+    type: "content",
+    schema: z.object({
+        name: z.string(),
+    })
+})
+
 export const collections = {
-    posts: postsCollection,
-    projects: projectsCollection,
-    certificates: certificatesCollection,
+    posts,
+    certificates,
+    tags,
 };

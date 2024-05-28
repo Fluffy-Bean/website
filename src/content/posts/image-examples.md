@@ -3,7 +3,7 @@ title: "Image Examples"
 description: "fug"
 pubDate: 2024-07-08
 tags:
-    - "Faggo"
+    - "code"
 ---
 
 ![Image](../../assets/cupcake.jpg)

@@ -3,7 +3,7 @@ title: "Code Examples"
 description: "Aurghhhhhh"
 pubDate: 2022-07-08
 tags:
-    - "Gaybo"
+    - "code"
 ---
 
 ```astro

@@ -1,4 +1,4 @@
-import { type ContentEntryMap, getCollection } from "astro:content";
+import {type CollectionEntry, type ContentEntryMap, getCollection} from "astro:content";
 
 // https://github.com/hellotham/hello-astro/blob/e05706cf488bcec6e4c5494a622eedfc4e47d763/src/config.ts#L55C1-L62C2
 export async function getPosts(collection: keyof ContentEntryMap) {
@@ -42,4 +42,15 @@ export function getDaySuffix(date: Date): string {
     }
 
     return suffix;
+}
+
+export async function getTagsBySlug(postTags: string[]): Promise<CollectionEntry<"tags">[]> {
+    const allTags: CollectionEntry<"tags">[] = await getCollection("tags");
+    const tags: CollectionEntry<"tags">[] = [];
+    postTags.forEach((postTag) => {
+        allTags.forEach((allTag) => {
+            if (allTag.slug == postTag) tags.push(allTag);
+        });
+    });
+    return tags;
 }

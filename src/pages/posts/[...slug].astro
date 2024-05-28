@@ -1,6 +1,5 @@
 ---
 import { getPosts } from "../../utils";
-import Layout from "../../layouts/Layout.astro";
 import Markdown from "../../layouts/Markdown.astro";
 
 export async function getStaticPaths() {
@@ -21,8 +20,6 @@ const { post, prev, next } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Layout title=`Leggy Land - ${post.data.title}`>
-    <Markdown post={post} prev={prev} next={next} base="posts">
-        <Content />
-    </Markdown>
-</Layout>
+<Markdown post={post} prev={prev} next={next} base="posts">
+    <Content />
+</Markdown>

@@ -3,7 +3,8 @@ title: "Math Examples"
 description: "REEEEEE"
 pubDate: 2024-06-08
 tags:
-    - "Gaybo"
+    - "code"
+    - "math"
 ---
 
 Some simple mathematical expressions:

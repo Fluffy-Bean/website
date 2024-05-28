@@ -11,7 +11,6 @@ const tools = ["Proxmox", "JetBrain IDEs", "Docker", "Linux", "SQLite", "Postgre
 const languages = ["Go", "Python", "HTML", "CSS", "Sass", "TypeScript", "JavaScript", "Scratch", "PHP", "SQL", "Bash"];
 const frameworks = ["Gin", "Echo", "Flask", "Svelte", "Astro", "raylib"];
 const certificates = await getCollection("certificates");
-const projects = await getPosts("projects");
 const posts = await getPosts("posts");
 ---
 
@@ -79,6 +78,16 @@ const posts = await getPosts("posts");
 	</div>
 
 	<div class="section">
+		<h2>Recent Posts</h2>
+		<ul class="project-list" role="list">
+			{posts.slice(0, 2).map(post => (
+				<Card {post} />
+			))}
+		</ul>
+		<a class="button" id="see-all-posts" href="/posts">All Posts</a>
+	</div>
+
+	<div class="section">
 		<h2>Certificates</h2>
 		<ul class="project-list" role="list">
 			{certificates.map(certificate => (
@@ -87,26 +96,6 @@ const posts = await getPosts("posts");
 				</li>
 			))}
 		</ul>
-	</div>
-
-	<div class="section">
-		<h2>Projects</h2>
-		<ul class="project-list" role="list">
-			{projects.slice(0, 2).map(post => (
-				<Card {post} base="/projects"/>
-			))}
-		</ul>
-		<a class="button" id="see-all-projects" href="/projects">All Projects</a>
-	</div>
-
-	<div class="section">
-		<h2>Recent Posts</h2>
-		<ul class="project-list" role="list">
-			{posts.slice(0, 2).map(post => (
-				<Card {post} base="/posts" />
-			))}
-		</ul>
-		<a class="button" id="see-all-posts" href="/posts">All Posts</a>
 	</div>
 </Layout>
 

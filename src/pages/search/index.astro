@@ -1,0 +1,36 @@
+---
+import { getCollection} from "astro:content";
+
+import { getPosts } from "../../utils";
+import Layout from "../../layouts/Layout.astro";
+import HomeButton from "../../components/HomeButton.astro";
+
+const tags = await getCollection("tags");
+const posts = await getPosts("posts");
+tags.forEach((tag) => {
+    tag.data.postCount = posts.filter((project) => {
+        return project.data.tags.includes(tag.slug);
+    }).length;
+})
+---
+
+<Layout title="Leggy Land - All Projects">
+    <HomeButton />
+
+    <div class="header">
+        <h1>Search</h1>
+        <p>Filter posts by tags</p>
+    </div>
+
+    <hr>
+
+    <ul role="list" class="pill-list">
+        {tags.map(tag => (
+            <li>
+                <a class="button" href=`/search/${tag.slug}`>
+                    {tag.data.name} {tag.data.postCount}
+                </a>
+            </li>
+        ))}
+    </ul>
+</Layout>
