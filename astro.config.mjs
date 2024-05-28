@@ -5,12 +5,12 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "static",
-  markdown: {
-    syntaxHighlight: "shiki",
-    shikiConfig: {
-      theme: syntaxTheme
-    }
-  },
-  integrations: [mdx()]
+    output: "static",
+    markdown: {
+        syntaxHighlight: "shiki",
+        shikiConfig: {
+            theme: syntaxTheme,
+        },
+    },
+    integrations: [mdx()],
 });

@@ -30,10 +30,12 @@
 }
 
 // If its a clickable element
-a.pill, button.pill {
+a.pill,
+button.pill {
     text-decoration: none;
 
-    &:hover, &:focus-visible {
+    &:hover,
+    &:focus-visible {
         border: 2px solid $accent;
         background-color: rgba($accent, 0.1);
         outline: 0 solid transparent;
