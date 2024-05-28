@@ -55,7 +55,7 @@ export async function getTagsBySlug(
     const tags: CollectionEntry<"tags">[] = [];
     postTags.forEach((postTag) => {
         allTags.forEach((allTag) => {
-            if (allTag.slug == postTag) tags.push(allTag);
+            if (allTag.slug === postTag) tags.push(allTag);
         });
     });
     return tags;
