@@ -19,13 +19,23 @@
     list-style: none;
 
     > a {
-        //text-decoration: none;
         color: inherit;
+    }
+
+    &.large {
+        padding: 0 16px;
+        height: 40px;
+        font-size: 16px;
     }
 }
 
-.pill.large {
-    padding: 0 16px;
-    height: 40px;
-    font-size: 16px;
+// If its a clickable element
+a.pill, button.pill {
+    text-decoration: none;
+
+    &:hover, &:focus-visible {
+        border: 2px solid $accent;
+        background-color: rgba($accent, 0.1);
+        outline: 0 solid transparent;
+    }
 }
