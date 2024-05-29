@@ -30,7 +30,11 @@
 
         //border-radius: $radius;
 
-        mask-image: linear-gradient(to right, rgba(#fff, 0.5), rgba(#fff, 0) 80%);
+        mask-image: linear-gradient(
+            to right,
+            rgba(#fff, 0.5),
+            rgba(#fff, 0) 80%
+        );
         object-fit: cover;
         z-index: +1;
     }

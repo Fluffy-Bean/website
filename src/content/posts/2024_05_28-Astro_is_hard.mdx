@@ -14,12 +14,14 @@ It's been written from scratch with Astro, Typescript and a lot of suffering, mo
 So where do I start, maybe _why_ I have chosen Astro over other existing options.
 
 ## Why Astro
+
 TLDR: I don't know :3
 
 I've been trying to learn Typescript for about a month now, mainly to broaden my skill set, but to also help me with job
 searching. Firstly through Svelte for a college project (which I may write about), but now Astro.
 
 I've chosen Astro for two main reasons
+
 1. It's statically compiled, meaning that I don't ship any smelly Javascript to the browser, which I detest doing when not needed
 2. It looked simple enough compared to other options
 
@@ -31,9 +33,10 @@ So, what was the experience like so far you may be asking, ehh...
 
 The first and biggest hurdle I faced was the `Image` and `Picture` elements from Astro. I could not for the life of me,
 figure out a good solution for using both a file path, and a URL for the `frontmatter` data. I tried:
-- `getImage()`
-- Checking if the start of the string begins with `https://`
-- Loading the image using `getImage()` on every page that passed the image data into the `Layout.astro` to set as the banner image
+
+-   `getImage()`
+-   Checking if the start of the string begins with `https://`
+-   Loading the image using `getImage()` on every page that passed the image data into the `Layout.astro` to set as the banner image
 
 **NOTHING FUCKING WORKED.**
 
@@ -115,7 +118,9 @@ does what it needs todo and doesn't run in the users browser anyway, thanks Astr
 ```typescript
 // utils.ts
 
-export async function getTagsBySlug(postTags: string[]): Promise<CollectionEntry<"tags">[]> {
+export async function getTagsBySlug(
+    postTags: string[],
+): Promise<CollectionEntry<"tags">[]> {
     const allTags: CollectionEntry<"tags">[] = await getCollection("tags");
 
     // Loop through all the tags in a post and the tags in the collections
@@ -149,6 +154,6 @@ I'm hoping to write more blogs in the future, mainly to practice my writing skil
 regardless if it's something political or programming related. But life's in a tangle right now
 
 <div style="width: 200px">
-    ![Maned Wolf art by Pulex](../../assets/posts/pulex_leg.webp)
-    [Art by Pulex](https://www.pulexart.com/)
+    ![Maned Wolf art by Pulex](../../assets/posts/pulex_leg.webp) [Art by
+    Pulex](https://www.pulexart.com/)
 </div>
