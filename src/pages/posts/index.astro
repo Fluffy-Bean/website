@@ -20,8 +20,6 @@ const posts = await getPosts("posts");
         <p>Books of egg</p>
     </div>
 
-    <hr>
-
     <ul role="list" class="project-list">
         {posts.map(post => (
             <Card {post}/>

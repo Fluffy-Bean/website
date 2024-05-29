@@ -1,8 +1,10 @@
 #music {
-    padding: 16px;
+    padding: 20px;
 
     width: unset;
     height: unset;
+
+    position: relative;
 
     display: flex;
     flex-direction: row;
@@ -10,6 +12,7 @@
     align-items: unset;
 
     text-decoration: none;
+    font-size: 16px;
 
     border-radius: $radius;
 
@@ -18,20 +21,31 @@
     }
 
     > img {
-        margin-right: 16px;
+        width: auto;
+        height: 100%;
 
-        width: 64px;
-        height: 64px;
+        position: absolute;
+        top: 0;
+        left: 0;
 
-        border-radius: $radius;
+        //border-radius: $radius;
+
+        mask-image: linear-gradient(to right, rgba(#fff, 0.5), rgba(#fff, 0) 80%);
+        object-fit: cover;
+        z-index: +1;
     }
 
     > ul {
+        position: relative;
+
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
+        gap: 4px;
+
+        z-index: +2;
 
         > li {
-            font-size: 16px;
             list-style: none;
         }
     }

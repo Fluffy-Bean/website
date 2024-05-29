@@ -36,6 +36,7 @@ const tags = await getTagsBySlug(post.data.tags);
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"></path></svg>
     </a>
 
+    <!-- Sticky could be added, but it makes it a buit difficult to read things on mobile-->
     <div class="header">
         <h1>{post.data.title}</h1>
         {post.data.pubDate ? (
@@ -47,7 +48,7 @@ const tags = await getTagsBySlug(post.data.tags);
             {tags.map((tag) => (
                 <li>
                     <a class="pill" href=`/search/${tag.slug}`>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 256 256"><path d="M216,152H168V104h48a8,8,0,0,0,0-16H168V40a8,8,0,0,0-16,0V88H104V40a8,8,0,0,0-16,0V88H40a8,8,0,0,0,0,16H88v48H40a8,8,0,0,0,0,16H88v48a8,8,0,0,0,16,0V168h48v48a8,8,0,0,0,16,0V168h48a8,8,0,0,0,0-16Zm-112,0V104h48v48Z"></path></svg>
+                        <!--<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 256 256"><path d="M216,152H168V104h48a8,8,0,0,0,0-16H168V40a8,8,0,0,0-16,0V88H104V40a8,8,0,0,0-16,0V88H40a8,8,0,0,0,0,16H88v48H40a8,8,0,0,0,0,16H88v48a8,8,0,0,0,16,0V168h48v48a8,8,0,0,0,16,0V168h48a8,8,0,0,0,0-16Zm-112,0V104h48v48Z"></path></svg>-->
                         {tag.data.name}
                     </a>
                 </li>
@@ -55,9 +56,11 @@ const tags = await getTagsBySlug(post.data.tags);
         </ul>
     </div>
 
-    <hr>
-
-    {post.data.base}
+    <!--<div class="header-follow">-->
+    <!--    <div>-->
+    <!--        <p>GwaGwa</p>-->
+    <!--    </div>-->
+    <!--</div>-->
 
     <div id="markdown">
         <div style="margin-bottom: 32px" />
@@ -124,20 +127,6 @@ const tags = await getTagsBySlug(post.data.tags);
         }
     }
 
-    /*#source {*/
-    /*    position: absolute;*/
-    /*    top: 16px;*/
-    /*    right: 16px;*/
-
-    /*    text-decoration: none;*/
-
-    /*    color: $accent;*/
-
-    /*    &:hover, &:focus-visible {*/
-    /*        text-decoration: underline;*/
-    /*    }*/
-    /*}*/
-
     #controls {
         display: flex;
         flex-direction: row;
@@ -196,6 +185,7 @@ const tags = await getTagsBySlug(post.data.tags);
         }
 
         ol, ul {
+            margin: 16px 0;
             padding-left: 32px;
         }
 
@@ -228,7 +218,7 @@ const tags = await getTagsBySlug(post.data.tags);
         }
 
         table {
-            margin: 16px 0;
+            margin: 16px -16px;
 
             width: 100%;
 
@@ -275,6 +265,8 @@ const tags = await getTagsBySlug(post.data.tags);
         }
 
         img {
+            margin: 16px -16px;
+
             max-width: 100%;
             height: auto;
 
@@ -282,7 +274,7 @@ const tags = await getTagsBySlug(post.data.tags);
         }
 
         .astro-code {
-            margin: 16px 0;
+            margin: 20px -16px;
 
             padding: 40px 8px 8px;
 

@@ -5,6 +5,7 @@ pubDate: 2024-05-28
 tags:
     - astro
     - typescript
+    - webdev
 ---
 
 Hello! Welcome to my new website, or at least as of writing this blog.
@@ -15,20 +16,106 @@ So where do I start, maybe _why_ I have chosen Astro over other existing options
 ## Why Astro
 TLDR: I don't know :3
 
-- I've been trying to learn typescript through trying astro
-- Astro is hard, due to all the issues I've encountered
+I've been trying to learn Typescript for about a month now, mainly to broaden my skill set, but to also help me with job
+searching. Firstly through Svelte for a college project (which I may write about), but now Astro.
+
+I've chosen Astro for two main reasons
+1. It's statically compiled, meaning that I don't ship any smelly Javascript to the browser, which I detest doing when not needed
+2. It looked simple enough compared to other options
+
+So, what was the experience like so far you may be asking, ehh...
 
 ## The problems
-- Issue with Astros `getEntries()` not working, thus having to implement my own method
-- Fighting with Astro to display banner images, it won
-- Using external plugins for images/slides
-  - Specifically passing variables into scripts
+
+### `Image` and `Picture`
+
+The first and biggest hurdle I faced was the `Image` and `Picture` elements from Astro. I could not for the life of me,
+figure out a good solution for using both a file path, and a URL for the `frontmatter` data. I tried:
+- `getImage()`
+- Checking if the start of the string begins with `https://`
+- Loading the image using `getImage()` on every page that passed the image data into the `Layout.astro` to set as the banner image
+
+**NOTHING FUCKING WORKED.**
+
+I spent a good few hours trying to get that working, until I came across the `image()` schema helper. I followed the
+documentation, I followed videos, I copied code from existing repositories, nothing worked, it refused to load images
+by file path, instead returning a string every time...
+
+So I simply gave up, and I think that's for the best considering I want to keep my hair, and I had better things todo.
+You win Astro, you win.
+
+### PhotoSwipe
+
+When working on the Refsheet part of this website, I wanted to use a library to be able to view images fullscreen. Maybe
+I'm stupid, maybe I'm dumb, but I could not get [PhotoSwipe](https://photoswipe.com/) to work, at least when using
+multiple sets of images on a page.
+
+I tried stupid things such as creating unique IDs for each gallery element, but when
+passing them into a `<script>` tag, it would break imports, as passing Astro variables into these for use on the user
+side, it would put them _above_ the `import`s.
+
+I know I'll figure this out, as I've already created a `plugins` section for my Layout, that looks as such.
+
+```astro
+---
+// Layout.astro
+
+interface Props {
+    title: string;
+    plugins?: {
+        katex?: boolean,
+    }
+    seo?: {
+        description?: string,
+        tags?: string[],
+    }
+}
+
+const { title, plugins, seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>{title}</title>
+        {plugins?.katex && (
+            <!-- Import Katex here -->
+        )}
+    </head>
+    <body>
+        <p>Balls</p>
+    </body>
+</html>
+```
+
+```astro
+---
+// Markdown.astro
+
+import Layout from "./Layout.astro";
+
+// Get post data here
+---
+
+<Layout
+    plugins={{
+        katex: true,
+    }}
+>
+```
+
+So I know it's possible...
+
+### Broken `getEntries()`...
+
+My last gripe I had with Astro was the broken `getEntries()` function, while it made it annoying to not get tag data for
+posts, it wasn't hard to implement myself for the use of this blog. It's not that well optimised in my option, but it
+does what it needs todo and doesn't run in the users browser anyway, thanks Astro.
 
 ```typescript
-export async function getTagsBySlug(
-    postTags: string[],
-): Promise<CollectionEntry<"tags">[]> {
-    // Collect all the tags from collections
+// utils.ts
+
+export async function getTagsBySlug(postTags: string[]): Promise<CollectionEntry<"tags">[]> {
     const allTags: CollectionEntry<"tags">[] = await getCollection("tags");
 
     // Loop through all the tags in a post and the tags in the collections
@@ -46,6 +133,22 @@ export async function getTagsBySlug(
 ```
 
 ## What I've learned
-- More experience writing in Typescript
-- Learning about MDX accidentally
-- Reading Documentation, ironically
+
+While Astro was a meh experience, I doubt all the problems I encountered where an Astro issue, most where probably a
+skill issue tbh.
+
+That said, trial by error (or fire when doing JavaScript/TypeScript) is a good way to learn, so I did learn much indeed,
+both on Astro and TypeScript.
+
+Other things I wasn't expecting to learn on the way was digging through Documentation more thoroughly and trying MDX. So
+that's a win!
+
+## Final words
+
+I'm hoping to write more blogs in the future, mainly to practice my writing skills, and sharing my options publicly,
+regardless if it's something political or programming related. But life's in a tangle right now
+
+<div style="width: 200px">
+    ![Maned Wolf art by Pulex](../../assets/posts/pulex_leg.webp)
+    [Art by Pulex](https://www.pulexart.com/)
+</div>

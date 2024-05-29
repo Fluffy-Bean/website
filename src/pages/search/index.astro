@@ -7,11 +7,17 @@ import HomeButton from "../../components/HomeButton.astro";
 
 const tags = await getCollection("tags");
 const posts = await getPosts("posts");
+
+// Get post count for reach tag
 tags.forEach((tag) => {
     tag.data.postCount = posts.filter((project) => {
         return project.data.tags.includes(tag.slug);
     }).length;
 })
+// Dunno if Astro auto-sorts stuff
+tags.sort((a, b) => {
+    return a.data.name.localeCompare(b.data.name);
+});
 ---
 
 <Layout title="Leggy Land - All Projects">
@@ -22,16 +28,37 @@ tags.forEach((tag) => {
         <p>Filter posts by tags</p>
     </div>
 
-    <hr>
-
     <ul role="list" class="pill-list">
         {tags.map(tag => (
             <li>
                 <a class="pill large" href=`/search/${tag.slug}`>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M216,152H168V104h48a8,8,0,0,0,0-16H168V40a8,8,0,0,0-16,0V88H104V40a8,8,0,0,0-16,0V88H40a8,8,0,0,0,0,16H88v48H40a8,8,0,0,0,0,16H88v48a8,8,0,0,0,16,0V168h48v48a8,8,0,0,0,16,0V168h48a8,8,0,0,0,0-16Zm-112,0V104h48v48Z"></path></svg>
-                    {tag.data.name} - {tag.data.postCount}
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M216,152H168V104h48a8,8,0,0,0,0-16H168V40a8,8,0,0,0-16,0V88H104V40a8,8,0,0,0-16,0V88H40a8,8,0,0,0,0,16H88v48H40a8,8,0,0,0,0,16H88v48a8,8,0,0,0,16,0V168h48v48a8,8,0,0,0,16,0V168h48a8,8,0,0,0,0-16Zm-112,0V104h48v48Z"></path></svg>-->
+                    {tag.data.name} <span class="blob">{tag.data.postCount}</span>
                 </a>
             </li>
         ))}
     </ul>
 </Layout>
+
+<style lang="scss">
+    @import "../../styles/vars.scss";
+
+    .blob {
+        margin-left: 8px;
+
+        min-width: 18px;
+        height: 18px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-weight: 600;
+        font-size: 12px;
+        font-family: $font-mono;
+
+        border-radius: 9999px;
+        background-color: $accent;
+        color: $light;
+    }
+</style>
