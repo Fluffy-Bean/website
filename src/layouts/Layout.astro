@@ -35,14 +35,34 @@ const { title, plugins, seo } = Astro.props;
         <link
             rel="icon"
             type="image/webp"
-            href="/src/assets/leg.webp"
+            href="/leg.webp"
         />
+
+        <link
+            rel="preconnect"
+            href="https://api.fontshare.com"
+        >
         <link
             rel="stylesheet"
             href="https://api.fontshare.com/v2/css?f[]=jet-brains-mono@400&f[]=general-sans@1&display=swap"
         />
 
+        <link
+            rel="preconnect"
+            href="https://plausible.leggy.dev"
+        >
+        <script
+            is:inline
+            defer
+            data-domain="gay.leggy.dev"
+            src="https://plausible.leggy.dev/js/script.js"
+        ></script>
+
         {plugins?.katex && (
+            <link
+                rel="preconnect"
+                href="https://cdn.jsdelivr.net"
+            >
             <link
                 rel="stylesheet"
                 href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
