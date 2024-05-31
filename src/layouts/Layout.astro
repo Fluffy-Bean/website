@@ -93,7 +93,9 @@ const address = import.meta.env.PUBLIC_ADDRESS;
             ></script>
         )}
         {plugins?.giscus && (
-            <script src="https://giscus.app/client.js"
+            <script
+                is:inline
+                src="https://giscus.app/client.js"
                 data-repo="Fluffy-Bean/website"
                 data-repo-id="R_kgDOL-t-KQ"
                 data-category="General"
