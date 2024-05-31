@@ -31,7 +31,7 @@ import leg from "../assets/leg.webp";
         const request = await fetch("https://lastfm-last-played.biancarosa.com.br/Fluffy_Bean_/latest-song");
         const data = await request.json();
 
-        ( document.querySelectorAll(".music-img") as HTMLImageElement[] ).forEach((img) => {
+        ( document.querySelectorAll(".music-img") as NodeListOf<HTMLImageElement> ).forEach((img) => {
             img.src = data["track"]["image"][2]["#text"];
         });
         ( document.querySelector("#music-title") as HTMLParagraphElement ).innerText = `${data["track"]["name"]}`;
