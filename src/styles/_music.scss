@@ -29,11 +29,7 @@
         left: 0;
 
         filter: blur(1px) saturate(110%);
-        mask-image: linear-gradient(
-            to right,
-            rgba(#fff, 0.4),
-            rgba(#fff, 0)
-        );
+        mask-image: linear-gradient(to right, rgba(#fff, 0.4), rgba(#fff, 0));
 
         object-fit: cover;
         z-index: +1;
@@ -66,7 +62,6 @@
         }
     }
 }
-
 
 @media only screen and (max-width: 500px) {
     #music {
