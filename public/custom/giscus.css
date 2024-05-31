@@ -36,16 +36,16 @@ main {
     --color-prettylights-syntax-sublimelinter-gutter-mark: #545d68;
     --color-prettylights-syntax-constant-other-reference-link: #96d0ff;
 
-    --color-btn-text: #f0e9e4; /* Using $light */
-    --color-btn-bg: #312620; /* Using $dark */
-    --color-btn-border: rgba(168, 99, 56, 0.10); /* Using $accent with 10% opacity */
+    --color-btn-text: #f0e9e4;
+    --color-btn-bg: #312620;
+    --color-btn-border: rgba(168, 99, 56, 0.10);
     --color-btn-shadow: 0 0 transparent;
     --color-btn-inset-shadow: 0 0 transparent;
-    --color-btn-hover-bg: #382e28; /* Using $gray */
-    --color-btn-hover-border: #a86338; /* Using $accent */
-    --color-btn-active-bg: hsl(25deg 27% 27% / 100%); /* Adjusted to match the palette, using a hue close to $accent */
-    --color-btn-active-border: #a86338; /* Using $accent */
-    --color-btn-selected-bg: #312620; /* Using $dark */
+    --color-btn-hover-bg: #382e28;
+    --color-btn-hover-border: #a86338;
+    --color-btn-active-bg: hsl(25deg 27% 27% / 100%);
+    --color-btn-active-border: #a86338;
+    --color-btn-selected-bg: #312620;
 
     --color-btn-primary-text: #f0e9e4;
     --color-btn-primary-bg: #a86338;
@@ -60,37 +60,30 @@ main {
     --color-btn-primary-disabled-bg: #804b2a;
     --color-btn-primary-disabled-border: transparent;
 
-    /* Hover background for action list items */
-    --color-action-list-item-default-hover-bg: rgba(168, 99, 56, 0.12); /* Using $accent with 12% opacity */
+    --color-action-list-item-default-hover-bg: rgba(168, 99, 56, 0.12);
 
-    /* Segmented control background */
-    --color-segmented-control-bg: rgba(56, 46, 40, 0.10); /* Using $gray with 10% opacity */
-    --color-segmented-control-button-bg: #312620; /* Using $dark */
-    --color-segmented-control-button-selected-border: #a86338; /* Using $accent */
+    --color-segmented-control-bg: rgba(56, 46, 40, 0.10);
+    --color-segmented-control-button-bg: #312620;
+    --color-segmented-control-button-selected-border: #a86338;
 
-    /* Foreground colors */
-    --color-fg-default: #f0e9e4; /* Using $light */
-    --color-fg-muted: #adbac7; /* Keeping original, close match to light gray */
-    --color-fg-subtle: #545d68; /* Keeping original, a good muted gray */
+    --color-fg-default: #f0e9e4;
+    --color-fg-muted: #adbac7;
+    --color-fg-subtle: #545d68;
 
-    /* Canvas (background) colors */
-    --color-canvas-default: #312620; /* Using $dark */
-    --color-canvas-overlay: #382e28; /* Using $gray */
-    --color-canvas-inset: rgba(49, 38, 32, 1); /* Using $dark with 100% opacity */
-    --color-canvas-subtle: rgba(56, 46, 40, 1); /* Using $gray with 100% opacity */
+    --color-canvas-default: #312620;
+    --color-canvas-overlay: #382e28;
+    --color-canvas-inset: rgba(49, 38, 32, 1);
+    --color-canvas-subtle: rgba(56, 46, 40, 1);
 
-    /* Border colors */
-    --color-border-default: #382e28; /* Using $gray */
-    --color-border-muted: #312620; /* Using $dark */
+    --color-border-default: #382e28;
+    --color-border-muted: #312620;
 
-    /* Neutral muted color */
-    --color-neutral-muted: rgba(56, 46, 40, 0.40); /* Using $gray with 40% opacity */
+    --color-neutral-muted: rgba(56, 46, 40, 0.40);
 
-    /* Accent colors */
-    --color-accent-fg: #a86338; /* Using $accent */
-    --color-accent-emphasis: #a86338; /* Using $accent */
-    --color-accent-muted: rgba(168, 99, 56, 0.40); /* Using $accent with 40% opacity */
-    --color-accent-subtle: rgba(168, 99, 56, 0.10); /* Using $accent with 10% opacity */
+    --color-accent-fg: #a86338;
+    --color-accent-emphasis: #a86338;
+    --color-accent-muted: rgba(168, 99, 56, 0.40);
+    --color-accent-subtle: rgba(168, 99, 56, 0.10);
 
     --color-success-fg: #a86338;
 
@@ -104,7 +97,7 @@ main {
 
     --color-primer-shadow-inset: 0 0 transparent;
 
-    --color-scale-gray-7: #382e28; /* Using $gray */
+    --color-scale-gray-7: #382e28;
     --color-scale-blue-8: #4b3b3a;
 
     /*! Extensions from @primer/css/alerts/flash.scss */
@@ -112,9 +105,7 @@ main {
     --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
 }
 
-main .pagination-loader-container {
-    background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
-}
+main .pagination-loader-container { background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg"); }
 
 /*! Custom CSS */
 
@@ -126,27 +117,15 @@ main .pagination-loader-container {
 
 .gsc-header { padding-bottom: 32px; }
 
-.gsc-comment-box-tabs {
-    border-radius: 0 !important;
-}
-.gsc-comment-box-write {
-    /*border: 2px solid #382e28;*/
-}
+.gsc-comment-box-tabs { border-radius: 0 !important; }
+.gsc-comment-box-write { /*border: 2px solid #382e28;*/ }
+.gsc-comment-box:not(.gsc-comment-box-is-reply) { border-width: 2px; }
 
 .gsc-comments { gap: 0; }
 .gsc-comments > .gsc-comment-box,
 .gsc-comments > .gsc-comment{ margin-bottom: 16px; }
-.gsc-comment > div {
-    border-width: 2px !important;
-}
-.gsc-comment-box:not(.gsc-comment-box-is-reply) {
-    border-width: 2px;
-}
+.gsc-comment > div { border-width: 2px !important; }
 
-.btn {
-    border-radius: 9999px !important;
-}
+.btn { border-radius: 9999px !important; }
 
-main .gsc-loading-image {
-    background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
-}
+main .gsc-loading-image { background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif"); }
