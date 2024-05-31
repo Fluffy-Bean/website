@@ -1,0 +1,152 @@
+/*!
+ * Modified from GitHub's Dark Dimmed theme, licensed under the MIT License
+ * Copyright (c) 2018 GitHub Inc.
+ * https://github.com/primer/primitives/blob/main/LICENSE
+ */
+
+main {
+    --color-prettylights-syntax-comment: #768390;
+    --color-prettylights-syntax-constant: #6cb6ff;
+    --color-prettylights-syntax-entity: #dcbdfb;
+    --color-prettylights-syntax-storage-modifier-import: #adbac7;
+    --color-prettylights-syntax-entity-tag: #8ddb8c;
+    --color-prettylights-syntax-keyword: #f47067;
+    --color-prettylights-syntax-string: #96d0ff;
+    --color-prettylights-syntax-variable: #f69d50;
+    --color-prettylights-syntax-brackethighlighter-unmatched: #e5534b;
+    --color-prettylights-syntax-invalid-illegal-text: #cdd9e5;
+    --color-prettylights-syntax-invalid-illegal-bg: #922323;
+    --color-prettylights-syntax-carriage-return-text: #cdd9e5;
+    --color-prettylights-syntax-carriage-return-bg: #ad2e2c;
+    --color-prettylights-syntax-string-regexp: #8ddb8c;
+    --color-prettylights-syntax-markup-list: #eac55f;
+    --color-prettylights-syntax-markup-heading: #316dca;
+    --color-prettylights-syntax-markup-italic: #adbac7;
+    --color-prettylights-syntax-markup-bold: #adbac7;
+    --color-prettylights-syntax-markup-deleted-text: #ffd8d3;
+    --color-prettylights-syntax-markup-deleted-bg: #78191b;
+    --color-prettylights-syntax-markup-inserted-text: #b4f1b4;
+    --color-prettylights-syntax-markup-inserted-bg: #1b4721;
+    --color-prettylights-syntax-markup-changed-text: #ffddb0;
+    --color-prettylights-syntax-markup-changed-bg: #682d0f;
+    --color-prettylights-syntax-markup-ignored-text: #adbac7;
+    --color-prettylights-syntax-markup-ignored-bg: #255ab2;
+    --color-prettylights-syntax-meta-diff-range: #dcbdfb;
+    --color-prettylights-syntax-brackethighlighter-angle: #768390;
+    --color-prettylights-syntax-sublimelinter-gutter-mark: #545d68;
+    --color-prettylights-syntax-constant-other-reference-link: #96d0ff;
+
+    --color-btn-text: #f0e9e4; /* Using $light */
+    --color-btn-bg: #312620; /* Using $dark */
+    --color-btn-border: rgba(168, 99, 56, 0.10); /* Using $accent with 10% opacity */
+    --color-btn-shadow: 0 0 transparent;
+    --color-btn-inset-shadow: 0 0 transparent;
+    --color-btn-hover-bg: #382e28; /* Using $gray */
+    --color-btn-hover-border: #a86338; /* Using $accent */
+    --color-btn-active-bg: hsl(25deg 27% 27% / 100%); /* Adjusted to match the palette, using a hue close to $accent */
+    --color-btn-active-border: #a86338; /* Using $accent */
+    --color-btn-selected-bg: #312620; /* Using $dark */
+
+    --color-btn-primary-text: #f0e9e4;
+    --color-btn-primary-bg: #a86338;
+    --color-btn-primary-border: transparent;
+    --color-btn-primary-shadow: 0 0 transparent;
+    --color-btn-primary-inset-shadow: 0 0 transparent;
+    --color-btn-primary-hover-bg: #995a32;
+    --color-btn-primary-hover-border: transparent;
+    --color-btn-primary-selected-bg: #a86338;
+    --color-btn-primary-selected-shadow: 0 0 transparent;
+    --color-btn-primary-disabled-text: #bfbab6;
+    --color-btn-primary-disabled-bg: #804b2a;
+    --color-btn-primary-disabled-border: transparent;
+
+    /* Hover background for action list items */
+    --color-action-list-item-default-hover-bg: rgba(168, 99, 56, 0.12); /* Using $accent with 12% opacity */
+
+    /* Segmented control background */
+    --color-segmented-control-bg: rgba(56, 46, 40, 0.10); /* Using $gray with 10% opacity */
+    --color-segmented-control-button-bg: #312620; /* Using $dark */
+    --color-segmented-control-button-selected-border: #a86338; /* Using $accent */
+
+    /* Foreground colors */
+    --color-fg-default: #f0e9e4; /* Using $light */
+    --color-fg-muted: #adbac7; /* Keeping original, close match to light gray */
+    --color-fg-subtle: #545d68; /* Keeping original, a good muted gray */
+
+    /* Canvas (background) colors */
+    --color-canvas-default: #312620; /* Using $dark */
+    --color-canvas-overlay: #382e28; /* Using $gray */
+    --color-canvas-inset: rgba(49, 38, 32, 1); /* Using $dark with 100% opacity */
+    --color-canvas-subtle: rgba(56, 46, 40, 1); /* Using $gray with 100% opacity */
+
+    /* Border colors */
+    --color-border-default: #382e28; /* Using $gray */
+    --color-border-muted: #312620; /* Using $dark */
+
+    /* Neutral muted color */
+    --color-neutral-muted: rgba(56, 46, 40, 0.40); /* Using $gray with 40% opacity */
+
+    /* Accent colors */
+    --color-accent-fg: #a86338; /* Using $accent */
+    --color-accent-emphasis: #a86338; /* Using $accent */
+    --color-accent-muted: rgba(168, 99, 56, 0.40); /* Using $accent with 40% opacity */
+    --color-accent-subtle: rgba(168, 99, 56, 0.10); /* Using $accent with 10% opacity */
+
+    --color-success-fg: #a86338;
+
+    --color-attention-fg: #a88538;
+    --color-attention-muted: #755b27;
+    --color-attention-subtle: #423315;
+
+    --color-danger-fg: #a83838;
+    --color-danger-muted: #752727;
+    --color-danger-subtle: #421616;
+
+    --color-primer-shadow-inset: 0 0 transparent;
+
+    --color-scale-gray-7: #382e28; /* Using $gray */
+    --color-scale-blue-8: #4b3b3a;
+
+    /*! Extensions from @primer/css/alerts/flash.scss */
+    --color-social-reaction-bg-hover: var(--color-scale-gray-7);
+    --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
+}
+
+main .pagination-loader-container {
+    background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
+}
+
+/*! Custom CSS */
+
+.gsc-main { gap: 0; }
+
+.gsc-reactions { padding-bottom: 32px !important; }
+.gsc-reactions > div { margin-top: 0 !important; }
+.gsc-reactions-count { display: none; }
+
+.gsc-header { padding-bottom: 32px; }
+
+.gsc-comment-box-tabs {
+    border-radius: 0 !important;
+}
+.gsc-comment-box-write {
+    /*border: 2px solid #382e28;*/
+}
+
+.gsc-comments { gap: 0; }
+.gsc-comments > .gsc-comment-box,
+.gsc-comments > .gsc-comment{ margin-bottom: 16px; }
+.gsc-comment > div {
+    border-width: 2px !important;
+}
+.gsc-comment-box:not(.gsc-comment-box-is-reply) {
+    border-width: 2px;
+}
+
+.btn {
+    border-radius: 9999px !important;
+}
+
+main .gsc-loading-image {
+    background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
+}

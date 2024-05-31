@@ -16,12 +16,15 @@ const { post, prev, next } = Astro.props;
 const readTime = `${Math.ceil(post.body.split(" ").length / 183)} min read`;
 const date = new Date(post.data.pubDate);
 const tags = await getTagsBySlug(post.data.tags);
+
+const comments = import.meta.env.PUBLIC_COMMENTS === "true";
 ---
 
 <Layout
     title=`Leggy Land - ${post.data.title}`
     plugins={{
         katex: true,
+        giscus: comments,
     }}
     seo={{
         description: post.data.description,
@@ -88,6 +91,11 @@ const tags = await getTagsBySlug(post.data.tags);
             )}
         </li>
     </ul>
+
+    {comments && (
+        <hr>
+        <div class="giscus" id="giscus" />
+    )}
 </Layout>
 
 <style is:global lang="scss">

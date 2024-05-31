@@ -6,6 +6,7 @@ interface Props {
     title: string;
     plugins?: {
         katex?: boolean,
+        giscus?: boolean,
     }
     seo?: {
         description?: string,
@@ -14,6 +15,9 @@ interface Props {
 }
 
 const { title, plugins, seo } = Astro.props;
+
+const plausible = import.meta.env.PUBLIC_PLAUSIBLE !== "false";
+const address = import.meta.env.PUBLIC_ADDRESS;
 ---
 
 <!doctype html>
@@ -22,7 +26,7 @@ const { title, plugins, seo } = Astro.props;
         <title>{title}</title>
 
         <meta charset="UTF-8" />
-        <meta name="description" content="Astro description" />
+        <meta name="description" content={seo?.description ? seo?.description : "Premium Legs only"} />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta name="keywords" content={seo?.tags ? seo?.tags.join(', ') : "furry, gay, homosegs"} />
@@ -47,17 +51,20 @@ const { title, plugins, seo } = Astro.props;
             href="https://api.fontshare.com/v2/css?f[]=jet-brains-mono@400&f[]=general-sans@1&display=swap"
         />
 
-        <link
-            rel="preconnect"
-            href="https://plausible.leggy.dev"
-        >
-        <script
-            is:inline
-            defer
-            data-domain="gay.leggy.dev"
-            src="https://plausible.leggy.dev/js/script.js"
-        ></script>
-
+        {plausible ? (
+            <link
+                rel="preconnect"
+                href="https://plausible.leggy.dev"
+            >
+            <script
+                is:inline
+                defer
+                data-domain="gay.leggy.dev"
+                src="https://plausible.leggy.dev/js/script.js"
+            ></script>
+        ) : (
+            <script is:inline>console.log("Plausible Disabled")</script>
+        )}
         {plugins?.katex && (
             <link
                 rel="preconnect"
@@ -85,6 +92,24 @@ const { title, plugins, seo } = Astro.props;
                 onload="renderMathInElement(document.body);"
             ></script>
         )}
+        {plugins?.giscus && (
+            <script src="https://giscus.app/client.js"
+                data-repo="Fluffy-Bean/website"
+                data-repo-id="R_kgDOL-t-KQ"
+                data-category="General"
+                data-category-id="DIC_kwDOL-t-Kc4CfxFh"
+                data-mapping="title"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme=`${address}/custom/giscus.css`
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async
+            ></script>
+        )}
     </head>
     <body>
         <div class="banner">
@@ -102,12 +127,7 @@ const { title, plugins, seo } = Astro.props;
         </main>
     </body>
     <script>
-        function update(element: HTMLElement) {
-            element.style.top = `${window.scrollY * 0.75 }px`;
-            // element.style.transform = `scale(${(window.scrollY * 0.0001) + 1})`;
-            // element.style.filter = `blur(${window.scrollY * 0.005}px)`;
-        }
-
+        function update(element: HTMLElement) { element.style.top = `${window.scrollY * 0.75 }px`; }
         const img = document.querySelector(".banner > img") as HTMLImageElement;
         document.addEventListener("scroll", () => update(img))
         document.addEventListener("DOMContentLoaded", () => update(img))
