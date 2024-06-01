@@ -1,0 +1,82 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HomeButton from "../components/HomeButton.astro";
+import Ref from "../assets/art/ref.png";
+import Sneak from "../assets/art/sneak.png";
+import Taidum from "../assets/art/taidum.png";
+import Men from "../assets/art/kissing-men.png";
+import Mood from "../assets/art/mood.png";
+---
+
+<Layout title="Leggy Land - Refsheet">
+    <HomeButton />
+
+    <div class="header">
+        <h1>Refsheet</h1>
+        <p>Maned Wolf moment</p>
+    </div>
+
+    <div class="section">
+        <h2>Refsheet</h2>
+        <img src={Ref.src} alt="FluffyBean" class="art max" />
+        <ul class="pill-list" role="list">
+            <li class="pill size-button">mrHDash</li>
+            <li><a href="https://twitter.com/mrHDash" class="button">Twitter</a></li>
+            <li><a href="https://instagram.com/mrhdash_arts" class="button">Instagram</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Shep</h2>
+        <img src={Sneak.src} alt="FluffyBean" class="art" />
+        <ul class="pill-list" role="list">
+            <li class="pill size-button">Shep</li>
+            <li><a href="https://twitter.com/ShepGoesBlep" class="button">Twitter</a></li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Zadok</h2>
+        <img src={Taidum.src} alt="FluffyBean" class="art" />
+        <ul class="pill-list" role="list">
+            <li class="pill size-button">Zadok</li>
+            <li><a href="https://twitter.com/Zadoktater" class="button">Twitter</a></li>
+            <li><button onclick="navigator.clipboard.writeText('zadoknchip'); return;" class="button">Discord</button></li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>LordPulex</h2>
+        <img src={Men.src} alt="FluffyBean" class="art" />
+        <ul class="pill-list" role="list">
+            <li class="pill size-button">LordPulex</li>
+            <li><a href="https://twitter.com/LordPulex" class="button">Twitter</a></li>
+            <li><a href="https://pulex.carrd.co/" class="button">Website</a></li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>OggyTheFox</h2>
+        <img src={Mood.src} alt="FluffyBean" class="art" />
+        <ul class="pill-list" role="list">
+            <li class="pill size-button">OggyTheFox</li>
+            <li><a href="https://twitter.com/OggyOsbourne" class="button">Twitter</a></li>
+            <li><a href="https://oggy123.eu/" class="button">Website</a></li>
+        </ul>
+    </div>
+</Layout>
+
+<style lang="scss">
+    @import "../styles/vars.scss";
+
+    .art {
+        margin-bottom: 8px;
+        /*padding: 8px;*/
+
+        max-width: 400px;
+
+        border-radius: $radius;
+        /*background: $gray;*/
+
+        &.max {
+            max-width: 100%;
+        }
+    }
+</style>

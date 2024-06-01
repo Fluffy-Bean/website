@@ -9,6 +9,10 @@
         padding-bottom: 8px;
     }
 
+    > img {
+        border-radius: $radius;
+    }
+
     &:last-of-type {
         padding-bottom: 0;
     }
