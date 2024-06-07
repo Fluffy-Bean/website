@@ -114,6 +114,7 @@ const address = import.meta.env.PUBLIC_ADDRESS;
         )}
     </head>
     <body>
+        <a href="#content-skip" tabindex="0" id="content-skip-button">Skip to content</a>
         <div class="banner">
             <img
                 src={Banner.src}
@@ -135,3 +136,28 @@ const address = import.meta.env.PUBLIC_ADDRESS;
         document.addEventListener("DOMContentLoaded", () => update(img))
     </script>
 </html>
+
+<style lang="scss">
+    @import "../styles/vars.scss";
+
+    #content-skip-button {
+        padding: 16px 32px;
+
+        position: absolute;
+        top: -1000000px;
+        left: -1000000px;
+        z-index: 999999999;
+
+        font-weight: bolder;
+        text-decoration: none;
+
+        background-color: $accent;
+        color: $light;
+
+        &:focus {
+            top: 0;
+            left: 0;
+            outline: 0 solid transparent;
+        }
+    }
+</style>
