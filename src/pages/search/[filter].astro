@@ -35,6 +35,8 @@ const filteredPosts = allPosts.filter((project) => project.data.tags.includes(ta
         <p>Showing {filteredPosts.length}/{allPosts.length} posts</p>
     </div>
 
+    <span id="content-skip" />
+
     <div class="section">
         <ul role="list" class="project-list">
             {filteredPosts.map(post => (
