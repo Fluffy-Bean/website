@@ -16,7 +16,6 @@ interface Props {
 
 const { title, plugins, seo } = Astro.props;
 
-const plausible = import.meta.env.PUBLIC_PLAUSIBLE !== "false";
 const address = import.meta.env.PUBLIC_ADDRESS;
 ---
 
@@ -51,20 +50,17 @@ const address = import.meta.env.PUBLIC_ADDRESS;
             href="https://api.fontshare.com/v2/css?f[]=jet-brains-mono@400&f[]=general-sans@1&display=swap"
         />
 
-        {plausible ? (
-            <link
-                rel="preconnect"
-                href="https://plausible.leggy.dev"
-            >
-            <script
-                is:inline
-                defer
-                data-domain="gay.leggy.dev"
-                src="https://plausible.leggy.dev/js/script.js"
-            ></script>
-        ) : (
-            <script is:inline>console.log("Plausible Disabled");</script>
-        )}
+        <!--
+            If you want to disable your visits from being counted,
+            run "localStorage.setItem('umami.disabled', 1);"
+            in the JS console (without the quotation marks).
+       -->
+        <script
+            defer
+            src="https://umami.leggy.dev/script.js"
+            data-website-id="e8c4fb4f-6ff2-4179-8873-957d635c862c"
+        />
+
         {plugins?.katex && (
             <link
                 rel="preconnect"
@@ -127,6 +123,10 @@ const address = import.meta.env.PUBLIC_ADDRESS;
         </div>
         <main>
             <slot />
+            <p id="anal_notice">
+                This website tracks anonymous analytics. To see them in action visit
+                <a href="https://umami.leggy.dev/share/jNKQaN97seslziXY/gay.leggy.dev" target="_blank">umami.leggy.dev</a>!
+            </p>
         </main>
     </body>
     <script>
@@ -158,6 +158,21 @@ const address = import.meta.env.PUBLIC_ADDRESS;
             top: 0;
             left: 0;
             outline: 0 solid transparent;
+        }
+    }
+
+    #anal_notice {
+        padding-top: 16px;
+        margin-bottom: -16px;
+        color: $light;
+        font-size: 11px;
+        text-align: center;
+
+        > a {
+          color: $accent;
+            &:hover {
+                color: $light;
+            }
         }
     }
 </style>
