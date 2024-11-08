@@ -222,40 +222,33 @@ const comments = import.meta.env.PUBLIC_COMMENTS === "true";
         }
 
         table {
-            margin: 16px -16px;
+            margin: 16px 0;
 
             width: 100%;
 
             font-size: 13px;
 
             border-collapse: collapse;
-            /*border: 2px solid $gray;*/
+            border-bottom: 2px solid $gray;
 
             tr {
                 &:nth-child(even) td {
                     background-color: rgba($gray, 0.15);
                 }
                 &:last-of-type > td {
-                    /*border-bottom: 2px solid $gray;*/
+                    /*border-bottom: 2px solid darken($gray, 2%);*/
                 }
 
                 td {
                     padding: 8px 16px;
-
-                    &:first-child {
-                        border-bottom-left-radius: $radius;
-                    }
-                    &:last-child {
-                        border-bottom-right-radius: $radius;
-                    }
                 }
 
                 th {
                     padding: 8px 16px;
+                    font-weight: bold;
+                    text-align: left;
 
-                    font-weight: 500;
-
-                    border-bottom: 2px solid darken($gray, 2%);
+                    /*border-bottom: 2px solid darken($gray, 2%);*/
                     background-color: $gray;
 
                     &:first-child {
@@ -269,7 +262,7 @@ const comments = import.meta.env.PUBLIC_COMMENTS === "true";
         }
 
         img {
-            margin: 16px -16px;
+            margin: 16px 0;
 
             max-width: calc(100% + 32px);
             height: auto;
@@ -278,7 +271,7 @@ const comments = import.meta.env.PUBLIC_COMMENTS === "true";
         }
 
         .astro-code {
-            margin: 20px -16px;
+            margin: 20px 0;
 
             padding: 40px 8px 8px;
 

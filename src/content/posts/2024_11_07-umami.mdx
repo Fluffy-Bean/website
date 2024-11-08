@@ -1,0 +1,238 @@
+---
+draft: false
+title: umami
+description: Goob bye Plausible
+pubDate: 2024-11-07
+tags:
+- alpine
+- linux
+- webdev
+- networking
+---
+
+import Note from "../../components/Note.astro";
+
+## Why I went with umami
+Sike, before we talk about umami, lets talk about some of the other options I had, that I didn't go with
+
+### Matomo
+I've seen Matomo get suggested in a few places before I went with Plausible originally, but I never checked it out till
+now. While it looked solid, it also has _too_ much stuff... I didn't need or want a heatmap of interactions throughout
+my website, nor session recording, or any ecommerce stuff.
+
+Even with all that, I didn't particularly like the design, it was cluttered and confusing to go through the demo site.
+
+### PostHog
+PostHog was the second thing I've checked out, while it looked promising, it was just too much along with not solving my
+problem of _having_ to use docker.
+
+The requirements were also a bit insane for my needs, 8GBs of ram (recommended minimum) in comparison to the 256MB the
+CT running umami currently has.
+
+### Fathom
+This was the last one I checked out before going with umami, I liked the design as it was similar to Plausible, and had
+the feature set that I was looking for, with no complicated dashboards.
+
+Buuuuuut, there is no self-hostable option, [kinda](https://github.com/usefathom/fathom). The lite version is no longer
+maintained. Which is a shame, as it fathom looked promising and Go is a nice language to work with...
+
+Maybe I could pick it up in the future, and bring it back to life again
+
+## Services feature comparison
+Blank sections are due to me not being able to find information on said topic, also, features listed are things I
+specifically looked for.
+
+|                               | Matomo | PostHog | umami           | Fathom   | Plausible |
+|-------------------------------|--------|---------|-----------------|----------|-----------|
+| Self-Hostable                 | Yes    | Yes     | Yes             | Yes [^1] | Yes       |
+| Hosting method                | PHP    | Docker  | Node or Docker  | Go [^2]  | Docker    |
+| GDPR compliant                | Yes    | Yes     | Yes             | Yes [^3] | Yes       |
+| Email reports                 | Yes    | Yes     |                 |          | Yes       |
+| Tracking events               | Yes    | Yes     | Yes [^4]        |          | No        |
+| Simple (and pretty) dashboard | No     | Mostly  | Yes             | Yes      | Yes       |
+| Minimum RAM                   | 1GB    | 8GB     | 512MB [^5]      |          | 1GB       |
+| Supported Databases           | MySQL  |         | Postgres, MySQL | SQLite   |           |
+
+[^1]: An old and limited version is available, that is no longer maintained
+[^2]: The self-hosted (lite) version uses Go, the paid version uses [Laravel](https://github.com/usefathom/fathom/issues/336#issuecomment-1079549690).
+[^3]: Fathom is a Canadian based company, and while their servers are also in Canada, [they comply with EU regulations and laws](https://usefathom.com/features/eu-isolation).
+[^4]: unami doesn't track events automatically [and needs to be setup manually across the website](https://umami.is/docs/track-events).
+[^5]: unami doesn't list minimum requirements, so far from my testing, this is about what I needed for all my websites. For installs that have higher page visit counts, I imagine more would be needed.
+
+<Note text="This ain't a scientific featurelist" />
+
+## So what was wrong with Plausible?
+Simply put, too heavy for my use-case. It was designed for websites that see thousands of people per week, maybe even a
+day, but I haven't even reached a thousand views in a year! Secondly, docker, it has it's uses, but since all my
+services already run in LXT/Proxmox containers, no point of putting them within another container.
+
+All that I could've lived with fine, if not for trying to upgrade it. It broke, even in a docker container, it refused
+to start after an update and wouldn't show any signs of life other that pushing my CPU usage to 100%, then freezing the
+container!
+
+Downgrading - worked. But since database migrations have been complete, a lot of the pages no longer worked, so I just
+left it alone, until I was bothered with finding an alternative solution.
+
+## umami
+Finally, something I was looking for, it has all the features I need, with not too much extra stuff I'll never use. AND
+it's self-hostable with a non-docker option!
+
+Though, I did run into some issues compiling the project, specifically needing 2GBs of ram, lol
+![Console, displaying an error from JS about running out of memory in the HEAP, then promptly exiting the process.](../../assets/posts/2024/11/js_oom.jpg)
+
+And here's a dashboard comparison, before umami and Plausible
+![Homepage of umami, showing a counter of how many people have visited my website, with a nearly empty graph of activity over the span of 1 day.](../../assets/posts/2024/11/umami.png)
+![Dashboard of my page on Plausible, showing a line-graph of activity on my website over the past year, peaking in June of 2024 and a counter of 339 unique visitors.](../../assets/posts/2024/11/plausible.png)
+
+## Now onto the fun stuff
+Here's the steps I've taken to setup umami, it's not meant as a tutorial, but hopefully will be helpful regardless...
+
+### Alpine
+For this, I went with Alpine! It was my first time trying it, but it went great, and will probably be moving all my
+services to it at some point, but that should be its own blog post. Main hurdle I had was understanding `OpenRC`, as
+Alpine doesn't use `systemd`, but once I gotten used to `rc-update add <service>` and
+`rc-service <service> start/stop/status` it went very smoothly.
+
+Obviously firstly we should update all the available packages and install some useful tools
+```bash
+apk update
+apk upgrade
+apk add vim git
+```
+
+### Caddy
+
+<Note text="3000 is the default port for yarn, but adjust for your needs" />
+
+I didn't reaaaaaly need caddy for this, as it would mean the service would be behind two proxies, but I wanted to setup
+caddy anyway. It was quite simple really
+
+```bash
+apk add caddy
+rc-update add caddy
+# Reboot
+rc-service caddy start
+# And make the required dirs and files
+mkdir /var/www/html
+```
+
+Then, in `/etc/caddy`, we edit the `Caddyfile`
+
+```bash
+cd /etc/caddy
+vim Caddyfile
+```
+
+And add the following
+
+```caddyfile
+:8080 {
+  reverse_proxy localhost:3000
+}
+```
+
+And finally
+
+```bash
+# While still in /etc/caddy
+caddy reload
+```
+
+### Postgres
+It was slightly more manual than it is usually on ubuntu, but this is a great guide that still is relative
+https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/
+
+Then I just needed to make a database with a simple command.
+
+```sql
+CREATE DATABASE umami;
+```
+
+### Installing umami
+The [official documentation](https://umami.is/docs/install) is the nicest, but there is some extra stuff you need todo
+outside-of their tutorial
+
+Firstly we make the required directory and clone the project
+
+```bash
+mkdir /var/www/html
+```
+
+<Note text="Before you go any further, follow the official documentation, then come back :3" />
+
+
+### Setting up umami as a service
+While umami has a section on turning the project into a service, I prefer using what's already on the system for this,
+OpenRC!
+
+Making a service on OpenRC is actually quite simple,
+[they have a guide for making services too](https://github.com/OpenRC/openrc/blob/master/service-script-guide.md).
+
+First, make a user for the service, such as `umami`. Then run the following command to make, and edit, a file for the
+service
+
+```bash
+touch /etc/init.d/umami
+vim /etc/init.d/umami
+```
+
+And enter the following
+
+```bash
+#!/sbin/openrc-run
+
+YARN_USER="umami"
+PROJECT_DIR="/var/www/html/umami"
+YARN_CMD="/usr/local/bin/yarn start"
+APP_NAME="umami"
+
+command="$YARN_CMD"
+command_args="start"
+command_user="$YARN_USER"
+pidfile="/var/run/${APP_NAME}.pid"
+output_log="/var/log/${APP_NAME}.log"
+error_log="/var/log/${APP_NAME}_error.log"
+
+depend() {
+    need net
+}
+
+start() {
+    ebegin "Starting ${APP_NAME}"
+
+    start-stop-daemon --start --user "$YARN_USER" \
+                      --make-pidfile --pidfile "$pidfile" \
+                      --chdir "$PROJECT_DIR" \
+                      --exec "$command" -- $command_args >> "$output_log" 2>> "$error_log" &
+
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping ${APP_NAME}"
+
+    start-stop-daemon --stop --pidfile "$pidfile"
+
+    eend $?
+}
+```
+
+and run the following - same - commands as we did earlier for caddy
+
+```bash
+rc-update add umami
+# Reboot
+rc-service umami start
+```
+
+And we're done! You may also now notice new text on the bottom of the page
+
+> This website tracks anonymous analytics. To see them in action visit umami.leggy.dev!
+
+If you really don't like the idea of your visit being counted, run
+
+```js
+localStorage.setItem("umami.disabled", 1);
+```
+
+In the browser console to remove all future visit counts.
