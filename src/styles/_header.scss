@@ -1,3 +1,5 @@
+@use "vars";
+
 .header {
     margin: -32px -32px 32px;
     padding: 32px;
@@ -6,8 +8,8 @@
     flex-direction: column;
     gap: 16px;
 
-    border-bottom: 2px solid $gray;
-    background-color: $dark;
+    border-bottom: 2px solid vars.$gray;
+    background-color: vars.$dark;
 
     z-index: 999;
 
@@ -42,8 +44,8 @@
         justify-content: flex-start;
         align-items: center;
 
-        border-bottom: 2px solid $gray;
-        background-color: $dark;
-        color: $light;
+        border-bottom: 2px solid vars.$gray;
+        background-color: vars.$dark;
+        color: vars.$light;
     }
 }

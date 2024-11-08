@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: umami
 description: Goob bye Plausible
 pubDate: 2024-11-07
@@ -12,9 +12,22 @@ tags:
 
 import Note from "../../components/Note.astro";
 
-## Why I went with umami
+## Introduction
 
-Sike, before we talk about umami, lets talk about some of the other options I had, that I didn't go with
+This little blog post thang will be about umami, and why I went with it over fixing my Plausible install. While the
+reason is pretty simple, really and can be summed up in two points.
+
+- Its resource usage is low
+ - Has (nearly) all the features I used in Plausible
+
+I want to talk a bit about how I got to the point where I chosen it, and the steps I've taken to actually install and
+setup an Alpine CT with itttt
+
+## Other options
+
+Before I landed on umami, here's the other options I checked out, none of this is gonna really be "scientific", so do
+some of your own research too, I'll provide links were ever I can, otherwise the information was brought to me in my
+delusions.
 
 ### Matomo
 
@@ -42,29 +55,20 @@ maintained. Which is a shame, as it fathom looked promising and Go is a nice lan
 
 Maybe I could pick it up in the future, and bring it back to life again
 
-## Services feature comparison
+### Services feature comparison
 
-Blank sections are due to me not being able to find information on said topic, also, features listed are things I
-specifically looked for.
+<Note text="Blank sections are due to me not being able to find information on the feature" />
 
-|                               | Matomo | PostHog | umami           | Fathom   | Plausible |
-| ----------------------------- | ------ | ------- | --------------- | -------- | --------- |
-| Self-Hostable                 | Yes    | Yes     | Yes             | Yes [^1] | Yes       |
-| Hosting method                | PHP    | Docker  | Node or Docker  | Go [^2]  | Docker    |
-| GDPR compliant                | Yes    | Yes     | Yes             | Yes [^3] | Yes       |
-| Email reports                 | Yes    | Yes     |                 |          | Yes       |
-| Tracking events               | Yes    | Yes     | Yes [^4]        |          | No        |
-| Simple (and pretty) dashboard | No     | Mostly  | Yes             | Yes      | Yes       |
-| Minimum RAM                   | 1GB    | 8GB     | 512MB [^5]      |          | 1GB       |
-| Supported Databases           | MySQL  |         | Postgres, MySQL | SQLite   |           |
-
-[^1]: An old and limited version is available, that is no longer maintained
-[^2]: The self-hosted (lite) version uses Go, the paid version uses [Laravel](https://github.com/usefathom/fathom/issues/336#issuecomment-1079549690).
-[^3]: Fathom is a Canadian based company, and while their servers are also in Canada, [they comply with EU regulations and laws](https://usefathom.com/features/eu-isolation).
-[^4]: unami doesn't track events automatically [and needs to be setup manually across the website](https://umami.is/docs/track-events).
-[^5]: unami doesn't list minimum requirements, so far from my testing, this is about what I needed for all my websites. For installs that have higher page visit counts, I imagine more would be needed.
-
-<Note text="This ain't a scientific featurelist" />
+|                               | Matomo | PostHog                    | umami                       | Fathom lite                  | Plausible                  |
+|-------------------------------|--------|----------------------------|-----------------------------|------------------------------|----------------------------|
+| Self-Hostable                 | Yes    | Yes                        | Yes                         | Yes [^fathom-self-host]      | Yes                        |
+| Hosting method                | PHP    | Docker                     | Node or Docker              | Go [^fathom-language]        | Docker                     |
+| GDPR compliant                | Yes    | Yes                        | Yes                         | No [^fathom-gdpr-compliance] | Yes                        |
+| Email reports                 | Yes    | Yes                        |                             |                              | Yes                        |
+| Tracking events               | Yes    | Yes                        | Yes [^umami-event-tracking] |                              | No                         |
+| Simple (and pretty) dashboard | No     | Mostly                     | Yes                         | Yes                          | Yes                        |
+| Minimum RAM                   | 1GB    | 8GB                        | 256MB [^umamo-memory-usage] |                              | 1GB                        |
+| Supported Databases           | MySQL  | N/A [^supported-databases] | Postgres or MySQL           | SQLite                       | N/A [^supported-databases] |
 
 ## So what was wrong with Plausible?
 
@@ -93,7 +97,7 @@ And here's a dashboard comparison, before umami and Plausible
 
 ## Now onto the fun stuff
 
-Here's the steps I've taken to setup umami, it's not meant as a tutorial, but hopefully will be helpful regardless...
+<Note text="As mencioned before, this isn't supposed to be a full tutorial, but the steps I've taken to setup up umami" />
 
 ### Alpine
 
@@ -112,11 +116,8 @@ apk add vim git
 
 ### Caddy
 
-<Note text="3000 is the default port for yarn, but adjust for your needs" />
-
 I didn't reaaaaaly need caddy for this, as it would mean the service would be behind two proxies, but I wanted to setup
 caddy anyway. It was quite simple really
-
 ```bash
 apk add caddy
 rc-update add caddy
@@ -126,69 +127,41 @@ rc-service caddy start
 mkdir /var/www/html
 ```
 
-Then, in `/etc/caddy`, we edit the `Caddyfile`
-
-```bash
-cd /etc/caddy
-vim Caddyfile
-```
-
-And add the following
-
+Then, in `/etc/caddy`, we edit the `Caddyfile`, use your favorite editor for this, but I like vim, so for me I would run
+`vim Caddyfile`. Then set the contents to the following
 ```caddyfile
-:8080 {
-  reverse_proxy localhost:3000
-}
+:8080
+reverse_proxy localhost:3000
 ```
+<Note text="3000 is the default port for yarn, but adjust for your needs" />
 
-And finally
-
-```bash
-# While still in /etc/caddy
-caddy reload
-```
+And finally we just need to reload the service, still within `/etc/caddy`, with `caddy reload`!
 
 ### Postgres
 
-It was slightly more manual than it is usually on ubuntu, but this is a great guide that still is relative
-https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/
+It was slightly more manual than I'm used to on Ubuntu, but I found [a great guide by luppeng](https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux)
+that is still up-to-date as of writing this.
 
-Then I just needed to make a database with a simple command.
+Then I just needed to get into the database with `psql -U postgres` and run `CREATE DATABASE umami;`.
 
-```sql
-CREATE DATABASE umami;
-```
+<Note text="Creating a user specific to this service, along with setting correct network permissions, would be the safest, but you can figure that out" />
 
 ### Installing umami
 
 The [official documentation](https://umami.is/docs/install) is the nicest, but there is some extra stuff you need todo
 outside-of their tutorial
 
-Firstly we make the required directory and clone the project
-
-```bash
-mkdir /var/www/html
-```
+Firstly we make the required directory and clone the project `mkdir /var/www/html`
 
 <Note text="Before you go any further, follow the official documentation, then come back :3" />
 
-### Setting up umami as a service
+Now we're gonna set umami as a service! [They have a guide on doing that with PM2](https://umami.is/docs/install#running-umami),
+but I prefer to use system native stuff, most likely for you this would be `systemd`, but if you're following along,
+we'll be using `openrc`
 
-While umami has a section on turning the project into a service, I prefer using what's already on the system for this,
-OpenRC!
-
-Making a service on OpenRC is actually quite simple,
-[they have a guide for making services too](https://github.com/OpenRC/openrc/blob/master/service-script-guide.md).
-
-First, make a user for the service, such as `umami`. Then run the following command to make, and edit, a file for the
-service
-
-```bash
-touch /etc/init.d/umami
-vim /etc/init.d/umami
-```
-
-And enter the following
+Making a service on OpenRC is actually quite simple,[they have a guide for making services too](https://github.com/OpenRC/openrc/blob/master/service-script-guide.md). But first, make a
+user for the service, such as `umami`. Next, we must make a file in `/etc/init.d`, such as `/etc/init.d/umami`. You can
+do this by simply running `vim /etc/init.d/umami` that'll create and open the file for you. Then enter the following
 
 ```bash
 #!/sbin/openrc-run
@@ -237,14 +210,28 @@ rc-update add umami
 rc-service umami start
 ```
 
-And we're done! You may also now notice new text on the bottom of the page
+And we're done! Depending on your network setup, and if you used caddy or not, you should be able to visit the page from
+something like `192.168.0.0:8000`, the default login is `admin`, `umami`.
+
+## Some thoughts
+
+You may also now notice new text on the bottom of the page
 
 > This website tracks anonymous analytics. To see them in action visit umami.leggy.dev!
 
-If you really don't like the idea of your visit being counted, run
+So far, I really enjoyed using umami, it's a nice project! But if you really don't like the idea of your visit being
+counted, just paste the following into the JS console of your browser.
 
 ```js
 localStorage.setItem("umami.disabled", 1);
 ```
 
-In the browser console to remove all future visit counts.
+All following visits will no-longer be counted. While I'd prefer your _not_ to remove yourself from the statistics, as
+they're useful to me, you have the option to now.
+
+[^fathom-self-host]: The paid version, that most people are probably know about, isn't self-hostable
+[^fathom-language]: The self-hosted (lite) version uses Go, the paid version uses [Laravel](https://github.com/usefathom/fathom/issues/336#issuecomment-1079549690).
+[^fathom-gdpr-compliance]: The paid version of Fathom [does comply, through their isolation layer](https://usefathom.com/features/eu-isolation), the lite version does not guarantee this.
+[^umami-event-tracking]: unami doesn't track events automatically [and needs to be setup manually across the website](https://umami.is/docs/track-events).
+[^umamo-memory-usage]: unami doesn't list minimum requirements, so far from my testing, this is about what I needed for all my websites. For installs that have higher page visit counts, I imagine more would be needed.
+[^supported-databases]: The service is run within Docker containers, so I don't get to choose what database I can actually use :(

@@ -1,13 +1,13 @@
-@import "vars";
+@use "vars";
 
-@import "reset";
-@import "main";
-@import "banner";
-@import "header";
-@import "section";
-@import "button";
-@import "pill";
-@import "pill_list";
-@import "project_list";
-@import "music";
-@import "certificate";
+@use "reset";
+@use "main";
+@use "banner";
+@use "header";
+@use "section";
+@use "button";
+@use "pill";
+@use "pill_list";
+@use "project_list";
+@use "music";
+@use "certificate";

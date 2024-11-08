@@ -1,3 +1,5 @@
+@use "vars";
+
 .pill {
     padding: 0 10px;
 
@@ -12,9 +14,9 @@
     font-size: 13px;
 
     border-radius: 99999px;
-    border: 2px solid rgba($light, 0.04);
-    background-color: $dark;
-    color: $light;
+    border: 2px solid rgba(vars.$light, 0.04);
+    background-color: vars.$dark;
+    color: vars.$light;
 
     list-style: none;
 
@@ -42,8 +44,8 @@ button.pill {
 
     &:hover,
     &:focus-visible {
-        border: 2px solid $accent;
-        background-color: rgba($accent, 0.1);
+        border: 2px solid vars.$accent;
+        background-color: rgba(vars.$accent, 0.1);
         outline: 0 solid transparent;
     }
 }
