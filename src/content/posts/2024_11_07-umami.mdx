@@ -4,18 +4,20 @@ title: umami
 description: Goob bye Plausible
 pubDate: 2024-11-07
 tags:
-- alpine
-- linux
-- webdev
-- networking
+    - alpine
+    - linux
+    - webdev
+    - networking
 ---
 
 import Note from "../../components/Note.astro";
 
 ## Why I went with umami
+
 Sike, before we talk about umami, lets talk about some of the other options I had, that I didn't go with
 
 ### Matomo
+
 I've seen Matomo get suggested in a few places before I went with Plausible originally, but I never checked it out till
 now. While it looked solid, it also has _too_ much stuff... I didn't need or want a heatmap of interactions throughout
 my website, nor session recording, or any ecommerce stuff.
@@ -23,6 +25,7 @@ my website, nor session recording, or any ecommerce stuff.
 Even with all that, I didn't particularly like the design, it was cluttered and confusing to go through the demo site.
 
 ### PostHog
+
 PostHog was the second thing I've checked out, while it looked promising, it was just too much along with not solving my
 problem of _having_ to use docker.
 
@@ -30,6 +33,7 @@ The requirements were also a bit insane for my needs, 8GBs of ram (recommended m
 CT running umami currently has.
 
 ### Fathom
+
 This was the last one I checked out before going with umami, I liked the design as it was similar to Plausible, and had
 the feature set that I was looking for, with no complicated dashboards.
 
@@ -39,11 +43,12 @@ maintained. Which is a shame, as it fathom looked promising and Go is a nice lan
 Maybe I could pick it up in the future, and bring it back to life again
 
 ## Services feature comparison
+
 Blank sections are due to me not being able to find information on said topic, also, features listed are things I
 specifically looked for.
 
 |                               | Matomo | PostHog | umami           | Fathom   | Plausible |
-|-------------------------------|--------|---------|-----------------|----------|-----------|
+| ----------------------------- | ------ | ------- | --------------- | -------- | --------- |
 | Self-Hostable                 | Yes    | Yes     | Yes             | Yes [^1] | Yes       |
 | Hosting method                | PHP    | Docker  | Node or Docker  | Go [^2]  | Docker    |
 | GDPR compliant                | Yes    | Yes     | Yes             | Yes [^3] | Yes       |
@@ -62,6 +67,7 @@ specifically looked for.
 <Note text="This ain't a scientific featurelist" />
 
 ## So what was wrong with Plausible?
+
 Simply put, too heavy for my use-case. It was designed for websites that see thousands of people per week, maybe even a
 day, but I haven't even reached a thousand views in a year! Secondly, docker, it has it's uses, but since all my
 services already run in LXT/Proxmox containers, no point of putting them within another container.
@@ -74,6 +80,7 @@ Downgrading - worked. But since database migrations have been complete, a lot of
 left it alone, until I was bothered with finding an alternative solution.
 
 ## umami
+
 Finally, something I was looking for, it has all the features I need, with not too much extra stuff I'll never use. AND
 it's self-hostable with a non-docker option!
 
@@ -85,15 +92,18 @@ And here's a dashboard comparison, before umami and Plausible
 ![Dashboard of my page on Plausible, showing a line-graph of activity on my website over the past year, peaking in June of 2024 and a counter of 339 unique visitors.](../../assets/posts/2024/11/plausible.png)
 
 ## Now onto the fun stuff
+
 Here's the steps I've taken to setup umami, it's not meant as a tutorial, but hopefully will be helpful regardless...
 
 ### Alpine
+
 For this, I went with Alpine! It was my first time trying it, but it went great, and will probably be moving all my
 services to it at some point, but that should be its own blog post. Main hurdle I had was understanding `OpenRC`, as
 Alpine doesn't use `systemd`, but once I gotten used to `rc-update add <service>` and
 `rc-service <service> start/stop/status` it went very smoothly.
 
 Obviously firstly we should update all the available packages and install some useful tools
+
 ```bash
 apk update
 apk upgrade
@@ -139,6 +149,7 @@ caddy reload
 ```
 
 ### Postgres
+
 It was slightly more manual than it is usually on ubuntu, but this is a great guide that still is relative
 https://luppeng.wordpress.com/2020/02/28/install-and-start-postgresql-on-alpine-linux/
 
@@ -149,6 +160,7 @@ CREATE DATABASE umami;
 ```
 
 ### Installing umami
+
 The [official documentation](https://umami.is/docs/install) is the nicest, but there is some extra stuff you need todo
 outside-of their tutorial
 
@@ -160,8 +172,8 @@ mkdir /var/www/html
 
 <Note text="Before you go any further, follow the official documentation, then come back :3" />
 
-
 ### Setting up umami as a service
+
 While umami has a section on turning the project into a service, I prefer using what's already on the system for this,
 OpenRC!
 
