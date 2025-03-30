@@ -1,0 +1,10 @@
+when:
+  - event: push
+    branch: main
+
+steps:
+  - name: build
+    image: node:23-alpine3.20
+    commands:
+      - npm install
+      - npm run build
