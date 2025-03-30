@@ -17,8 +17,8 @@ import Note from "../../components/Note.astro";
 This little blog post thang will be about umami, and why I went with it over fixing my Plausible install. While the
 reason is pretty simple, really and can be summed up in two points.
 
-- Its resource usage is low
- - Has (nearly) all the features I used in Plausible
+-   Its resource usage is low
+-   Has (nearly) all the features I used in Plausible
 
 I want to talk a bit about how I got to the point where I chosen it, and the steps I've taken to actually install and
 setup an Alpine CT with itttt
@@ -60,7 +60,7 @@ Maybe I could pick it up in the future, and bring it back to life again
 <Note text="Blank sections are due to me not being able to find information on the feature" />
 
 |                               | Matomo | PostHog                    | umami                       | Fathom lite                  | Plausible                  |
-|-------------------------------|--------|----------------------------|-----------------------------|------------------------------|----------------------------|
+| ----------------------------- | ------ | -------------------------- | --------------------------- | ---------------------------- | -------------------------- |
 | Self-Hostable                 | Yes    | Yes                        | Yes                         | Yes [^fathom-self-host]      | Yes                        |
 | Hosting method                | PHP    | Docker                     | Node or Docker              | Go [^fathom-language]        | Docker                     |
 | GDPR compliant                | Yes    | Yes                        | Yes                         | No [^fathom-gdpr-compliance] | Yes                        |
@@ -118,6 +118,7 @@ apk add vim git
 
 I didn't reaaaaaly need caddy for this, as it would mean the service would be behind two proxies, but I wanted to setup
 caddy anyway. It was quite simple really
+
 ```bash
 apk add caddy
 rc-update add caddy
@@ -129,10 +130,12 @@ mkdir /var/www/html
 
 Then, in `/etc/caddy`, we edit the `Caddyfile`, use your favorite editor for this, but I like vim, so for me I would run
 `vim Caddyfile`. Then set the contents to the following
+
 ```caddyfile
 :8080
 reverse_proxy localhost:3000
 ```
+
 <Note text="3000 is the default port for yarn, but adjust for your needs" />
 
 And finally we just need to reload the service, still within `/etc/caddy`, with `caddy reload`!
