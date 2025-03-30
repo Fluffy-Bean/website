@@ -1,3 +1,5 @@
+@use "vars";
+
 .button {
     padding: 0 20px;
 
@@ -18,8 +20,8 @@
 
     border-radius: 9999px;
     border: 0 solid transparent;
-    background-color: rgba($light, 0.04);
-    color: $light;
+    background-color: rgba(vars.$light, 0.04);
+    color: vars.$light;
 
     overflow: hidden;
 
@@ -34,7 +36,7 @@
         left: 0;
 
         border-radius: 9999px;
-        background-color: rgba($accent, 0.13);
+        background-color: rgba(vars.$accent, 0.13);
 
         opacity: 0;
         transform: scaleX(0%);

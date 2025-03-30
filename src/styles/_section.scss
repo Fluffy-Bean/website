@@ -1,3 +1,5 @@
+@use "vars";
+
 .section {
     padding-bottom: 32px;
 
@@ -10,7 +12,7 @@
     }
 
     > img {
-        border-radius: $radius;
+        border-radius: vars.$radius;
     }
 
     &:last-of-type {

@@ -1,3 +1,5 @@
+@use "vars";
+
 main {
     margin: 200px auto 0;
     padding: 32px;
@@ -11,11 +13,11 @@ main {
     flex-direction: column;
     flex-grow: 1;
 
-    border-top-left-radius: $radius;
-    border-top-right-radius: $radius;
-    border: 2px solid $gray;
+    border-top-left-radius: vars.$radius;
+    border-top-right-radius: vars.$radius;
+    border: 2px solid vars.$gray;
     border-bottom: 0 solid transparent;
-    background-color: $dark;
+    background-color: vars.$dark;
 
     box-shadow: 0 8px 8px rgba(#000, 0.3);
     z-index: 10;
@@ -28,6 +30,6 @@ main {
         margin: 32px 0;
 
         border: 0 solid transparent;
-        border-bottom: 2px solid $gray;
+        border-bottom: 2px solid vars.$gray;
     }
 }
