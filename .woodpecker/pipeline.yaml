@@ -1,0 +1,24 @@
+when:
+  - event: push
+    branch: main
+
+steps:
+  - name: build
+    image: node:23-alpine3.20
+    commands:
+      - npm install
+      - npm run build
+  - name: deploy
+    image: alpine:latest
+    commands:
+      - apk add --no-cache openssh-client
+      - mkdir -p ~/.ssh
+      - echo "$SSH_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh -o StrictHostKeyChecking=no uncertainty@192.168.0.42 "rm -r $COPY_TO || true"
+      - scp -o StrictHostKeyChecking=no -r $COPY_FROM uncertainty@192.168.0.42:$COPY_TO
+    environment:
+      COPY_FROM: dist
+      COPY_TO: /home/uncertainty/www/gay_leggy_dev
+      SSH_KEY:
+        from_secret: ssh_key
