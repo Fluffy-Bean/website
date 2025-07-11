@@ -13,13 +13,15 @@ steps:
       PUBLIC_COMMENTS: true
   - name: deploy
     image: alpine:latest
-    commands:
-      - apk add --no-cache openssh-client
-      - mkdir -p ~/.ssh
-      - echo "$SSH_KEY" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - ssh -o StrictHostKeyChecking=no uncertainty@192.168.178.29 "rm -r $COPY_TO || true"
-      - scp -o StrictHostKeyChecking=no -r $COPY_FROM uncertainty@192.168.178.29:$COPY_TO
+    commands: |
+      apk add --no-cache openssh-client
+
+      mkdir -p ~/.ssh
+      echo "$SSH_KEY" > ~/.ssh/id_rsa
+      chmod 600 ~/.ssh/id_rsa
+
+      ssh -o StrictHostKeyChecking=no uncertainty@192.168.178.84 "rm -r $COPY_TO || true"
+      scp -o StrictHostKeyChecking=no -r $COPY_FROM uncertainty@192.168.178.84:$COPY_TO
     environment:
       COPY_FROM: dist
       COPY_TO: /home/uncertainty/www/gay_leggy_dev
