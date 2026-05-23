@@ -1,0 +1,9 @@
+{{define "blocks.text" -}}
+
+{{$class := or .Class ""}}
+
+<div class="block text {{$class}}">
+    <p>{{.Text}}</p>
+</div>
+
+{{end}}

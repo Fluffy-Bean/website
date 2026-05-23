@@ -1,0 +1,20 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{range .Vars.Blogs}}
+    {{block "blog_entry" props
+        "Title" .Title
+        "Link" "/"
+    }}{{end}}
+{{end}}
+
+{{end}}
+
+{{define "blog_entry" -}}
+
+<div class="block text">
+    <p class="no-margin"><a href="{{printf "/blogs/%s" .Title}}">{{.Title}}</a></p>
+</div>
+
+{{end}}

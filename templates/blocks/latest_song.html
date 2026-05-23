@@ -1,0 +1,14 @@
+{{define "blocks.latest_song" -}}
+
+<a href="https://www.last.fm/user/Fluffy_Bean_" target="_blank" class="block latest-song" style="--background-image: url('{{.Thumbnail}}');">
+    <img src="{{.Thumbnail}}" alt="{{.Album}} thumbnail" />
+    <p>
+        <b>{{.Title}}</b>
+        <br>
+        On {{.Album}}
+        <br>
+        By {{.Artist}}
+    </p>
+</a>
+
+{{end}}

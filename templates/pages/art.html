@@ -1,0 +1,38 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+<div class="block image-grid">
+    {{range $i, $image := .Vars.Art}}
+        <button data-img-id="{{$i}}">
+            <img src="{{$image.File}}" alt="todo" />
+        </button>
+    {{end}}
+</div>
+
+{{template "blocks.text" props
+    "Class" "no-vertical-padding text-center"
+    "Text" "Images belong to me and the artists. Do not use as training data."
+}}
+
+<dialog id="fullscreen-view" class="fullscreen-view" closedby="any">
+    <img src="" alt="" />
+</dialog>
+
+<script>
+    const fullscreenView = document.querySelector("#fullscreen-view")
+    const buttons = document.querySelectorAll(".image-grid button")
+
+    for (const node of buttons) {
+        node.addEventListener("click", event => {
+            fullscreenView.showModal()
+
+            const src = node.querySelector("img")
+            const dst = fullscreenView.querySelector("img")
+
+            dst.src = src.src
+        })
+    }
+</script>
+
+{{end}}

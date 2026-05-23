@@ -1,0 +1,10 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{template "blocks.html" props
+    "Class" "blog"
+    "HTML" .Vars.BlogHTML
+}}
+
+{{end}}

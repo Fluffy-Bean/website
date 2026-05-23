@@ -1,0 +1,32 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{template "blocks.latest_song" props
+    "Title" .Vars.LatestSong.Title
+    "Album" .Vars.LatestSong.Album
+    "Artist" .Vars.LatestSong.Artist
+    "Thumbnail" .Vars.LatestSong.Thumbnail
+}}
+
+{{template "blocks.markdown" props "Markdown" `
+
+Hey!
+
+My name is Michał, but you'll usually see me going by Fluffy. My primary role in life is roleplaying a developer working
+with Svelte and Go. Though I enjoy C/C++ and Rust in my own time too, with the occasional dabbling in servers and game
+dev.
+
+I also like listening to music and playing games... when I have time!
+
+You can also find me on [Twitter](https://www.twitter.com/fluffybeanUwU), [Bluesky](https://bsky.app/profile/leggy.dev),
+[Telegram](https://t.me/Fluffy_Bean) and [GitHub](https://github.com/Fluffy-Bean).
+
+This site and its contents (unless specified) are open source under Mozilla Public License 2.0 and can be found on
+[GitHub](https://github.com/Fluffy-Bean/website) and my [mirror](https://git.leggy.dev/Fluffy/WebsiteFluffy).
+
+I use Arch btw.
+
+`}}
+
+{{end}}
