@@ -10,10 +10,11 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
-	"git.leggy.dev/Fluffy/Website/internal/handler"
+	"git.leggy.dev/Fluffy/Website/internal/handlers"
 	"git.leggy.dev/Fluffy/Website/internal/lastfm"
 	"git.leggy.dev/Fluffy/Website/internal/routes"
 	"git.leggy.dev/Fluffy/Website/internal/sse"
+	"git.leggy.dev/Fluffy/Website/internal/web"
 )
 
 const maxBodySize = 1 * 1024 * 1024 // 1mb
@@ -40,7 +41,7 @@ func main() {
 
 	s := sse.NewSSE(ctx)
 	l := lastfm.NewLastFM(ctx, f.lastfm)
-	h := handler.NewHandler(s, l, f.dataPath, f.secret)
+	h := web.NewHandler(s, l, f.dataPath, f.secret)
 	r := chi.NewRouter()
 
 	r.Use(middleware.Recoverer)
@@ -52,6 +53,10 @@ func main() {
 	routes.RegisterPagesRoutes(h, r)
 	routes.RegisterBlogRoutes(h, r)
 	routes.RegisterChatRoutes(h, r)
+
+	h.Events.RegisterHandler(handlers.RegisterUserJoinedHandler(h))
+	h.Events.RegisterHandler(handlers.RegisterUserLeftHandler(h))
+	l.Events.RegisterHandler(handlers.RegisterNewSongHandler(h))
 
 	listen := fmt.Sprintf("%s:%d", f.address, f.port)
 

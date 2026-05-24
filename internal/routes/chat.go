@@ -3,35 +3,35 @@ package routes
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"log/slog"
-	"math/rand"
+	"math/rand/v2"
 	"net/http"
 	"time"
 
 	"github.com/go-chi/chi/v5"
 
-	"git.leggy.dev/Fluffy/Website/internal/handler"
+	"git.leggy.dev/Fluffy/Website/internal/events"
 	"git.leggy.dev/Fluffy/Website/internal/sse"
+	"git.leggy.dev/Fluffy/Website/internal/web"
 )
 
 const maxMessageSize = 512 // chars
 
-func RegisterChatRoutes(h *handler.Handler, r *chi.Mux) {
+func RegisterChatRoutes(h *web.Handler, r *chi.Mux) {
 	r.Get("/chat", chatGet(h))
 	r.Post("/chat/send", chatSendPost(h))
 	r.Get("/chat/connect", chatConnectGet(h))
 }
 
-func chatGet(h *handler.Handler) http.HandlerFunc {
+func chatGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		h.Template(w, r, "templates/pages/chat.html", handler.Data{
+		h.Template(w, r, "templates/pages/chat.html", web.Data{
 			"MaxMessageSize": maxMessageSize,
 		})
 	}
 }
 
-func chatSendPost(h *handler.Handler) http.HandlerFunc {
+func chatSendPost(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		claims, err := h.GetToken(r)
 		if err != nil {
@@ -74,7 +74,7 @@ func chatSendPost(h *handler.Handler) http.HandlerFunc {
 	}
 }
 
-func chatConnectGet(h *handler.Handler) http.HandlerFunc {
+func chatConnectGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		rc := http.NewResponseController(w)
@@ -113,12 +113,16 @@ func chatConnectGet(h *handler.Handler) http.HandlerFunc {
 			return
 		}
 
-		time.AfterFunc(1*time.Second, func() {
-			conn.QueueMessage(sse.Message{
-				Name:  "System",
-				Value: fmt.Sprintf("Welcome %s to the chatroom! There are currently %d others here.", conn.Name, h.SSE.GetConnectionsCount()-1),
-			})
+		go h.Events.BroadcastEvent(events.UserJoined{
+			ID:   conn.ID,
+			Name: conn.Name,
 		})
+		defer func() {
+			go h.Events.BroadcastEvent(events.UserLeft{
+				ID:   conn.ID,
+				Name: conn.Name,
+			})
+		}()
 
 		rc.SetWriteDeadline(time.Now().Add(h.SSE.Heartbeat * 2))
 
@@ -197,12 +201,7 @@ func randomName() string {
 		"Zebra",
 	}
 
-	s := rand.NewSource(time.Now().Unix())
-	r := rand.New(s)
+	i := rand.IntN(len(animals))
 
-	//i := r.Intn(99)
-	a := r.Intn(len(animals))
-
-	//return fmt.Sprintf("%s %02d", animals[a], i)
-	return animals[a]
+	return animals[i]
 }

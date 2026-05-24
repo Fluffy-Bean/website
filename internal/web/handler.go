@@ -1,4 +1,4 @@
-package handler
+package web
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"path"
 	"time"
 
+	"git.leggy.dev/Fluffy/Website/internal/broker"
 	"git.leggy.dev/Fluffy/Website/internal/jwt"
 	"git.leggy.dev/Fluffy/Website/internal/lastfm"
 	"git.leggy.dev/Fluffy/Website/internal/sse"
@@ -24,6 +25,7 @@ type Data map[string]interface{}
 type Handler struct {
 	SSE       *sse.SSE
 	LastFM    *lastfm.LastFM
+	Events    *broker.Broker
 	createdAt time.Time
 	dataPath  string
 	secret    string
@@ -33,6 +35,7 @@ func NewHandler(s *sse.SSE, l *lastfm.LastFM, dataPath, secret string) *Handler 
 	return &Handler{
 		SSE:       s,
 		LastFM:    l,
+		Events:    broker.NewBroker(),
 		createdAt: time.Now().UTC(),
 		dataPath:  dataPath,
 		secret:    secret,

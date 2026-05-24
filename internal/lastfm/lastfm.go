@@ -8,6 +8,9 @@ import (
 	"net/url"
 	"sync"
 	"time"
+
+	"git.leggy.dev/Fluffy/Website/internal/broker"
+	"git.leggy.dev/Fluffy/Website/internal/events"
 )
 
 const baseURL = "https://ws.audioscrobbler.com/2.0/"
@@ -20,17 +23,18 @@ type LatestSong struct {
 }
 
 type LastFM struct {
-	latest *LatestSong
-
+	Events *broker.Broker
 	mut    sync.Mutex
 	cancel context.CancelFunc
 	key    string
+	latest *LatestSong
 }
 
 func NewLastFM(ctx context.Context, key string) *LastFM {
 	ctx, cancel := context.WithCancel(ctx)
 
 	l := &LastFM{
+		Events: broker.NewBroker(),
 		cancel: cancel,
 		key:    key,
 	}
@@ -112,6 +116,13 @@ func (l *LastFM) updateLatestSong() {
 
 	track := data.RecentTracks.Tracks[0]
 	image := track.Images[2]
+
+	if l.latest != nil && l.latest.Title != track.Name {
+		go l.Events.BroadcastEvent(events.NewSong{
+			Title:  track.Name,
+			Artist: track.Artist.Text,
+		})
+	}
 
 	l.latest = &LatestSong{
 		Title:     track.Name,

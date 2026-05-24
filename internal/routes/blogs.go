@@ -9,12 +9,12 @@ import (
 	"github.com/yuin/goldmark"
 
 	"git.leggy.dev/Fluffy/Website/internal/blog"
-	"git.leggy.dev/Fluffy/Website/internal/handler"
+	"git.leggy.dev/Fluffy/Website/internal/web"
 )
 
 var blogs map[string]blog.Blog
 
-func RegisterBlogRoutes(h *handler.Handler, r *chi.Mux) {
+func RegisterBlogRoutes(h *web.Handler, r *chi.Mux) {
 	blogs = make(map[string]blog.Blog)
 
 	files, err := os.ReadDir(h.DataPath("blogs"))
@@ -44,15 +44,15 @@ func RegisterBlogRoutes(h *handler.Handler, r *chi.Mux) {
 	r.Get("/blogs/{blogID}", blogGet(h))
 }
 
-func blogListGet(h *handler.Handler) http.HandlerFunc {
+func blogListGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		h.Template(w, r, "templates/pages/blog_list.html", handler.Data{
+		h.Template(w, r, "templates/pages/blog_list.html", web.Data{
 			"Blogs": blogs,
 		})
 	}
 }
 
-func blogGet(h *handler.Handler) http.HandlerFunc {
+func blogGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		blogID := chi.URLParam(r, "blogID")
 
@@ -63,7 +63,7 @@ func blogGet(h *handler.Handler) http.HandlerFunc {
 			return
 		}
 
-		h.Template(w, r, "templates/pages/blog_post.html", handler.Data{
+		h.Template(w, r, "templates/pages/blog_post.html", web.Data{
 			"BlogHTML": b.Data.String(),
 		})
 	}
