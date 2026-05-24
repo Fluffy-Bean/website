@@ -69,9 +69,6 @@ func (l *LastFM) GetLatestSong() *LatestSong {
 }
 
 func (l *LastFM) updateLatestSong() {
-	l.mut.Lock()
-	defer l.mut.Unlock()
-
 	values := url.Values{}
 	values.Set("method", "user.getrecenttracks")
 	values.Set("limit", "1")
@@ -113,6 +110,9 @@ func (l *LastFM) updateLatestSong() {
 	if len(data.RecentTracks.Tracks) == 0 {
 		return
 	}
+
+	l.mut.Lock()
+	defer l.mut.Unlock()
 
 	track := data.RecentTracks.Tracks[0]
 	image := track.Images[2]
