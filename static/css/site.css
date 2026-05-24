@@ -123,6 +123,7 @@
 
     .block {
         padding: 16px 24px;
+        display: block;
         background: rgba(var(--color-a) / 1);
         color: rgba(var(--color-b) / 1);
     }

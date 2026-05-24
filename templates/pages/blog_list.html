@@ -3,9 +3,9 @@
 {{define "content"}}
 
 {{range .Vars.Blogs}}
-    <div class="block text">
-        <p class="no-margin"><a href="{{printf "/blogs/%s" .Slug}}">{{.Title}}</a></p>
-    </div>
+    <a href="{{printf "/blogs/%s" .Slug}}" class="block text">
+        {{.Title}}
+    </a>
 {{end}}
 
 {{end}}
