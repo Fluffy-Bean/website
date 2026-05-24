@@ -10,7 +10,6 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"git.leggy.dev/Fluffy/Website/internal/events"
 	"git.leggy.dev/Fluffy/Website/internal/sse"
 	"git.leggy.dev/Fluffy/Website/internal/web"
 )
@@ -112,17 +111,6 @@ func chatConnectGet(h *web.Handler) http.HandlerFunc {
 
 			return
 		}
-
-		go h.Events.BroadcastEvent(events.UserJoined{
-			ID:   conn.ID,
-			Name: conn.Name,
-		})
-		defer func() {
-			go h.Events.BroadcastEvent(events.UserLeft{
-				ID:   conn.ID,
-				Name: conn.Name,
-			})
-		}()
 
 		rc.SetWriteDeadline(time.Now().Add(h.SSE.Heartbeat * 2))
 

@@ -54,8 +54,9 @@ func main() {
 	routes.RegisterBlogRoutes(h, r)
 	routes.RegisterChatRoutes(h, r)
 
-	h.Events.RegisterHandler(handlers.RegisterUserJoinedHandler(h))
-	h.Events.RegisterHandler(handlers.RegisterUserLeftHandler(h))
+	// Join and leave events are currently unreliable...
+	//s.Events.RegisterHandler(handlers.RegisterUserJoinedHandler(h))
+	//s.Events.RegisterHandler(handlers.RegisterUserLeftHandler(h))
 	l.Events.RegisterHandler(handlers.RegisterNewSongHandler(h))
 
 	listen := fmt.Sprintf("%s:%d", f.address, f.port)

@@ -6,14 +6,17 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"git.leggy.dev/Fluffy/Website/internal/broker"
 )
 
 type SSE struct {
+	Events      *broker.Broker
+	Heartbeat   time.Duration
 	counter     atomic.Int64
 	mut         sync.Mutex
 	cancel      context.CancelFunc
 	connections map[int64]*Connection
-	Heartbeat   time.Duration
 }
 
 func NewSSE(ctx context.Context) *SSE {
@@ -21,9 +24,10 @@ func NewSSE(ctx context.Context) *SSE {
 	heartbeat := 5 * time.Second
 
 	s := &SSE{
+		Events:      broker.NewBroker(),
+		Heartbeat:   heartbeat,
 		connections: make(map[int64]*Connection),
 		cancel:      cancel,
-		Heartbeat:   heartbeat,
 	}
 
 	go func() {
