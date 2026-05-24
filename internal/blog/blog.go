@@ -2,9 +2,12 @@ package blog
 
 import (
 	"bytes"
+	"time"
 )
 
 type Blog struct {
-	Title string
-	Data  bytes.Buffer
+	Slug        string
+	Title       string
+	PublishedAt time.Time
+	Data        bytes.Buffer
 }

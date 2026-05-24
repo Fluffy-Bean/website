@@ -1,3 +1,4 @@
+# Astro is hard
 
 Hello! Welcome to my new website, or at least as of writing this blog.
 It's been written from scratch with Astro, Typescript and a lot of suffering, mostly due to bugs and random annoyances...
@@ -143,8 +144,3 @@ that's a win!
 
 I'm hoping to write more blogs in the future, mainly to practice my writing skills, and sharing my options publicly,
 regardless if it's something political or programming related. But life's in a tangle right now
-
-<div style="width: 200px">
-    ![Maned Wolf art by Pulex](../../assets/posts/2024/05/pulex_leg.webp) [Art
-    by Pulex](https://www.pulexart.com/)
-</div>

@@ -3,7 +3,9 @@ package routes
 import (
 	"net/http"
 	"os"
+	"slices"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/yuin/goldmark"
@@ -23,9 +25,28 @@ func RegisterBlogRoutes(h *web.Handler, r *chi.Mux) {
 	}
 
 	for _, file := range files {
-		var blogData blog.Blog
+		if strings.HasPrefix(file.Name(), "_") {
+			continue
+		}
 
-		blogData.Title = strings.TrimSuffix(file.Name(), ".md")
+		slug := strings.TrimSuffix(file.Name(), ".md")
+
+		parts := strings.Split(slug, "-")
+		if len(parts) != 2 {
+			panic("unexpected file name, want yyyy_mm_dd-snake_case_title: " + file.Name())
+		}
+
+		publishedAt, err := time.Parse("2006_01_02", parts[0])
+		if err != nil {
+			panic("unexpected file name: " + err.Error())
+		}
+
+		title := strings.ReplaceAll(parts[1], "_", " ")
+
+		var blogData blog.Blog
+		blogData.Slug = slug
+		blogData.Title = title
+		blogData.PublishedAt = publishedAt.UTC()
 
 		f, err := os.ReadFile(h.DataPath("blogs/" + file.Name()))
 		if err != nil {
@@ -37,7 +58,7 @@ func RegisterBlogRoutes(h *web.Handler, r *chi.Mux) {
 			panic("convert blog post: " + err.Error())
 		}
 
-		blogs[blogData.Title] = blogData
+		blogs[slug] = blogData
 	}
 
 	r.Get("/blogs", blogListGet(h))
@@ -46,8 +67,20 @@ func RegisterBlogRoutes(h *web.Handler, r *chi.Mux) {
 
 func blogListGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var sorted []blog.Blog
+		for _, b := range blogs {
+			sorted = append(sorted, b)
+		}
+
+		slices.SortFunc(sorted, func(a, b blog.Blog) int {
+			if !a.PublishedAt.Before(b.PublishedAt) {
+				return -1
+			}
+			return 0
+		})
+
 		h.Template(w, r, "templates/pages/blog_list.html", web.Data{
-			"Blogs": blogs,
+			"Blogs": sorted,
 		})
 	}
 }
@@ -63,8 +96,12 @@ func blogGet(h *web.Handler) http.HandlerFunc {
 			return
 		}
 
+		oldBlogTime := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+		isOldBlog := b.PublishedAt.Before(oldBlogTime)
+
 		h.Template(w, r, "templates/pages/blog_post.html", web.Data{
-			"BlogHTML": b.Data.String(),
+			"IsOldBlog": isOldBlog,
+			"BlogHTML":  b.Data.String(),
 		})
 	}
 }
