@@ -85,13 +85,6 @@ func (h *Handler) Template(w http.ResponseWriter, r *http.Request, path string, 
 		return
 	}
 
-	templ, err = h.parseTemplatesDir("templates/partials", templ)
-	if err != nil {
-		slog.Error("get partial templates", "error", err)
-
-		return
-	}
-
 	templ, err = h.parseTemplatesDir("templates/blocks", templ)
 	if err != nil {
 		slog.Error("get block templates", "error", err)

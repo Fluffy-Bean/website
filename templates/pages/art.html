@@ -2,6 +2,10 @@
 
 {{define "content"}}
 
+{{template "blocks.notice" props
+    "Text" "Images belong to me and the respective artists. Do not repost or use as training data."
+}}
+
 <div class="block image-grid">
     {{range $i, $image := .Vars.Art}}
         <button data-img-id="{{$i}}">
@@ -9,11 +13,6 @@
         </button>
     {{end}}
 </div>
-
-{{template "blocks.text" props
-    "Class" "no-vertical-padding text-center"
-    "Text" "Images belong to me and the artists. Do not use as training data."
-}}
 
 <dialog id="fullscreen-view" class="fullscreen-view" closedby="any">
     <img src="" alt="" />

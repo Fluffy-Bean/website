@@ -9,23 +9,24 @@
     <link rel="stylesheet" href="/static/css/site.css">
 </head>
 <body>
-    <div class="content">
-        <div class="ribbon"></div>
-        <main>
-            <section>
-                <div class="area">
-                    <h1>Leggy Land</h1>
-                    <p>Made with coffee, lots of it.</p>
-                </div>
-                <div class="supporting">
-                    {{template "partials.nav"}}
-                </div>
-            </section>
+    <header>
+        <div class="block">
+            <h1>Leggy Land</h1>
+            <p>Made with coffee, lots of it.</p>
+        </div>
 
-            <section>
-                {{block "content" .}}{{end}}
-            </section>
-        </main>
-    </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/art">Art</a></li>
+                <li><a href="/blogs">Blogs</a></li>
+                <li><a href="/chat">Chat</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {{block "content" .}}{{end}}
+    </main>
 </body>
 </html>
