@@ -2,7 +2,6 @@ package routes
 
 import (
 	"net/http"
-	"os"
 	"slices"
 	"strings"
 	"time"
@@ -19,9 +18,9 @@ var blogs map[string]blog.Blog
 func RegisterBlogRoutes(h *web.Handler, r *chi.Mux) {
 	blogs = make(map[string]blog.Blog)
 
-	files, err := os.ReadDir(h.DataPath("blogs"))
+	files, err := h.ReadDataDir("blogs")
 	if err != nil {
-		panic("read blogs directory: " + err.Error())
+		panic("read blogs folder: " + err.Error())
 	}
 
 	for _, file := range files {
@@ -48,9 +47,9 @@ func RegisterBlogRoutes(h *web.Handler, r *chi.Mux) {
 		blogData.Title = title
 		blogData.PublishedAt = publishedAt.UTC()
 
-		f, err := os.ReadFile(h.DataPath("blogs/" + file.Name()))
+		f, err := h.ReadDataFile("blogs/" + file.Name())
 		if err != nil {
-			panic("read blog data: " + err.Error())
+			panic("read blog file: " + err.Error())
 		}
 
 		err = goldmark.Convert(f, &blogData.Data)
@@ -79,7 +78,7 @@ func blogListGet(h *web.Handler) http.HandlerFunc {
 			return 0
 		})
 
-		h.Template(w, r, "templates/pages/blog_list.html", web.Data{
+		h.Template(w, r, "blog_list.html", web.Data{
 			"Blogs": sorted,
 		})
 	}
@@ -99,7 +98,7 @@ func blogGet(h *web.Handler) http.HandlerFunc {
 		oldBlogTime := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
 		isOldBlog := b.PublishedAt.Before(oldBlogTime)
 
-		h.Template(w, r, "templates/pages/blog_post.html", web.Data{
+		h.Template(w, r, "blog_post.html", web.Data{
 			"IsOldBlog": isOldBlog,
 			"BlogHTML":  b.Data.String(),
 		})

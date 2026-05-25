@@ -24,7 +24,7 @@ func RegisterChatRoutes(h *web.Handler, r *chi.Mux) {
 
 func chatGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		h.Template(w, r, "templates/pages/chat.html", web.Data{
+		h.Template(w, r, "chat.html", web.Data{
 			"MaxMessageSize": maxMessageSize,
 		})
 	}

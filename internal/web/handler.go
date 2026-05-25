@@ -9,10 +9,12 @@ import (
 	"path"
 	"time"
 
+	"git.leggy.dev/Fluffy/Website/data"
 	"git.leggy.dev/Fluffy/Website/internal/broker"
 	"git.leggy.dev/Fluffy/Website/internal/jwt"
 	"git.leggy.dev/Fluffy/Website/internal/lastfm"
 	"git.leggy.dev/Fluffy/Website/internal/sse"
+	"git.leggy.dev/Fluffy/Website/templates"
 )
 
 const (
@@ -42,23 +44,29 @@ func NewHandler(s *sse.SSE, l *lastfm.LastFM, dataPath, secret string) *Handler 
 	}
 }
 
-func (h *Handler) DataPath(dir string) string {
-	return path.Join(h.dataPath, dir)
+func (h *Handler) ReadDataFile(file string) ([]byte, error) {
+	if _, err := os.Stat("data"); err != nil {
+		return data.Dir.ReadFile(file)
+	}
+	return os.ReadFile(path.Join("data", file))
 }
 
-func (h *Handler) parseTemplatesDir(dir string, templ *template.Template) (*template.Template, error) {
-	files, err := os.ReadDir(dir)
-	if err != nil {
-		slog.Error("read templates dir", "error", err)
+func (h *Handler) ReadDataDir(dir string) ([]os.DirEntry, error) {
+	if _, err := os.Stat("data"); err != nil {
+		return data.Dir.ReadDir(dir)
+	}
+	return os.ReadDir(path.Join("data", dir))
+}
 
-		return nil, err
+func (h *Handler) templateParse(templ *template.Template, patterns ...string) (*template.Template, error) {
+	if _, err := os.Stat("templates"); err != nil {
+		return templ.ParseFS(templates.Dir, patterns...)
 	}
 
-	for _, file := range files {
-		templ, err = templ.ParseFiles(path.Join(dir, file.Name()))
+	var err error
+	for _, pattern := range patterns {
+		templ, err = templ.ParseFiles(path.Join("templates", pattern))
 		if err != nil {
-			slog.Error("parse template file", "error", err)
-
 			return nil, err
 		}
 	}
@@ -66,30 +74,42 @@ func (h *Handler) parseTemplatesDir(dir string, templ *template.Template) (*temp
 	return templ, nil
 }
 
-func (h *Handler) Template(w http.ResponseWriter, r *http.Request, path string, vars Data) {
+func (h *Handler) ReadTemplatesDir(dir string) ([]os.DirEntry, error) {
+	if _, err := os.Stat("templates"); err != nil {
+		return templates.Dir.ReadDir(dir)
+	}
+	return os.ReadDir(path.Join("templates", dir))
+}
+
+func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, vars Data) {
+	var templ *template.Template
 	var err error
 
-	templ := template.New("layout.html").Funcs(templateFuncs)
+	templ = template.New("layout.html").Funcs(templateFuncs)
 
-	templ, err = templ.ParseFiles("templates/layout.html", path)
+	templ, err = h.templateParse(templ, "layout.html", path.Join("pages", page))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 
 		return
 	}
 
-	templ, err = h.parseTemplatesDir("templates/blocks", templ)
+	blocks, err := h.ReadTemplatesDir("blocks")
 	if err != nil {
-		slog.Error("get block templates", "error", err)
+		slog.Error("read templates dir", "error", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 
 		return
 	}
 
-	templ, err = h.parseTemplatesDir("templates/blocks", templ)
-	if err != nil {
-		slog.Error("get block templates", "error", err)
+	for _, block := range blocks {
+		templ, err = h.templateParse(templ, path.Join("blocks", block.Name()))
+		if err != nil {
+			slog.Error("parse template file", "error", err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 
-		return
+			return
+		}
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

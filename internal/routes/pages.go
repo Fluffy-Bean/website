@@ -3,7 +3,6 @@ package routes
 import (
 	"encoding/json"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 
@@ -19,14 +18,14 @@ func homeGet(h *web.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		latestSong := h.LastFM.GetLatestSong()
 
-		h.Template(w, r, "templates/pages/home.html", web.Data{
+		h.Template(w, r, "home.html", web.Data{
 			"LatestSong": latestSong,
 		})
 	}
 }
 
 func fursonaGet(h *web.Handler) http.HandlerFunc {
-	file, err := os.ReadFile(h.DataPath("art.json"))
+	file, err := h.ReadDataFile("art.json")
 	if err != nil {
 		panic("read art file: " + err.Error())
 	}
@@ -39,7 +38,7 @@ func fursonaGet(h *web.Handler) http.HandlerFunc {
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		h.Template(w, r, "templates/pages/fursona.html", web.Data{
+		h.Template(w, r, "fursona.html", web.Data{
 			"Art": images,
 		})
 	}
