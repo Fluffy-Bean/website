@@ -99,6 +99,9 @@
     }
 
     a {
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 400;
         color: currentColor;
     }
     a:hover {
@@ -167,6 +170,11 @@
         max-height: 400px;
         height: auto;
         display: block;
+    }
+
+    .block.image img {
+        margin: 0 auto;
+        max-height: none;
     }
 
     .block.notice {

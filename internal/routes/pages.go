@@ -12,7 +12,7 @@ import (
 
 func RegisterPagesRoutes(h *web.Handler, r *chi.Mux) {
 	r.Get("/", homeGet(h))
-	r.Get("/art", artGet(h))
+	r.Get("/fursona", fursonaGet(h))
 }
 
 func homeGet(h *web.Handler) http.HandlerFunc {
@@ -25,7 +25,7 @@ func homeGet(h *web.Handler) http.HandlerFunc {
 	}
 }
 
-func artGet(h *web.Handler) http.HandlerFunc {
+func fursonaGet(h *web.Handler) http.HandlerFunc {
 	file, err := os.ReadFile(h.DataPath("art.json"))
 	if err != nil {
 		panic("read art file: " + err.Error())
@@ -39,7 +39,7 @@ func artGet(h *web.Handler) http.HandlerFunc {
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		h.Template(w, r, "templates/pages/art.html", web.Data{
+		h.Template(w, r, "templates/pages/fursona.html", web.Data{
 			"Art": images,
 		})
 	}
