@@ -7,7 +7,7 @@ steps:
     image: 1.26.3-alpine3.23
     commands:
       - go mod tidy
-      - go build -o www cmd/website/main.go
+      - go build -o dist/www cmd/website/main.go
   - name: deploy
     image: alpine:latest
     commands: |
@@ -22,7 +22,7 @@ steps:
 
       ssh -tt -o StrictHostKeyChecking=no uncertainty@192.168.178.31 "doas service www-gay-leggy-dev restart"
     environment:
-      COPY_FROM: www
+      COPY_FROM: dist/www
       COPY_TO: /home/uncertainty/www/gay_leggy_dev/www
       SSH_KEY:
         from_secret: ssh_key
