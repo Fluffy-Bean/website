@@ -20,7 +20,7 @@ steps:
       ssh -tt -o StrictHostKeyChecking=no uncertainty@192.168.178.81 "rm -r $COPY_TO || true"
       scp -o StrictHostKeyChecking=no -r $COPY_FROM uncertainty@192.168.178.81:$COPY_TO
 
-      ssh -tt -o StrictHostKeyChecking=no uncertainty@192.168.178.31 "doas service www-gay-leggy-dev restart"
+      ssh -tt -o StrictHostKeyChecking=no uncertainty@192.168.178.81 "doas service www-gay-leggy-dev restart"
     environment:
       COPY_FROM: dist/www
       COPY_TO: /home/uncertainty/www/gay_leggy_dev/www
