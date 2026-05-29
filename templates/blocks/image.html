@@ -1,0 +1,7 @@
+{{define "blocks.image" -}}
+
+<div class="block image">
+    <img src="{{.Src}}" alt="{{.Alt}}" {{if .Width}}width="{{.Width}}"{{end}} {{if .Height}}height="{{.Height}}"{{end}} />
+</div>
+
+{{end}}

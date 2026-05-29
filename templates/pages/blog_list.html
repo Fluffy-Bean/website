@@ -1,0 +1,11 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{range .Vars.Blogs}}
+    <a href="{{printf "/blogs/%s" .Slug}}" class="block text">
+        {{.Title}}
+    </a>
+{{end}}
+
+{{end}}

@@ -1,0 +1,9 @@
+{{define "blocks.markdown" -}}
+
+{{$class := or .Class ""}}
+
+<div class="block markdown {{$class}}">
+    {{markdown .Markdown}}
+</div>
+
+{{end}}

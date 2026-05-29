@@ -1,0 +1,37 @@
+#!/sbin/openrc-run
+
+WWW_USER="uncertainty"
+WWW_CMD="/home/uncertainty/www/gay_leggy_dev/www"
+APP_NAME="www-gay-leggy-dev"
+
+command="$WWW_CMD"
+command_args="-secret=balls -last-fm=balls -address=127.0.0.1 -port=3000"
+command_user="$WWW_USER"
+pidfile="/var/run/${APP_NAME}.pid"
+output_log="/var/log/${APP_NAME}.log"
+error_log="/var/log/${APP_NAME}_error.log"
+
+depend() {
+        need net
+}
+
+start() {
+        ebegin "Starting ${APP_NAME}"
+
+        start-stop-daemon --start               \
+                          --background          \
+                          --user "$WWW_USER" \
+                          --make-pidfile        \
+                          --pidfile "$pidfile"  \
+                          --exec "$command" -- $command_args >> "$output_log" 2>> "$error_log"
+
+        eend $?
+}
+
+stop() {
+        ebegin "Stopping ${APP_NAME}"
+
+        start-stop-daemon --stop --pidfile "$pidfile"
+
+        eend $?
+}

@@ -1,0 +1,80 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{$systemName := "System"}}
+
+{{template "blocks.notice" props
+    "Text" "This chat is unmoderated and messages are anonymous; stay cautious!"
+}}
+
+<ul id="chat-history" class="chat-history">
+    <li>[{{$systemName}}] Connecting to chat...</li>
+</ul>
+
+<form id="message-box" class="message-box">
+    <div class="composer">
+        <input aria-label="Message composer" type="text" name="message" placeholder="Write a lovely message..." maxlength="{{.Vars.MaxMessageSize}}" />
+    </div>
+    <button class="submit-message" aria-label="Send message">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg>
+    </button>
+</form>
+
+<script>
+    const sse = new EventSource("/chat/connect")
+
+    const chatHistory = document.querySelector("#chat-history")
+    const messageBox = document.querySelector("#message-box")
+
+    messageBox.addEventListener("submit", event => {
+        event.preventDefault()
+
+        const input = event.target.querySelector("input")
+        const value = input.value
+
+        if (value.trim() === "") {
+            return
+        }
+
+        fetch("/chat/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: value.trim() }),
+        })
+
+        input.value = ""
+    })
+
+    sse.addEventListener("open", event => {
+        sendMessage(chatHistory, "{{$systemName}}", "Connected successfully!")
+    })
+
+    sse.addEventListener("error", event => {
+        console.error("[sse] connection error:", event)
+
+        sendMessage(chatHistory, "{{$systemName}}", "An error occurred, reconnecting...")
+    })
+
+    sse.addEventListener("message", event => {
+        const parts = event.data.split(".")
+        if (parts.length !== 2) {
+            console.error("[sse] malformed message received from server:", event.data)
+        }
+
+        const username = decodeURIComponent(escape(atob(parts[0])))
+        const message = decodeURIComponent(escape(atob(parts[1])))
+
+        sendMessage(chatHistory, username, message)
+    })
+
+    function sendMessage(parent, from, message) {
+        const element = document.createElement("li")
+        element.innerText = `[${from}] ${message}`
+
+        parent.appendChild(element)
+        parent.scrollTo({ behavior: "smooth", top: parent.scrollHeight })
+    }
+</script>
+
+{{end}}

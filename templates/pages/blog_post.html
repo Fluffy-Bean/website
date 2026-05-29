@@ -1,0 +1,16 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{if .Vars.IsOldBlog}}
+    {{template "blocks.notice" props
+        "Text" "This is an old blog! Its contents may not render properly and contain inaccurate/out of date information."
+    }}
+{{end}}
+
+{{template "blocks.html" props
+    "Class" "blog"
+    "HTML" .Vars.BlogHTML
+}}
+
+{{end}}

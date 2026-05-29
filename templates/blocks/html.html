@@ -1,0 +1,9 @@
+{{define "blocks.html" -}}
+
+{{$class := or .Class ""}}
+
+<div class="block text {{$class}}">
+    {{noescape .HTML}}
+</div>
+
+{{end}}

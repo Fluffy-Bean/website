@@ -1,0 +1,57 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{template "blocks.markdown" props "Markdown" `
+
+Fluffy is a [Maned wolf](https://en.wikipedia.org/wiki/Maned_wolf), he's very
+orange, tall and originally doodled in MSPaint. There is not really much more
+to say about the character as he's a representation of me.
+
+I've been in the fandom "officially" since 2019, but been known of it/lurking
+since as long as I can remember. My first con was NFC 26 and planning to go back
+next year; if I win the hotel room fight...
+
+I also have a [Telegram sticker pack](https://t.me/addstickers/FluffyBean).
+
+I don't own a fursuit (yet) but there is some art for you to stare at below!
+
+`}}
+
+{{template "blocks.notice" props
+    "Text" "Images belong to me and the respective artists. Do not repost or use as training data."
+}}
+
+<div class="block image-grid">
+    {{range $i, $image := .Vars.Art}}
+        <button data-img-id="{{$i}}">
+            <img src="{{$image.File}}" alt="todo" />
+        </button>
+    {{end}}
+</div>
+
+{{template "blocks.image" props
+    "Src" "/assets/refsheet.png"
+}}
+
+<dialog id="fullscreen-view" class="fullscreen-view" closedby="any">
+    <img src="" alt="" />
+</dialog>
+
+<script>
+    const fullscreenView = document.querySelector("#fullscreen-view")
+    const buttons = document.querySelectorAll(".image-grid button")
+
+    for (const node of buttons) {
+        node.addEventListener("click", event => {
+            fullscreenView.showModal()
+
+            const src = node.querySelector("img")
+            const dst = fullscreenView.querySelector("img")
+
+            dst.src = src.src
+        })
+    }
+</script>
+
+{{end}}
