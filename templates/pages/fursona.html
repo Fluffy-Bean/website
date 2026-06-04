@@ -34,14 +34,29 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
     "Src" "/assets/refsheet.png"
 }}
 
-<dialog id="fullscreen-view" class="fullscreen-view" closedby="any">
+<dialog id="fullscreen-view" closedby="any">
     <img class="fullscreen-view__image" src="" alt="" />
     <h3 class="fullscreen-view__artist"></h3>
     <ul class="fullscreen-view__socials"></ul>
 </dialog>
 
+<dialog id="nsfw-warning" closedby="any">
+    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="currentColor"><path d="m40-120 440-760 440 760H40Zm466.5-127.62q9.5-9.61 9.5-23.83 0-14.22-9.62-23.72-9.61-9.5-23.83-9.5-14.22 0-23.72 9.62-9.5 9.62-9.5 23.83 0 14.22 9.62 23.72 9.62 9.5 23.83 9.5 14.22 0 23.72-9.62ZM449.33-352H516v-216h-66.67v216Z"/></svg>
+
+    <p style="margin-top: 0">The following link may contain NSFW content, continue?</p>
+
+    <div class="row">
+        <button class="btn nsfw-warning__close" commandfor="nsfw-warning" command="close">I want out!</button>
+        <a class="btn nsfw-warning__accept" href="#" target="_blank">Continue</a>
+    </div>
+</dialog>
+
 <script>
-    const fullscreenView = document.querySelector("#fullscreen-view")
+    const HIDE_URL = "portfolio.leggy.dev"
+
+    const fsDialog = document.querySelector("#fullscreen-view")
+    const nsfwDialog = document.querySelector("#nsfw-warning")
+
     const buttons = document.querySelectorAll(".image-grid button")
 
     const artists = {
@@ -63,13 +78,18 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
             const artist = artists[node.dataset.artistId]
             const image = node.querySelector("img")
 
-            fullscreenView.querySelector(".fullscreen-view__image").src = image.src
-            fullscreenView.querySelector(".fullscreen-view__artist").innerText = artist.name
+            fsDialog.querySelector(".fullscreen-view__image").src = image.src
+            fsDialog.querySelector(".fullscreen-view__artist").innerText = artist.name
 
-            const ul = fullscreenView.querySelector(".fullscreen-view__socials")
+            const ul = fsDialog.querySelector(".fullscreen-view__socials")
             ul.innerHTML = ""
 
             for (const social of artist.socials) {
+                // Don't link to artists entirely on my more "professional" url
+                if (artist.nsfw && window.location.href.includes(HIDE_URL)) {
+                    continue
+                }
+
                 const li = document.createElement("li")
 
                 const a = document.createElement("a")
@@ -77,11 +97,22 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
                 a.setAttribute("target", "_blank")
                 a.innerText = social.name
 
+                if (artist.nsfw) {
+                    a.addEventListener("click", event => {
+                        event.preventDefault()
+
+                        const link = event.target.getAttribute("href")
+
+                        nsfwDialog.querySelector(".nsfw-warning__accept").setAttribute("href", link)
+                        nsfwDialog.showModal()
+                    })
+                }
+
                 li.appendChild(a)
                 ul.appendChild(li)
             }
 
-            fullscreenView.showModal()
+            fsDialog.showModal()
         })
     }
 </script>
