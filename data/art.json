@@ -1,14 +1,68 @@
-[
-	{ "file": "/assets/art/anchee/wink.jpg" },
-	{ "file": "/assets/art/jaylacine/mr_wolp.png" },
-	{ "file": "/assets/art/easyvock/autistic_stare.png" },
-	{ "file": "/assets/art/oggy/67.png" },
-	{ "file": "/assets/art/oggy/mood.png" },
-	{ "file": "/assets/art/zadok/taidum.png" },
-	{ "file": "/assets/art/zadok/cross_eye.png" },
-	{ "file": "/assets/art/pulex/please.png" },
-	{ "file": "/assets/art/pulex/kiss.png" },
-	{ "file": "/assets/art/pulex/eeee.png" },
-	{ "file": "/assets/art/shep/sneak.png" },
-	{ "file": "/assets/art/shep/heart.png" }
-]
+{
+	"artists": {
+		"Anchee": {
+			"nsfw": true,
+			"socials": {
+				"Twitter": "https://twitter.com/AnChee950249",
+				"Furaffinity": "https://www.furaffinity.net/user/anchee"
+			}
+		},
+		"Jaylacine": {
+			"nsfw": false,
+			"socials": {
+				"Bluesky": "https://bsky.app/profile/jaylacine.bsky.social",
+				"Furaffinity": "https://www.furaffinity.net/user/galeb"
+			}
+		},
+		"Easyvock": {
+			"nsfw": false,
+			"socials": {
+				"Bluesky": "https://bsky.app/profile/easyvock.bsky.social",
+				"Furaffinity": "https://www.furaffinity.net/user/sinser115"
+			}
+		},
+		"Oggy": {
+			"nsfw": false,
+			"socials": {
+				"Twitter": "https://twitter.com/OggyOsbourne",
+				"Bluesky": "https://bsky.app/profile/oggythefox.bsky.social",
+				"Furaffinity": "https://www.furaffinity.net/user/oggythefox"
+			}
+		},
+		"Zadok": {
+			"nsfw": false,
+			"socials": {
+				"Twitter": "https://twitter.com/Zadoktater"
+			}
+		},
+		"Pulex": {
+			"nsfw": false,
+			"socials": {
+				"Bluesky": "https://bsky.app/profile/pulex.bsky.social",
+				"Furaffinity": "https://www.furaffinity.net/user/pulex"
+			}
+		},
+		"Shep": {
+			"nsfw": false,
+			"socials": {
+				"Twitter": "https://twitter.com/ShepGoesBlep",
+				"Bluesky": "https://bsky.app/profile/sheppybleppy.bsky.social"
+			}
+		}
+	},
+	"files": [
+		{ "path": "/assets/art/anchee/wink.jpg",             "artist": "Anchee"    },
+		{ "path": "/assets/art/jaylacine/mr_wolp.png",       "artist": "Jaylacine" },
+		{ "path": "/assets/art/jaylacine/bint.png",          "artist": "Jaylacine" },
+		{ "path": "/assets/art/easyvock/autistic_stare.png", "artist": "Easyvock"  },
+		{ "path": "/assets/art/oggy/67.png",                 "artist": "Oggy"      },
+		{ "path": "/assets/art/oggy/mood.png",               "artist": "Oggy"      },
+		{ "path": "/assets/art/zadok/taidum.png",            "artist": "Zadok"     },
+		{ "path": "/assets/art/zadok/cross_eye.png",         "artist": "Zadok"     },
+		{ "path": "/assets/art/pulex/please.png",            "artist": "Pulex"     },
+		{ "path": "/assets/art/pulex/kiss.png",              "artist": "Pulex"     },
+		{ "path": "/assets/art/pulex/eeee.png",              "artist": "Pulex"     },
+		{ "path": "/assets/art/shep/sneak.png",              "artist": "Shep"      },
+		{ "path": "/assets/art/shep/heart.png",              "artist": "Shep"      }
+	]
+}

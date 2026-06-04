@@ -23,9 +23,9 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
 }}
 
 <div class="block image-grid">
-    {{range $i, $image := .Vars.Art}}
-        <button data-img-id="{{$i}}">
-            <img src="{{$image.File}}" alt="todo" />
+    {{range $i, $file := .Vars.Files}}
+        <button data-img-id="{{$i}}" data-artist-id="{{$file.Artist}}">
+            <img src="{{$file.Path}}" alt="Art by {{$file.Artist}}" />
         </button>
     {{end}}
 </div>
@@ -35,21 +35,53 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
 }}
 
 <dialog id="fullscreen-view" class="fullscreen-view" closedby="any">
-    <img src="" alt="" />
+    <img class="fullscreen-view__image" src="" alt="" />
+    <h3 class="fullscreen-view__artist"></h3>
+    <ul class="fullscreen-view__socials"></ul>
 </dialog>
 
 <script>
     const fullscreenView = document.querySelector("#fullscreen-view")
     const buttons = document.querySelectorAll(".image-grid button")
 
+    const artists = {
+        {{range $name, $detail := .Vars.Artists}}
+            "{{$name}}": {
+                name: "{{$name}}",
+                nsfw: {{if .NSFW}}true{{else}}false{{end}},
+                socials: [
+                    {{range $social, $link := .Socials}}
+                        { "name": "{{$social}}", "link": "{{$link}}" },
+                    {{end}}
+                ],
+            },
+        {{end}}
+    }
+
     for (const node of buttons) {
         node.addEventListener("click", event => {
+            const artist = artists[node.dataset.artistId]
+            const image = node.querySelector("img")
+
+            fullscreenView.querySelector(".fullscreen-view__image").src = image.src
+            fullscreenView.querySelector(".fullscreen-view__artist").innerText = artist.name
+
+            const ul = fullscreenView.querySelector(".fullscreen-view__socials")
+            ul.innerHTML = ""
+
+            for (const social of artist.socials) {
+                const li = document.createElement("li")
+
+                const a = document.createElement("a")
+                a.setAttribute("href", social.link)
+                a.setAttribute("target", "_blank")
+                a.innerText = social.name
+
+                li.appendChild(a)
+                ul.appendChild(li)
+            }
+
             fullscreenView.showModal()
-
-            const src = node.querySelector("img")
-            const dst = fullscreenView.querySelector("img")
-
-            dst.src = src.src
         })
     }
 </script>

@@ -30,16 +30,25 @@ func fursonaGet(h *web.Handler) http.HandlerFunc {
 		panic("read art file: " + err.Error())
 	}
 
-	var images []struct {
-		File string `json:"file"`
+	var data struct {
+		Artists map[string]struct {
+			NSFW    bool              `json:"nsfw"`
+			Socials map[string]string `json:"socials"`
+		} `json:"artists"`
+		Files []struct {
+			Path   string `json:"path"`
+			Artist string `json:"artist"`
+		}
 	}
-	if err := json.Unmarshal(file, &images); err != nil {
+
+	if err := json.Unmarshal(file, &data); err != nil {
 		panic("unmarshal art file: " + err.Error())
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		h.Template(w, r, "fursona.html", web.Data{
-			"Art": images,
+			"Artists": data.Artists,
+			"Files":   data.Files,
 		})
 	}
 }
