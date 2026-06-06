@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -19,12 +20,13 @@ import (
 
 const maxBodySize = 1 * 1024 * 1024 // 1mb
 
+var BuildTime string
+
 type flags struct {
-	secret   string
-	lastfm   string
-	address  string
-	port     int
-	dataPath string
+	secret  string
+	lastfm  string
+	address string
+	port    int
 }
 
 func main() {
@@ -41,8 +43,10 @@ func main() {
 
 	s := sse.NewSSE(ctx)
 	l := lastfm.NewLastFM(ctx, f.lastfm)
-	h := web.NewHandler(s, l, f.dataPath, f.secret)
+	h := web.NewHandler(s, l, f.secret)
 	r := chi.NewRouter()
+
+	h.BuildTime, _ = time.Parse("2006-01-02.15:04:05", BuildTime)
 
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Logger)
@@ -72,7 +76,6 @@ func parseFlags() *flags {
 	flag.StringVar(&f.lastfm, "last-fm", "", "Key to use for LastFM")
 	flag.StringVar(&f.address, "address", "0.0.0.0", "Address to listen on")
 	flag.IntVar(&f.port, "port", 3000, "Port to listen on")
-	flag.StringVar(&f.dataPath, "data", "data", "Path to load app data from")
 
 	flag.Parse()
 

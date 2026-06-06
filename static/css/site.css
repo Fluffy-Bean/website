@@ -93,9 +93,6 @@
 
     p {
         margin: 16px 0;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 24px;
     }
 
     a {
@@ -117,6 +114,9 @@
         margin: 0;
         padding: 16px;
         font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
         background: rgba(var(--color-a) / 1);
         color: rgba(var(--color-b) / 1);
     }
@@ -153,6 +153,16 @@
     }
     nav ul li {
         list-style: none;
+    }
+
+    footer {
+        margin: 0 auto;
+        max-width: 800px;
+        font-size: 11px;
+        text-align: center;
+    }
+    footer p {
+        margin-bottom: 0;
     }
 
     dialog {

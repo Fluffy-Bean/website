@@ -25,22 +25,22 @@ const (
 type Data map[string]interface{}
 
 type Handler struct {
+	secret    string
 	SSE       *sse.SSE
 	LastFM    *lastfm.LastFM
 	Events    *broker.Broker
-	createdAt time.Time
-	dataPath  string
-	secret    string
+	StartTime time.Time
+	BuildTime time.Time
 }
 
-func NewHandler(s *sse.SSE, l *lastfm.LastFM, dataPath, secret string) *Handler {
+func NewHandler(s *sse.SSE, l *lastfm.LastFM, secret string) *Handler {
 	return &Handler{
+		secret:    secret,
 		SSE:       s,
 		LastFM:    l,
 		Events:    broker.NewBroker(),
-		createdAt: time.Now().UTC(),
-		dataPath:  dataPath,
-		secret:    secret,
+		StartTime: time.Now().UTC(),
+		BuildTime: time.Now().UTC(),
 	}
 }
 
@@ -56,6 +56,10 @@ func (h *Handler) ReadDataDir(dir string) ([]os.DirEntry, error) {
 		return data.Dir.ReadDir(dir)
 	}
 	return os.ReadDir(path.Join("data", dir))
+}
+
+func (h *Handler) Uptime() time.Duration {
+	return time.Now().Sub(h.StartTime)
 }
 
 func (h *Handler) templateParse(templ *template.Template, patterns ...string) (*template.Template, error) {
@@ -115,8 +119,12 @@ func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	err = templ.Execute(w, map[string]interface{}{
-		"URL":  tmplURLVars(r),
-		"Vars": vars,
+		"URL":       tmplURLVars(r),
+		"Time":      tmplTimeVars(),
+		"StartTime": h.StartTime,
+		"BuildTime": h.BuildTime,
+		"Uptime":    h.Uptime(),
+		"Vars":      vars,
 	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -168,7 +176,7 @@ func (h *Handler) GetToken(r *http.Request) (*jwt.Claims, error) {
 		return nil, fmt.Errorf("decoding jwt token: %w", err)
 	}
 
-	if claims.Iat < h.createdAt.UTC().Unix() {
+	if claims.Iat < h.StartTime.UTC().Unix() {
 		return nil, fmt.Errorf("token is too old")
 	}
 

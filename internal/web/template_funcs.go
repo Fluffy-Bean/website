@@ -2,15 +2,19 @@ package web
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
+	"time"
 
 	"github.com/yuin/goldmark"
 )
 
 var templateFuncs = template.FuncMap{
-	"props":    templProps,
-	"noescape": templNoEscape,
-	"markdown": templMarkdown,
+	"props":           templProps,
+	"noescape":        templNoEscape,
+	"markdown":        templMarkdown,
+	"format_time":     templFormatTime,
+	"format_duration": templFormatDuration,
 }
 
 func templProps(args ...interface{}) map[string]interface{} {
@@ -40,4 +44,31 @@ func templMarkdown(s string) template.HTML {
 	}
 
 	return template.HTML(buff.String())
+}
+
+func templFormatTime(t time.Time, format string) string {
+	switch format {
+	case "UnixDate":
+		return t.Format(time.UnixDate)
+	case "RFC822":
+		return t.Format(time.RFC822)
+	case "RFC3339":
+		return t.Format(time.RFC3339)
+	case "Kitchen":
+		return t.Format(time.Kitchen)
+	case "Stamp":
+		return t.Format(time.Stamp)
+	case "DateTime":
+		return t.Format(time.DateTime)
+	case "DateOnly":
+		return t.Format(time.DateOnly)
+	case "TimeOnly":
+		return t.Format(time.TimeOnly)
+	default:
+		return t.Format(format)
+	}
+}
+
+func templFormatDuration(d time.Duration) string {
+	return fmt.Sprintf("%dh %dm %ds", int(d.Hours()), int(d.Minutes()), int(d.Seconds()))
 }

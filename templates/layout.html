@@ -31,5 +31,9 @@
     <main>
         {{block "content" .}}{{end}}
     </main>
+
+    <footer>
+        <p>Uptime: {{format_duration .Uptime}} | Build time: {{format_time .StartTime "2006-01-02 15:04:05"}}</p>
+    </footer>
 </body>
 </html>
