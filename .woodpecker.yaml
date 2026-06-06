@@ -9,7 +9,7 @@ steps:
       BUILD_TIME=$(date +"%Y-%m-%d.%H:%M:%S")
 
       go mod tidy
-      go build -o dist/www ldflags "-X main.BuildTime=$BUILD_TIME" cmd/website/main.go
+      go build -o dist/www -ldflags "-X main.BuildTime=$BUILD_TIME" cmd/website/main.go
   - name: deploy
     image: alpine:latest
     commands: |
