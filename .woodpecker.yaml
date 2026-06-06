@@ -6,7 +6,7 @@ steps:
   - name: build
     image: golang:1.26.3-alpine3.23
     commands: |
-      BUILD_TIME = $(date +"%Y-%m-%d.%H:%M:%S")
+      BUILD_TIME=$(date +"%Y-%m-%d.%H:%M:%S")
 
       go mod tidy
       go build -o dist/www ldflags "-X main.BuildTime=$BUILD_TIME" cmd/website/main.go
