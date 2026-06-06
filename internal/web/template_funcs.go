@@ -70,5 +70,19 @@ func templFormatTime(t time.Time, format string) string {
 }
 
 func templFormatDuration(d time.Duration) string {
-	return fmt.Sprintf("%dh %dm %ds", int(d.Hours()), int(d.Minutes()), int(d.Seconds()))
+	var format string
+
+	if v := int(d.Hours()); v > 0 {
+		d -= time.Duration(v) * time.Hour
+		format += fmt.Sprintf("%dh ", v)
+	}
+
+	if v := int(d.Minutes()); v > 0 {
+		d -= time.Duration(v) * time.Minute
+		format += fmt.Sprintf("%dm ", v)
+	}
+
+	format += fmt.Sprintf("%ds", int(d.Seconds()))
+
+	return format
 }
