@@ -57,6 +57,7 @@ func main() {
 	routes.RegisterPagesRoutes(h, r)
 	routes.RegisterBlogRoutes(h, r)
 	routes.RegisterChatRoutes(h, r)
+	routes.RegisterToolsRoutes(h, r)
 
 	// Join and leave events are currently unreliable...
 	//s.Events.RegisterHandler(handlers.RegisterUserJoinedHandler(h))
