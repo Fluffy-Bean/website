@@ -1,0 +1,272 @@
+{{template "layout.html" .}}
+
+{{define "template_classes"}}content-wide{{end}}
+
+{{define "content"}}
+
+<div class="shader-editor">
+    <p id="alert-box" style="display: none">Loading...</p>
+    <textarea id="vertex-editor" spellcheck="false">{{.Vars.VertexShader}}</textarea>
+    <textarea id="fragment-editor" spellcheck="false">{{.Vars.FragmentShader}}</textarea>
+    <canvas id="preview"></canvas>
+</div>
+
+<style>
+    .shader-editor {
+        height: 800px;
+        display: grid;
+        grid-template-columns: 0.5fr 0.5fr;
+        grid-template-rows: 0.5fr 0.5fr;
+        grid-template-areas: "vertex-editor preview"
+                             "fragment-editor preview";
+        position: relative;
+    }
+
+    .shader-editor textarea {
+        padding: 16px 24px;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        word-break: break-all;
+        background: rgba(var(--color-a) / 1);
+        color: rgba(var(--color-b) / 1);
+        border: none;
+        border-radius: 0;
+        outline: none;
+        resize: none;
+    }
+
+    .shader-editor canvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    #alert-box {
+        margin: 0;
+        padding: 4px 8px;
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: rgba(var(--color-b) / 1);
+        color: rgba(var(--color-a) / 1);
+        border-radius: 3px;
+    }
+
+    #vertex-editor {
+        grid-area: vertex-editor;
+        border-right: 1px solid rgba(var(--color-b) / 1);
+        border-bottom: 1px solid rgba(var(--color-b) / 1);
+    }
+
+    #fragment-editor {
+        grid-area: fragment-editor;
+        border-right: 1px solid rgba(var(--color-b) / 1);
+    }
+
+    #preview {
+        grid-area: preview;
+    }
+</style>
+
+<script>
+    const alertBox = document.querySelector("#alert-box")
+    const vertexEditor = document.querySelector("#vertex-editor")
+    const fragmentEditor = document.querySelector("#fragment-editor")
+    const canvas = document.querySelector("#preview")
+
+    let gl = null
+    let program = null
+    let quad = null
+
+    let frameId = null
+    let totalRuntime = 0
+    let lastRenderTime = 0
+    let recreateTimeout = 0
+
+    let uniformTime = null
+
+    function showAlert (message) {
+        alertBox.innerText = message
+        alertBox.style.display = "block"
+    }
+
+    function hideAlert () {
+        alertBox.style.display = "none"
+    }
+
+    function createContext () {
+        const gl = canvas.getContext("webgl2")
+        if (!gl) {
+            throw new Error("get webgl2 context")
+        }
+
+        return gl
+    }
+
+    function createShader (gl, kind, source) {
+        const shader = gl.createShader(kind)
+        gl.shaderSource(shader, source)
+        gl.compileShader(shader)
+
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            const err = gl.getShaderInfoLog(shader)
+            gl.deleteShader(shader)
+
+            throw new Error(`compile shader: ${err}`)
+        }
+
+        return shader
+    }
+
+    function createProgram (gl) {
+        const vs = createShader(gl, gl.VERTEX_SHADER, vertexEditor.value)
+        const fs = createShader(gl, gl.FRAGMENT_SHADER, fragmentEditor.value)
+
+        const program = gl.createProgram()
+        gl.attachShader(program, vs)
+        gl.attachShader(program, fs)
+        gl.linkProgram(program)
+
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            const err = gl.getProgramInfoLog(program)
+            gl.deleteProgram(program)
+
+            throw new Error(`link shader programs: ${err}`)
+        }
+
+        gl.detachShader(program, vs)
+        gl.detachShader(program, fs)
+        gl.deleteShader(vs)
+        gl.deleteShader(fs)
+
+        gl.validateProgram(program)
+
+        if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
+            const err = gl.getProgramInfoLog(program)
+            gl.deleteProgram(program)
+
+            throw new Error(`validate program: ${err}`)
+        }
+
+        return program
+    }
+
+    function createQuad (gl) {
+        const quad = gl.createVertexArray()
+        gl.bindVertexArray(quad)
+
+        const buffer = gl.createBuffer()
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+
+        const vertices = new Float32Array([
+            -1, -1, 1, -1, -1,  1,
+            -1,  1, 1, -1,  1,  1,
+        ])
+        gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+
+        gl.enableVertexAttribArray(0)
+        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0)
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, null)
+        gl.bindVertexArray(null)
+
+        return quad
+    }
+
+    function render (currentTime) {
+        const dt = currentTime - lastRenderTime
+        lastRenderTime = currentTime
+        totalRuntime += dt
+
+        gl.clearColor(0, 0, 0, 1)
+        gl.clear(gl.COLOR_BUFFER_BIT)
+
+        gl.useProgram(program)
+        gl.uniform1f(uniformTime, totalRuntime);
+        gl.bindVertexArray(quad)
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 6)
+
+        gl.bindVertexArray(null)
+        gl.useProgram(null)
+
+        requestRender()
+    }
+
+    function requestRender () {
+        if (frameId !== null) {
+            cancelAnimationFrame(frameId)
+        }
+
+        frameId = requestAnimationFrame(render)
+    }
+
+    function create () {
+        try {
+            showAlert("Loading...")
+
+            gl = createContext()
+            program = createProgram(gl)
+            quad = createQuad(gl)
+
+            uniformTime = gl.getUniformLocation(program, "time")
+
+            hideAlert()
+
+            resize()
+            requestRender()
+        } catch (err) {
+            destroy()
+            showAlert("Error occurred, check console")
+
+            console.error(err)
+        }
+    }
+
+    function resize () {
+        canvas.width = canvas.clientWidth
+        canvas.height = canvas.clientHeight
+        gl.viewport(0, 0, canvas.width, canvas.height)
+    }
+
+    function destroy () {
+        if (!gl) {
+            return
+        }
+
+        if (frameId) {
+            cancelAnimationFrame(frameId)
+        }
+
+        if (quad) {
+            gl.deleteVertexArray(quad)
+        }
+
+        if (program) {
+            gl.deleteProgram(program)
+        }
+
+        quad = null
+        program = null
+
+        frameId = null
+        totalRuntime = 0
+        uniformTime = null
+    }
+
+    function rebuildEditor () {
+        clearTimeout(recreateTimeout)
+
+        recreateTimeout = setTimeout(() => {
+            destroy()
+            create()
+        }, 300)
+    }
+
+    window.addEventListener("load", create)
+    window.addEventListener("resize", resize)
+    window.addEventListener("beforeunload", destroy)
+
+    vertexEditor.addEventListener("input", rebuildEditor)
+    fragmentEditor.addEventListener("input", rebuildEditor)
+</script>
+
+{{end}}

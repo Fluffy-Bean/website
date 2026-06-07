@@ -24,11 +24,12 @@
                 <li><a href="/fursona">Fursona</a></li>
                 <li><a href="/blogs">Blogs</a></li>
                 <li><a href="/chat">Chat</a></li>
+                <li><a href="/tools">Tools</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
+    <main class="{{block "template_classes" .}}{{end}}">
         {{block "content" .}}{{end}}
     </main>
 

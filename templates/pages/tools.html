@@ -1,0 +1,11 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{range $name, $path := .Vars.Tools}}
+    <a href="{{printf "/tools/%s" $path}}" class="block text">
+        {{$name}}
+    </a>
+{{end}}
+
+{{end}}
