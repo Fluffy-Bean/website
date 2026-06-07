@@ -68,6 +68,8 @@
 </style>
 
 <script>
+    const STORAGE_KEY = "shader-editor"
+
     const alertBox = document.querySelector("#alert-box")
     const vertexEditor = document.querySelector("#vertex-editor")
     const fragmentEditor = document.querySelector("#fragment-editor")
@@ -199,6 +201,35 @@
         frameId = requestAnimationFrame(render)
     }
 
+    function loadFromStorage () {
+        try {
+            const data = window.localStorage.getItem(STORAGE_KEY)
+            const { vs, fs } = JSON.parse(data)
+
+            vertexEditor.value = vs
+            fragmentEditor.value = fs
+        } catch (err) {
+            // noop
+        }
+    }
+
+    function saveToStorage () {
+        try {
+            const vs = vertexEditor.value
+            const fs = fragmentEditor.value
+            const data = JSON.stringify({ vs, fs })
+
+            window.localStorage.setItem(STORAGE_KEY, data)
+        } catch (err) {
+            // noop
+        }
+    }
+
+    function init () {
+        loadFromStorage()
+        create()
+    }
+
     function create () {
         try {
             showAlert("Loading...")
@@ -256,12 +287,13 @@
         clearTimeout(recreateTimeout)
 
         recreateTimeout = setTimeout(() => {
+            saveToStorage()
             destroy()
             create()
         }, 300)
     }
 
-    window.addEventListener("load", create)
+    window.addEventListener("load", init)
     window.addEventListener("resize", resize)
     window.addEventListener("beforeunload", destroy)
 
