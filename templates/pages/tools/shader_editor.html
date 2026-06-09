@@ -22,6 +22,7 @@
     <div class="asset-manager__texture" data-texture-id="0">
         <img src="" alt="" />
         <p>texture_0</p>
+        <button class="btn">Remove</button>
     </div>
 </template>
 
@@ -91,35 +92,34 @@
         align-items: center;
         background: rgba(var(--color-a) / 1);
         border-bottom: 1px solid rgba(var(--color-b) / 1);
-        padding: 8px 16px;
+        padding: 4px 8px;
         position: sticky;
         top: 0;
+        width: 100%;
+    }
+    .asset-manager__form input {
         width: 100%;
     }
     .asset-manager__texture {
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 16px;
+        padding: 4px 8px;
     }
     .asset-manager__texture:not(:last-child) {
         border-bottom: 1px solid rgba(var(--color-b) / 1);
     }
     .asset-manager__texture img {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 40px;
         display: block;
         object-fit: contain;
     }
     .asset-manager__texture p {
         margin: 0;
     }
-    #add-texture {
-        padding: 4px 8px;
-        align-items: center;
-    }
-    #add-texture input {
-        width: 100%;
+    .asset-manager__texture button {
+        margin-left: auto;
     }
 
     #preview {
@@ -459,6 +459,14 @@
 
         clone.querySelector(".asset-manager__texture").dataset.textureId = id
         clone.querySelector("p").innerText = getTextureUniformName(id)
+        clone.querySelector("button").addEventListener("click", event => {
+            event.target.closest(".asset-manager__texture").remove()
+
+            attributeTextureLocs[id] = null
+
+            rebuildEditor()
+        })
+
         uploadedTextures.appendChild(clone)
 
         const reader = new FileReader()
@@ -473,6 +481,8 @@
             }
 
             uploadedTextures.querySelector(`[data-texture-id="${id}"] img`).src = url
+
+            addTexture.reset()
 
             rebuildEditor()
         })
