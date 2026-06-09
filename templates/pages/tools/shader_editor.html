@@ -8,40 +8,33 @@
     <p id="alert-box" style="display: none">Loading...</p>
     <textarea id="vertex-editor" spellcheck="false">{{.Vars.VertexShader}}</textarea>
     <textarea id="fragment-editor" spellcheck="false">{{.Vars.FragmentShader}}</textarea>
-    <div id="uploaded-textures">
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="2">
-                        <form id="add-texture" class="row">
-                            <input type="file" name="texture">
-                            <button class="btn">Add</button>
-                        </form>
-                    </th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <div id="asset-manager">
+        <form id="add-texture" class="asset-manager__form">
+            <input type="file" name="texture">
+            <button class="btn">Add</button>
+        </form>
+        <div id="uploaded-textures"></div>
     </div>
     <canvas id="preview"></canvas>
 </div>
 
 <template id="texture-upload-template">
-    <tr data-texture-id="0">
-        <td><img src="" /></td>
-        <td><p>texture_0</p></td>
-    </tr>
+    <div class="asset-manager__texture" data-texture-id="0">
+        <img src="" alt="" />
+        <p>texture_0</p>
+    </div>
 </template>
 
 <style>
     .shader-editor {
-        height: 800px;
+        height: calc(100vh - 32px);
         display: grid;
         grid-template-columns: 0.5fr 0.5fr;
-        grid-template-rows: 0.5fr 0.5fr 100px;
+        grid-template-rows: 0.25fr 0.25fr 0.25fr 0.25fr;
         grid-template-areas: "vertex-editor preview"
+                             "vertex-editor preview"
                              "fragment-editor preview"
-                             "uploaded-textures preview";
+                             "fragment-editor asset-manager";
         position: relative;
     }
 
@@ -76,53 +69,85 @@
 
     #vertex-editor {
         grid-area: vertex-editor;
+        height: 100%;
         border-right: 1px solid rgba(var(--color-b) / 1);
         border-bottom: 1px solid rgba(var(--color-b) / 1);
     }
 
     #fragment-editor {
         grid-area: fragment-editor;
+        height: 100%;
         border-right: 1px solid rgba(var(--color-b) / 1);
-        border-bottom: 1px solid rgba(var(--color-b) / 1);
     }
 
-    #add-texture {
-        padding: 4px 8px;
-        align-items: center;
-        border-bottom: 1px solid rgba(var(--color-b) / 1);
-    }
-    #add-texture input {
+    #asset-manager {
+        grid-area: asset-manager;
         width: 100%;
-    }
-
-    #uploaded-textures {
-        grid-area: uploaded-textures;
-        width: 100%;
-        border-right: 1px solid rgba(var(--color-b) / 1);
         overflow: auto;
+        border-top: 1px solid rgba(var(--color-b) / 1);
     }
-    #uploaded-textures table {
+    .asset-manager__form {
+        display: flex;
+        align-items: center;
+        background: rgba(var(--color-a) / 1);
+        border-bottom: 1px solid rgba(var(--color-b) / 1);
+        padding: 8px 16px;
+        position: sticky;
+        top: 0;
         width: 100%;
-        border-collapse: collapse;
     }
-    #uploaded-textures tr:not(:last-child) {
+    .asset-manager__texture {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+    }
+    .asset-manager__texture:not(:last-child) {
         border-bottom: 1px solid rgba(var(--color-b) / 1);
     }
-    #uploaded-textures td {
-        padding: 0;
-    }
-    #uploaded-textures img {
+    .asset-manager__texture img {
         width: 50px;
         height: 50px;
         display: block;
         object-fit: contain;
     }
-    #uploaded-textures p {
+    .asset-manager__texture p {
         margin: 0;
+    }
+    #add-texture {
+        padding: 4px 8px;
+        align-items: center;
+    }
+    #add-texture input {
+        width: 100%;
     }
 
     #preview {
         grid-area: preview;
+    }
+
+    @media screen and (max-width: 700px) {
+        .shader-editor {
+            grid-template-columns: 1fr;
+            grid-template-rows: 40% 25% 25% 10%;
+            grid-template-areas: "preview"
+                                 "vertex-editor"
+                                 "fragment-editor"
+                                 "asset-manager";
+        }
+
+        #vertex-editor {
+            border-right: none;
+            border-top: 1px solid rgba(var(--color-b) / 1);
+        }
+
+        #fragment-editor {
+            border-right: none;
+        }
+
+        .asset-manager__form {
+            position: initial;
+        }
     }
 </style>
 
@@ -432,9 +457,9 @@
         const template = document.querySelector("#texture-upload-template")
         const clone = template.content.cloneNode(true)
 
-        clone.querySelector("tr").dataset.textureId = id
+        clone.querySelector(".asset-manager__texture").dataset.textureId = id
         clone.querySelector("p").innerText = getTextureUniformName(id)
-        uploadedTextures.querySelector("tbody").appendChild(clone)
+        uploadedTextures.appendChild(clone)
 
         const reader = new FileReader()
         reader.addEventListener("load", () => {
