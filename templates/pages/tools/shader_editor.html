@@ -8,17 +8,34 @@
     <p id="alert-box" style="display: none">Loading...</p>
     <textarea id="vertex-editor" spellcheck="false">{{.Vars.VertexShader}}</textarea>
     <textarea id="fragment-editor" spellcheck="false">{{.Vars.FragmentShader}}</textarea>
+    <div id="asset-manager">
+        <form id="add-texture" class="asset-manager__form">
+            <input type="file" name="texture">
+            <button class="btn">Add</button>
+        </form>
+        <div id="uploaded-textures"></div>
+    </div>
     <canvas id="preview"></canvas>
 </div>
 
+<template id="texture-upload-template">
+    <div class="asset-manager__texture" data-texture-id="0">
+        <img src="" alt="" />
+        <p>texture_0</p>
+        <button class="btn">Remove</button>
+    </div>
+</template>
+
 <style>
     .shader-editor {
-        height: 800px;
+        height: calc(100vh - 32px);
         display: grid;
         grid-template-columns: 0.5fr 0.5fr;
-        grid-template-rows: 0.5fr 0.5fr;
+        grid-template-rows: 0.25fr 0.25fr 0.25fr 0.25fr;
         grid-template-areas: "vertex-editor preview"
-                             "fragment-editor preview";
+                             "vertex-editor preview"
+                             "fragment-editor preview"
+                             "fragment-editor asset-manager";
         position: relative;
     }
 
@@ -53,24 +70,95 @@
 
     #vertex-editor {
         grid-area: vertex-editor;
+        height: 100%;
         border-right: 1px solid rgba(var(--color-b) / 1);
         border-bottom: 1px solid rgba(var(--color-b) / 1);
     }
 
     #fragment-editor {
         grid-area: fragment-editor;
+        height: 100%;
         border-right: 1px solid rgba(var(--color-b) / 1);
+    }
+
+    #asset-manager {
+        grid-area: asset-manager;
+        width: 100%;
+        overflow: auto;
+        border-top: 1px solid rgba(var(--color-b) / 1);
+    }
+    .asset-manager__form {
+        display: flex;
+        align-items: center;
+        background: rgba(var(--color-a) / 1);
+        border-bottom: 1px solid rgba(var(--color-b) / 1);
+        padding: 4px 8px;
+        position: sticky;
+        top: 0;
+        width: 100%;
+    }
+    .asset-manager__form input {
+        width: 100%;
+    }
+    .asset-manager__texture {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+    }
+    .asset-manager__texture:not(:last-child) {
+        border-bottom: 1px solid rgba(var(--color-b) / 1);
+    }
+    .asset-manager__texture img {
+        width: 60px;
+        height: 40px;
+        display: block;
+        object-fit: contain;
+    }
+    .asset-manager__texture p {
+        margin: 0;
+    }
+    .asset-manager__texture button {
+        margin-left: auto;
     }
 
     #preview {
         grid-area: preview;
     }
+
+    @media screen and (max-width: 700px) {
+        .shader-editor {
+            grid-template-columns: 1fr;
+            grid-template-rows: 40% 25% 25% 10%;
+            grid-template-areas: "preview"
+                                 "vertex-editor"
+                                 "fragment-editor"
+                                 "asset-manager";
+        }
+
+        #vertex-editor {
+            border-right: none;
+            border-top: 1px solid rgba(var(--color-b) / 1);
+        }
+
+        #fragment-editor {
+            border-right: none;
+        }
+
+        .asset-manager__form {
+            position: initial;
+        }
+    }
 </style>
 
 <script>
+    const STORAGE_KEY = "shader-editor"
+
     const alertBox = document.querySelector("#alert-box")
     const vertexEditor = document.querySelector("#vertex-editor")
     const fragmentEditor = document.querySelector("#fragment-editor")
+    const uploadedTextures = document.querySelector("#uploaded-textures")
+    const addTexture = document.querySelector("#add-texture")
     const canvas = document.querySelector("#preview")
 
     let gl = null
@@ -82,7 +170,13 @@
     let lastRenderTime = 0
     let recreateTimeout = 0
 
-    let uniformTime = null
+    let attributeTimeLoc = null
+    let attributeTextureLocs = {
+         0: null,  1: null,  2: null,  3: null,  4: null,  5: null,  6: null,  7: null,  8: null,  9: null,
+        10: null, 11: null, 12: null, 13: null, 14: null, 15: null, 16: null, 17: null, 18: null, 19: null,
+        20: null, 21: null, 22: null, 23: null, 24: null, 25: null, 26: null, 27: null, 28: null, 29: null,
+        30: null, 31: null,
+    }
 
     function showAlert (message) {
         alertBox.innerText = message
@@ -100,6 +194,14 @@
         }
 
         return gl
+    }
+
+    function getTextureUniformName (id) {
+        return `uTexture${id}`
+    }
+
+    function getTextureChannelName (id) {
+        return `TEXTURE${id}`
     }
 
     function createShader (gl, kind, source) {
@@ -172,6 +274,27 @@
         return quad
     }
 
+    function createTexture (gl, src) {
+        const pixel = new Uint8Array([0, 0, 255, 255])
+
+        const texture = gl.createTexture()
+        gl.bindTexture(gl.TEXTURE_2D, texture)
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixel)
+        gl.bindTexture(gl.TEXTURE_2D, null)
+
+        const image = new Image()
+        image.addEventListener("load", () => {
+            gl.bindTexture(gl.TEXTURE_2D, texture)
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+            gl.generateMipmap(gl.TEXTURE_2D)
+
+            gl.bindTexture(gl.TEXTURE_2D, null)
+        })
+        image.src = src
+
+        return texture
+    }
+
     function render (currentTime) {
         const dt = currentTime - lastRenderTime
         lastRenderTime = currentTime
@@ -181,11 +304,23 @@
         gl.clear(gl.COLOR_BUFFER_BIT)
 
         gl.useProgram(program)
-        gl.uniform1f(uniformTime, totalRuntime);
+        gl.uniform1f(attributeTimeLoc, totalRuntime)
+
+        for (const data of Object.values(attributeTextureLocs)) {
+            if (!data) {
+                continue
+            }
+
+            gl.activeTexture(gl[getTextureChannelName(data.id)])
+            gl.bindTexture(gl.TEXTURE_2D, data.texture)
+            gl.uniform1i(data.location, data.id)
+        }
+
         gl.bindVertexArray(quad)
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 6)
 
         gl.bindVertexArray(null)
+        gl.bindTexture(gl.TEXTURE_2D, null)
         gl.useProgram(null)
 
         requestRender()
@@ -199,6 +334,35 @@
         frameId = requestAnimationFrame(render)
     }
 
+    function loadFromStorage () {
+        try {
+            const data = window.localStorage.getItem(STORAGE_KEY)
+            const { vs, fs } = JSON.parse(data)
+
+            vertexEditor.value = vs
+            fragmentEditor.value = fs
+        } catch (err) {
+            // noop
+        }
+    }
+
+    function saveToStorage () {
+        try {
+            const vs = vertexEditor.value
+            const fs = fragmentEditor.value
+            const data = JSON.stringify({ vs, fs })
+
+            window.localStorage.setItem(STORAGE_KEY, data)
+        } catch (err) {
+            // noop
+        }
+    }
+
+    function init () {
+        loadFromStorage()
+        create()
+    }
+
     function create () {
         try {
             showAlert("Loading...")
@@ -207,7 +371,15 @@
             program = createProgram(gl)
             quad = createQuad(gl)
 
-            uniformTime = gl.getUniformLocation(program, "time")
+            attributeTimeLoc = gl.getUniformLocation(program, "uTime")
+
+            for (const data of Object.values(attributeTextureLocs)) {
+                if (!data) {
+                    continue
+                }
+
+                data.location = gl.getUniformLocation(program, getTextureUniformName(data.id))
+            }
 
             hideAlert()
 
@@ -249,24 +421,82 @@
 
         frameId = null
         totalRuntime = 0
-        uniformTime = null
+        attributeTimeLoc = {
+            0: null,  1: null,  2: null,  3: null,  4: null,  5: null,  6: null,  7: null,  8: null,  9: null,
+            10: null, 11: null, 12: null, 13: null, 14: null, 15: null, 16: null, 17: null, 18: null, 19: null,
+            20: null, 21: null, 22: null, 23: null, 24: null, 25: null, 26: null, 27: null, 28: null, 29: null,
+            30: null, 31: null,
+        }
     }
 
     function rebuildEditor () {
         clearTimeout(recreateTimeout)
 
         recreateTimeout = setTimeout(() => {
+            saveToStorage()
             destroy()
             create()
         }, 300)
     }
 
-    window.addEventListener("load", create)
+    function uploadTexture (event) {
+        event.preventDefault()
+
+        const fileInput = event.target.querySelector(`input[type="file"]`)
+        if (fileInput.files.length === 0) {
+            return
+        }
+
+        const slot = Object.entries(attributeTextureLocs).find(([id, data]) => !data)
+        if (!slot) {
+            return
+        }
+
+        const id = slot[0]
+
+        const template = document.querySelector("#texture-upload-template")
+        const clone = template.content.cloneNode(true)
+
+        clone.querySelector(".asset-manager__texture").dataset.textureId = id
+        clone.querySelector("p").innerText = getTextureUniformName(id)
+        clone.querySelector("button").addEventListener("click", event => {
+            event.target.closest(".asset-manager__texture").remove()
+
+            attributeTextureLocs[id] = null
+
+            rebuildEditor()
+        })
+
+        uploadedTextures.appendChild(clone)
+
+        const reader = new FileReader()
+        reader.addEventListener("load", () => {
+            const url = reader.result
+            const texture = createTexture(gl, url)
+
+            attributeTextureLocs[id] = {
+                id: id,
+                texture: texture,
+                location: null,
+            }
+
+            uploadedTextures.querySelector(`[data-texture-id="${id}"] img`).src = url
+
+            addTexture.reset()
+
+            rebuildEditor()
+        })
+        reader.readAsDataURL(fileInput.files[0])
+    }
+
+    window.addEventListener("load", init)
     window.addEventListener("resize", resize)
     window.addEventListener("beforeunload", destroy)
 
     vertexEditor.addEventListener("input", rebuildEditor)
     fragmentEditor.addEventListener("input", rebuildEditor)
+
+    addTexture.addEventListener("submit", uploadTexture)
 </script>
 
 {{end}}
