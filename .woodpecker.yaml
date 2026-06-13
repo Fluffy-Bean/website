@@ -6,7 +6,7 @@ steps:
   - name: build
     image: golang:1.26.3-alpine3.23
     commands: |
-      apk add --no-cache makefile imagemagick
+      apk add --no-cache make imagemagick
       make all
   - name: deploy
     image: alpine:latest
