@@ -4,7 +4,7 @@ import (
 	"crypto/md5"
 	"flag"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 	"os/exec"
 	"path"
@@ -29,14 +29,21 @@ func main() {
 
 	flag.Parse()
 
+	if config.Input == "" || config.Output == "" {
+		slog.Error("input and output must be set")
+		os.Exit(1)
+	}
+
 	err := os.MkdirAll(config.Output, 0755)
 	if err != nil {
-		log.Fatal("make output directory:", err)
+		slog.Error("make output directory", "error", err)
+		os.Exit(1)
 	}
 
 	entries, err := os.ReadDir(config.Input)
 	if err != nil {
-		log.Fatal(err)
+		slog.Error("read input dir", "error", err)
+		os.Exit(1)
 	}
 
 	for _, entry := range entries {
@@ -50,7 +57,8 @@ func walk(dir string, entry os.DirEntry) {
 	if entry.IsDir() {
 		entries, err := os.ReadDir(fullPath)
 		if err != nil {
-			log.Fatal(err)
+			slog.Error("read input dir", "error", err)
+			os.Exit(1)
 		}
 
 		for _, entry := range entries {
@@ -79,9 +87,10 @@ func hash(path string) string {
 func generate(in, out string, width int) {
 	cmd := exec.Command("magick", "convert", in, "-geometry", fmt.Sprintf("%dx", width), out)
 
-	fmt.Println(cmd.String())
+	slog.Info("generate", "cmd", cmd.String())
 
 	if err := cmd.Run(); err != nil {
-		log.Fatal(err)
+		slog.Error("run command", "error", err)
+		os.Exit(1)
 	}
 }
