@@ -24,14 +24,21 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
 
 <div class="block image-grid">
     {{range $i, $file := .Vars.Files}}
-        <button data-img-id="{{$i}}" data-artist-id="{{$file.Artist}}">
-            <img src="{{$file.Path}}" alt="Art by {{$file.Artist}}" />
+        <button
+            data-img-id="{{$i}}"
+            data-artist-id="{{$file.Artist}}"
+            data-source-256="{{index $file.Sizes 256}}"
+            data-source-512="{{index $file.Sizes 512}}"
+            data-source-1024="{{index $file.Sizes 1024}}"
+            data-source-full="{{$file.Path}}"
+        >
+            <img src="{{index $file.Sizes 256}}" alt="Art by {{$file.Artist}}" />
         </button>
     {{end}}
 </div>
 
 {{template "blocks.image" props
-    "Src" "/assets/refsheet.png"
+    "Src" "/static/images/art/refsheet.png"
 }}
 
 <dialog id="fullscreen-view" closedby="any">
@@ -76,9 +83,9 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
     for (const node of buttons) {
         node.addEventListener("click", event => {
             const artist = artists[node.dataset.artistId]
-            const image = node.querySelector("img")
+            const source = node.dataset.sourceFull
 
-            fsDialog.querySelector(".fullscreen-view__image").src = image.src
+            fsDialog.querySelector(".fullscreen-view__image").src = source
             fsDialog.querySelector(".fullscreen-view__artist").innerText = artist.name
 
             const ul = fsDialog.querySelector(".fullscreen-view__socials")

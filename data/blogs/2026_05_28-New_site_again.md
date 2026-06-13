@@ -11,7 +11,7 @@ It's all Go now, as being employed made me realize that there is not enough time
 anymore. Also, not doing maintenance on my website for about 2 years lead to my emails getting spammed by GitHub
 alerting me of new issues with various npm packages...
 
-![GitHub Security and quality issues tab, displaying 56 issues](/assets/blog/2026/05/Screenshot_20260529_000345.png)
+![GitHub Security and quality issues tab, displaying 56 issues](/static/images/blog/2026/05/Screenshot_20260529_000345.png)
 
 There is now a chat on the site, as of now no chats are retained, more or less behaving as a broadcast. Once I have time
 again, I hope to add custom usernames and message history. It uses SSE and JWT, as barebones as you can get! But it's
@@ -113,7 +113,7 @@ not need to worry about getting judged or being perceived as _weird_.
 Hoping to come back next year, also looking at going to Confuzzled next year - or trying at least, with their retched
 lottery system.
 
-![NFC sign covered in a thick layer of stickers](/assets/blog/2026/05/PXL_20260219_085424591.MP.jpg)
+![NFC sign covered in a thick layer of stickers](/static/images/blog/2026/05/PXL_20260219_085424591.MP.jpg)
 
 See if you can spot me.
 

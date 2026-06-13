@@ -51,18 +51,18 @@
 		}
 	},
 	"files": [
-		{ "path": "/assets/art/anchee/wink.jpg",             "artist": "Anchee"    },
-		{ "path": "/assets/art/jaylacine/mr_wolp.png",       "artist": "Jaylacine" },
-		{ "path": "/assets/art/jaylacine/bint.png",          "artist": "Jaylacine" },
-		{ "path": "/assets/art/easyvock/autistic_stare.png", "artist": "Easyvock"  },
-		{ "path": "/assets/art/oggy/67.png",                 "artist": "Oggy"      },
-		{ "path": "/assets/art/oggy/mood.png",               "artist": "Oggy"      },
-		{ "path": "/assets/art/zadok/taidum.png",            "artist": "Zadok"     },
-		{ "path": "/assets/art/zadok/cross_eye.png",         "artist": "Zadok"     },
-		{ "path": "/assets/art/pulex/please.png",            "artist": "Pulex"     },
-		{ "path": "/assets/art/pulex/kiss.png",              "artist": "Pulex"     },
-		{ "path": "/assets/art/pulex/eeee.png",              "artist": "Pulex"     },
-		{ "path": "/assets/art/shep/sneak.png",              "artist": "Shep"      },
-		{ "path": "/assets/art/shep/heart.png",              "artist": "Shep"      }
+		{ "path": "/static/images/art/anchee/wink.jpg",             "artist": "Anchee"    },
+		{ "path": "/static/images/art/jaylacine/mr_wolp.png",       "artist": "Jaylacine" },
+		{ "path": "/static/images/art/jaylacine/bint.png",          "artist": "Jaylacine" },
+		{ "path": "/static/images/art/easyvock/autistic_stare.png", "artist": "Easyvock"  },
+		{ "path": "/static/images/art/oggy/67.png",                 "artist": "Oggy"      },
+		{ "path": "/static/images/art/oggy/mood.png",               "artist": "Oggy"      },
+		{ "path": "/static/images/art/zadok/taidum.png",            "artist": "Zadok"     },
+		{ "path": "/static/images/art/zadok/cross_eye.png",         "artist": "Zadok"     },
+		{ "path": "/static/images/art/pulex/please.png",            "artist": "Pulex"     },
+		{ "path": "/static/images/art/pulex/kiss.png",              "artist": "Pulex"     },
+		{ "path": "/static/images/art/pulex/eeee.png",              "artist": "Pulex"     },
+		{ "path": "/static/images/art/shep/sneak.png",              "artist": "Shep"      },
+		{ "path": "/static/images/art/shep/heart.png",              "artist": "Shep"      }
 	]
 }
