@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/md5"
 	"flag"
 	"fmt"
@@ -34,7 +35,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err := os.MkdirAll(config.Output, 0755)
+	err := os.MkdirAll(config.Output, 0750)
 	if err != nil {
 		slog.Error("make output directory", "error", err)
 		os.Exit(1)
@@ -85,12 +86,17 @@ func hash(path string) string {
 }
 
 func generate(in, out string, width int) {
+	var buffOut bytes.Buffer
+	var buffErr bytes.Buffer
+
 	cmd := exec.Command("magick", "convert", in, "-geometry", fmt.Sprintf("%dx", width), out)
+	cmd.Stdout = &buffOut
+	cmd.Stderr = &buffErr
 
 	slog.Info("generate", "cmd", cmd.String())
 
 	if err := cmd.Run(); err != nil {
-		slog.Error("run command", "error", err)
+		slog.Error("run command", "error", err, "stdout", buffOut.String(), "stderr", buffErr.String())
 		os.Exit(1)
 	}
 }
