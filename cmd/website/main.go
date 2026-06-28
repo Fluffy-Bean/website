@@ -55,6 +55,7 @@ func main() {
 	r.Use(middleware.RequestSize(maxBodySize))
 
 	routes.RegisterAssetsRoutes(h, r)
+	routes.RegisterLastFMRoutes(h, r)
 	routes.RegisterPagesRoutes(h, r, PagesConfig)
 	routes.RegisterBlogRoutes(h, r)
 	routes.RegisterChatRoutes(h, r)
