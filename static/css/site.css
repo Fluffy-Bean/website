@@ -125,6 +125,22 @@
         overflow-y: hidden;
     }
 
+    #jump-to-content {
+        padding: 0 24px;
+        height: 40px;
+        position: absolute;
+        top: -100%;
+        left: 0;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        background: rgba(var(--color-b) / 1);
+        color: rgba(var(--color-a) / 1);
+    }
+    #jump-to-content:focus {
+        top: 0;
+    }
+
     header,
     main {
         margin: 0 auto;

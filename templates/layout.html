@@ -12,6 +12,8 @@
     <script src="https://umami.leggy.dev/script.js" data-website-id="e8c4fb4f-6ff2-4179-8873-957d635c862c" defer></script>
 </head>
 <body>
+    <a id="jump-to-content" href="#main">Jump to content</a>
+
     <header>
         <div class="block">
             <h1>Leggy Land</h1>
@@ -29,7 +31,7 @@
         </nav>
     </header>
 
-    <main class="{{block "template_classes" .}}{{end}}">
+    <main id="main" class="{{block "template_classes" .}}{{end}}">
         {{block "content" .}}{{end}}
     </main>
 
