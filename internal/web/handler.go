@@ -85,6 +85,22 @@ func (h *Handler) ReadTemplatesDir(dir string) ([]os.DirEntry, error) {
 	return os.ReadDir(path.Join("templates", dir))
 }
 
+func (h *Handler) ParseTemplatesDir(templ *template.Template, dir string) error {
+	entries, err := h.ReadTemplatesDir(dir)
+	if err != nil {
+		return err
+	}
+
+	for _, entry := range entries {
+		templ, err = h.templateParse(templ, path.Join(dir, entry.Name()))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, vars Data) {
 	var templ *template.Template
 	var err error
@@ -98,22 +114,14 @@ func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, 
 		return
 	}
 
-	blocks, err := h.ReadTemplatesDir("blocks")
-	if err != nil {
-		slog.Error("read templates dir", "error", err)
+	if err := h.ParseTemplatesDir(templ, "blocks"); err != nil {
+		slog.Error("parse template file", "error", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-
-		return
 	}
 
-	for _, block := range blocks {
-		templ, err = h.templateParse(templ, path.Join("blocks", block.Name()))
-		if err != nil {
-			slog.Error("parse template file", "error", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-
-			return
-		}
+	if err := h.ParseTemplatesDir(templ, "icons"); err != nil {
+		slog.Error("parse template file", "error", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -131,6 +139,14 @@ func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, 
 
 		return
 	}
+}
+
+func (h *Handler) Error(w http.ResponseWriter, r *http.Request, msg string, err error) {
+	slog.Error(msg, "error", err)
+
+	w.WriteHeader(http.StatusInternalServerError)
+
+	h.Template(w, r, "error.html", nil)
 }
 
 func (h *Handler) SetToken(w http.ResponseWriter, id int64, name string) error {

@@ -1,23 +1,37 @@
 package routes
 
 import (
+	"errors"
+	"fmt"
+	"io"
+	"mime"
 	"net/http"
+	"os"
+	"path"
+	"path/filepath"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 
 	"git.leggy.dev/Fluffy/Website/internal/web"
 )
 
-var tools = map[string]string{
-	"Shader Editor": "shader-editor",
+type ToolsConfig struct {
+	FilesDir string
 }
 
-func RegisterToolsRoutes(h *web.Handler, r *chi.Mux) {
-	r.Get("/tools", toolListGet(h))
-	r.Get("/tools/shader-editor", toolShaderEditorGet(h))
+var tools = [][]string{
+	{"Shader editor", "shader-editor"},
+	{"File explorer", "file-explorer"},
 }
 
-func toolListGet(h *web.Handler) http.HandlerFunc {
+func RegisterToolsRoutes(h *web.Handler, r *chi.Mux, c ToolsConfig) {
+	r.Get("/tools", toolListGet(h, &c))
+	r.Get("/tools/shader-editor", toolShaderEditorGet(h, &c))
+	r.Get("/tools/file-explorer", toolFileExplorerGet(h, &c))
+}
+
+func toolListGet(h *web.Handler, c *ToolsConfig) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		h.Template(w, r, "tools.html", web.Data{
 			"Tools": tools,
@@ -25,7 +39,7 @@ func toolListGet(h *web.Handler) http.HandlerFunc {
 	}
 }
 
-func toolShaderEditorGet(h *web.Handler) http.HandlerFunc {
+func toolShaderEditorGet(h *web.Handler, c *ToolsConfig) http.HandlerFunc {
 	vertexShader := `#version 300 es
 precision highp float;
 layout(location = 0) in vec2 aPosition;
@@ -70,5 +84,79 @@ void main() {
 			"VertexShader":   vertexShader,
 			"FragmentShader": fragmentShader,
 		})
+	}
+}
+
+func toolFileExplorerGet(h *web.Handler, c *ToolsConfig) http.HandlerFunc {
+	root, err := os.OpenRoot(c.FilesDir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			if err := os.Mkdir(c.FilesDir, 0755); err != nil {
+				panic(fmt.Errorf("make file explorer dir: %w", err))
+			}
+
+			root, err = os.OpenRoot(c.FilesDir)
+			if err != nil {
+				panic(fmt.Errorf("open file explorer dir: %w", err))
+			}
+		} else {
+			panic(fmt.Errorf("open file explorer dir: %w", err))
+		}
+	}
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		dir := r.URL.Query().Get("dir")
+		if dir == "" {
+			dir = "."
+		}
+
+		dir = path.Clean(dir)
+		parentDir := path.Clean(path.Join(dir, "../"))
+		prettyDir := "/" + strings.TrimPrefix(dir, ".")
+
+		file, err := root.Open(dir)
+		if err != nil {
+			h.Error(w, r, "open file", err)
+
+			return
+		}
+		defer file.Close()
+
+		stats, err := file.Stat()
+		if err != nil {
+			h.Error(w, r, "get file stat", err)
+
+			return
+		}
+
+		if stats.IsDir() {
+			entries, err := file.ReadDir(0)
+			if err != nil {
+				h.Error(w, r, "read dir", err)
+
+				return
+			}
+
+			readme, err := root.ReadFile(path.Join(dir, "README.md"))
+			if err != nil && !errors.Is(err, os.ErrNotExist) {
+				h.Error(w, r, "read dir README.md", err)
+
+				return
+			}
+
+			h.Template(w, r, "tools/file_explorer.html", web.Data{
+				"Dir":       dir,
+				"PrettyDir": prettyDir,
+				"ParentDir": parentDir,
+				"Entries":   entries,
+				"Readme":    string(readme),
+			})
+		} else {
+			w.Header().Set("Content-Type", mime.TypeByExtension(filepath.Ext(stats.Name())))
+			w.Header().Set("Content-Disposition", fmt.Sprintf("filename=\"%s\"", stats.Name()))
+
+			file.Seek(0, 0)
+			io.Copy(w, file)
+		}
 	}
 }

@@ -1,7 +1,12 @@
 {{define "blocks.latest_song" -}}
 
-<a href="https://www.last.fm/user/Fluffy_Bean_" target="_blank" class="block latest-song" style="--background-image: url('{{.Thumbnail}}');">
-    <img src="{{.Thumbnail}}" alt="{{.Album}} thumbnail" />
+<a
+    href="https://www.last.fm/user/Fluffy_Bean_"
+    target="_blank"
+    class="block latest-song"
+    style="--background-image: url('/last-fm/thumbnail')"
+>
+    <img src="/last-fm/thumbnail" alt="{{.Album}} thumbnail" />
     <p>
         <b>Listening to {{.Title}}</b>
         <br>

@@ -3,9 +3,12 @@ package lastfm
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
 	"log/slog"
 	"net/http"
 	"net/url"
+	"strings"
 	"sync"
 	"time"
 
@@ -14,12 +17,15 @@ import (
 )
 
 const baseURL = "https://ws.audioscrobbler.com/2.0/"
+const imageURL = "https://lastfm.freetls.fastly.net"
+
+var transparentPixel = []byte("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
 
 type LatestSong struct {
 	Title     string
 	Artist    string
 	Album     string
-	Thumbnail string
+	Thumbnail []byte
 }
 
 type LastFM struct {
@@ -69,6 +75,27 @@ func (l *LastFM) GetLatestSong() *LatestSong {
 }
 
 func (l *LastFM) updateLatestSong() {
+	track, err := l.requestLatestSong()
+	if err != nil {
+		slog.Error("request latest song", "error", err)
+
+		return
+	}
+
+	l.mut.Lock()
+	defer l.mut.Unlock()
+
+	if l.latest != nil && l.latest.Title != track.Title {
+		go l.Events.BroadcastEvent(events.NewSong{
+			Title:  track.Title,
+			Artist: track.Artist,
+		})
+	}
+
+	l.latest = track
+}
+
+func (l *LastFM) requestLatestSong() (*LatestSong, error) {
 	values := url.Values{}
 	values.Set("method", "user.getrecenttracks")
 	values.Set("limit", "1")
@@ -78,8 +105,9 @@ func (l *LastFM) updateLatestSong() {
 
 	res, err := http.Get(baseURL + "?" + values.Encode())
 	if err != nil {
-		slog.Error("query latest song", "error", err)
-		return
+		slog.Error("get latest song", "error", err)
+
+		return nil, err
 	}
 	defer res.Body.Close()
 
@@ -102,32 +130,60 @@ func (l *LastFM) updateLatestSong() {
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&data); err != nil {
-		slog.Error("query latest song", "error", err)
+		slog.Error("get latest song", "error", err)
 
-		return
+		return nil, err
 	}
 
 	if len(data.RecentTracks.Tracks) == 0 {
-		return
+		return nil, fmt.Errorf("no recent tracks")
 	}
-
-	l.mut.Lock()
-	defer l.mut.Unlock()
 
 	track := data.RecentTracks.Tracks[0]
-	image := track.Images[2]
 
-	if l.latest != nil && l.latest.Title != track.Name {
-		go l.Events.BroadcastEvent(events.NewSong{
-			Title:  track.Name,
-			Artist: track.Artist.Text,
-		})
-	}
-
-	l.latest = &LatestSong{
+	latest := &LatestSong{
 		Title:     track.Name,
 		Artist:    track.Artist.Text,
 		Album:     track.Album.Text,
-		Thumbnail: image.Text,
+		Thumbnail: transparentPixel,
 	}
+
+	image := track.Images[2]
+	if !strings.HasPrefix(image.Text, imageURL) {
+		slog.Error("suspicious latest song thumbnail endpoint", "url", image.Text)
+
+		return latest, nil
+	}
+
+	current := l.GetLatestSong()
+	if current != nil && current.Title != latest.Title {
+		return latest, nil
+	}
+
+	res, err = http.Get(image.Text)
+	if err != nil {
+		slog.Error("get latest song thumbnail", "url", image.Text, "error", err)
+
+		return latest, nil
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		slog.Error("get latest song thumbnail", "url", image.Text, "error", res.StatusCode)
+
+		return latest, nil
+	}
+
+	thumbnail, err := io.ReadAll(res.Body)
+	if err != nil {
+		slog.Error("read latest song thumbnail", "url", image.Text, "error", err)
+
+		return latest, nil
+	}
+
+	if len(thumbnail) > 0 {
+		latest.Thumbnail = thumbnail
+	}
+
+	return latest, nil
 }

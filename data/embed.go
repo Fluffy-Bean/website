@@ -4,5 +4,5 @@ import (
 	"embed"
 )
 
-//go:embed blogs/* art.json
+//go:embed blogs/*
 var Dir embed.FS

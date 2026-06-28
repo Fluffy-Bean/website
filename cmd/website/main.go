@@ -23,10 +23,11 @@ const maxBodySize = 1 * 1024 * 1024 // 1mb
 var BuildTime string
 
 type flags struct {
-	secret  string
-	lastfm  string
-	address string
-	port    int
+	secret   string
+	lastfm   string
+	filesDir string
+	address  string
+	port     int
 }
 
 func main() {
@@ -54,10 +55,11 @@ func main() {
 	r.Use(middleware.RequestSize(maxBodySize))
 
 	routes.RegisterAssetsRoutes(h, r)
-	routes.RegisterPagesRoutes(h, r)
+	routes.RegisterLastFMRoutes(h, r)
+	routes.RegisterPagesRoutes(h, r, PagesConfig)
 	routes.RegisterBlogRoutes(h, r)
 	routes.RegisterChatRoutes(h, r)
-	routes.RegisterToolsRoutes(h, r)
+	routes.RegisterToolsRoutes(h, r, routes.ToolsConfig{FilesDir: f.filesDir})
 
 	// Join and leave events are currently unreliable...
 	//s.Events.RegisterHandler(handlers.RegisterUserJoinedHandler(h))
@@ -75,6 +77,7 @@ func parseFlags() *flags {
 
 	flag.StringVar(&f.secret, "secret", "", "Secret to use for various secret tasks")
 	flag.StringVar(&f.lastfm, "last-fm", "", "Key to use for LastFM")
+	flag.StringVar(&f.filesDir, "files-dir", ".files", "Directory to use for the files tool")
 	flag.StringVar(&f.address, "address", "0.0.0.0", "Address to listen on")
 	flag.IntVar(&f.port, "port", 3000, "Port to listen on")
 
