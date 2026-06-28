@@ -5,7 +5,7 @@ WWW_CMD="/home/uncertainty/www/gay_leggy_dev/www"
 APP_NAME="www-gay-leggy-dev"
 
 command="$WWW_CMD"
-command_args="-secret=balls -last-fm=balls -address=127.0.0.1 -port=3000"
+command_args="-secret=balls -last-fm=balls -files-dir=files -address=127.0.0.1 -port=3000"
 command_user="$WWW_USER"
 pidfile="/var/run/${APP_NAME}.pid"
 output_log="/var/log/${APP_NAME}.log"
