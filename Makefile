@@ -17,7 +17,7 @@ generate:
 	go run cmd/generate/main.go -input=static/images/art -output="${GENERATED_DIR}/1024" -size=1024
 
 build:
-	go build -o ${BUILD_DIR}/${TARGET} -ldflags "-X main.BuildTime=${BUILD_TIME}" cmd/website/main.go
+	go build -o ${BUILD_DIR}/${TARGET} -ldflags "-X main.BuildTime=${BUILD_TIME}" cmd/website/*
 
 all: clean deps generate build
 
