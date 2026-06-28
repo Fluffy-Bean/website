@@ -261,6 +261,15 @@
         filter: blur(2px);
     }
 
+    .block.file-entry {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .block.file-entry svg {
+        flex: none;
+    }
+
     @media screen and (max-width: 540px) {
         .block.latest-song {
             grid-template-columns: 1fr;
@@ -452,6 +461,10 @@
 
     .text-center {
         text-align: center;
+    }
+
+    .no-text-margin p {
+        margin: 0;
     }
 
     .row {

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"path"
 	"time"
 
 	"github.com/yuin/goldmark"
@@ -15,6 +16,8 @@ var templateFuncs = template.FuncMap{
 	"markdown":        templMarkdown,
 	"format_time":     templFormatTime,
 	"format_duration": templFormatDuration,
+	"path_join":       templPathJoin,
+	"format_filesize": templFormatFileSize,
 }
 
 func templProps(args ...interface{}) map[string]interface{} {
@@ -85,4 +88,27 @@ func templFormatDuration(d time.Duration) string {
 	format += fmt.Sprintf("%ds", int(d.Seconds()))
 
 	return format
+}
+
+func templPathJoin(elem ...string) string {
+	return path.Join(elem...)
+}
+
+func templFormatFileSize(size int64) string {
+	threshold := float64(1024)
+	units := []string{"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"}
+
+	s := float64(size)
+	i := 0
+
+	for s >= threshold && i < len(units) {
+		s /= threshold
+		i += 1
+	}
+
+	if i > 1 {
+		return fmt.Sprintf("%.2f%s", s, units[i])
+	}
+
+	return fmt.Sprintf("%.0f%s", s, units[i])
 }

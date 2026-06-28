@@ -1,0 +1,34 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{template "blocks.notice" props
+    "Text" .Vars.PrettyDir
+}}
+
+{{if .Vars.Readme}}
+    {{template "blocks.markdown" props
+        "Markdown" .Vars.Readme
+    }}
+{{end}}
+
+{{if not (eq .Vars.Dir ".")}}
+    <a href="{{printf "?dir=%s" .Vars.ParentDir}}" class="block file-entry">
+        {{template "icons.folder"}}
+        ../
+    </a>
+{{end}}
+
+{{range .Vars.Entries}}
+    <a href="{{printf "?dir=%s" (path_join $.Vars.Dir .Name)}}" {{if not .IsDir}}target="_blank"{{end}} class="block file-entry">
+        {{if.IsDir}}
+            {{template "icons.folder"}}
+        {{else}}
+            {{template "icons.file_open"}}
+        {{end}}
+
+        {{.Name}} {{if not .IsDir}}({{format_filesize .Info.Size}}){{end}}
+    </a>
+{{end}}
+
+{{end}}

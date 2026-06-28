@@ -1,0 +1,10 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+
+{{template "blocks.markdown" props
+    "Markdown" `Internal server error occurred, [return home](/).`
+    "Class" "text-center no-text-margin"
+}}
+
+{{end}}
