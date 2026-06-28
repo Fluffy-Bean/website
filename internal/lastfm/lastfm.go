@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+	"strings"
 	"sync"
 	"time"
 
@@ -16,6 +17,7 @@ import (
 )
 
 const baseURL = "https://ws.audioscrobbler.com/2.0/"
+const imageURL = "https://lastfm.freetls.fastly.net"
 
 var transparentPixel = []byte("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
 
@@ -147,23 +149,34 @@ func (l *LastFM) requestLatestSong() (*LatestSong, error) {
 	}
 
 	image := track.Images[2]
+	if !strings.HasPrefix(image.Text, imageURL) {
+		slog.Error("suspicious latest song thumbnail endpoint", "url", image.Text)
+
+		return latest, nil
+	}
+
+	current := l.GetLatestSong()
+	if current != nil && current.Title != latest.Title {
+		return latest, nil
+	}
+
 	res, err = http.Get(image.Text)
 	if err != nil {
-		slog.Error("get latest song thumbnail", "error", err)
+		slog.Error("get latest song thumbnail", "url", image.Text, "error", err)
 
 		return latest, nil
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		slog.Error("get latest song thumbnail", "error", res.StatusCode)
+		slog.Error("get latest song thumbnail", "url", image.Text, "error", res.StatusCode)
 
 		return latest, nil
 	}
 
 	thumbnail, err := io.ReadAll(res.Body)
 	if err != nil {
-		slog.Error("read latest song thumbnail", "error", err)
+		slog.Error("read latest song thumbnail", "url", image.Text, "error", err)
 
 		return latest, nil
 	}
