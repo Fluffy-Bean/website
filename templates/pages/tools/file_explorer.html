@@ -2,15 +2,19 @@
 
 {{define "content"}}
 
-{{template "blocks.notice" props
-    "Text" .Vars.PrettyDir
-}}
-
 {{if .Vars.Readme}}
+    {{template "blocks.notice" props
+        "Text" "README.md"
+    }}
+
     {{template "blocks.markdown" props
         "Markdown" .Vars.Readme
     }}
 {{end}}
+
+{{template "blocks.notice" props
+    "Text" .Vars.PrettyDir
+}}
 
 {{if not (eq .Vars.Dir ".")}}
     <a href="{{printf "?dir=%s" .Vars.ParentDir}}" class="block file-entry">

@@ -95,11 +95,8 @@ func blogGet(h *web.Handler) http.HandlerFunc {
 			return
 		}
 
-		oldBlogTime := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
-		isOldBlog := b.PublishedAt.Before(oldBlogTime)
-
 		h.Template(w, r, "blog_post.html", web.Data{
-			"IsOldBlog": isOldBlog,
+			"IsOldBlog": b.IsOldBlog(),
 			"BlogHTML":  b.Data.String(),
 		})
 	}

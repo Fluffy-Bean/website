@@ -294,13 +294,13 @@
         }
     }
 
-    .blog code {
+    .block.markdown code {
         padding: 2px 4px;
         background: rgba(var(--color-b) / 1);
         color: rgba(var(--color-a) / 1);
         border-radius: 4px;
     }
-    .blog pre {
+    .block.markdown pre {
         margin: 8px -24px;
         padding: 16px 24px;
         max-width: calc(100% + 48px);
@@ -308,16 +308,16 @@
         color: rgba(var(--color-a) / 1);
         overflow-x: auto;
     }
-    .blog pre code {
+    .block.markdown pre code {
         padding: 0;
         background: transparent;
     }
-    .blog hr {
+    .block.markdown hr {
         border: none;
         border-bottom: 1px solid rgba(var(--color-b) / 1);
     }
-    .blog ul,
-    .blog ol {
+    .block.markdown ul,
+    .block.markdown ol {
         padding-left: 24px;
         font-size: 14px;
         line-height: 24px;
