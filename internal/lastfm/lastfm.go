@@ -20,7 +20,6 @@ import (
 const baseURL = "https://ws.audioscrobbler.com/2.0/"
 
 var imageURLs = []string{"https://lastfm.freetls.fastly.net", "https://lastfm-img.freetls.fastly.net"}
-var transparentPixel = []byte("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
 
 type LatestSong struct {
 	Title     string
@@ -146,7 +145,7 @@ func (l *LastFM) requestLatestSong() (*LatestSong, error) {
 		Title:     track.Name,
 		Artist:    track.Artist.Text,
 		Album:     track.Album.Text,
-		Thumbnail: transparentPixel,
+		Thumbnail: nil,
 	}
 
 	image := track.Images[2]
