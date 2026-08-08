@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log/slog"
@@ -22,7 +23,7 @@ const (
 	cookieLifespan = 12 * time.Hour
 )
 
-type Data map[string]interface{}
+type Data map[string]any
 
 type Handler struct {
 	secret    string
@@ -126,7 +127,7 @@ func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, 
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	err = templ.Execute(w, map[string]interface{}{
+	err = templ.Execute(w, map[string]any{
 		"URL":       tmplURLVars(r),
 		"Time":      tmplTimeVars(),
 		"StartTime": h.StartTime,
@@ -139,6 +140,11 @@ func (h *Handler) Template(w http.ResponseWriter, r *http.Request, page string, 
 
 		return
 	}
+}
+
+func (h *Handler) JSON(w http.ResponseWriter, r *http.Request, data map[string]any) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
 }
 
 func (h *Handler) Error(w http.ResponseWriter, r *http.Request, msg string, err error) {

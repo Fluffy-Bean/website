@@ -105,13 +105,20 @@ func toolFileExplorerGet(h *web.Handler, c *ToolsConfig) http.HandlerFunc {
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
+		jsonResponse := r.URL.Query().Has("json")
+
 		dir := r.URL.Query().Get("dir")
 		if dir == "" {
 			dir = "."
+		} else {
+			dir = path.Clean(dir)
 		}
 
-		dir = path.Clean(dir)
 		parentDir := path.Clean(path.Join(dir, "../"))
+		if dir == "." {
+			parentDir = ""
+		}
+
 		prettyDir := "/" + strings.TrimPrefix(dir, ".")
 
 		file, err := root.Open(dir)
@@ -144,13 +151,31 @@ func toolFileExplorerGet(h *web.Handler, c *ToolsConfig) http.HandlerFunc {
 				return
 			}
 
-			h.Template(w, r, "tools/file_explorer.html", web.Data{
-				"Dir":       dir,
-				"PrettyDir": prettyDir,
-				"ParentDir": parentDir,
-				"Entries":   entries,
-				"Readme":    string(readme),
-			})
+			if jsonResponse {
+				jsonEntries := make([]web.Data, len(entries))
+				for i, entry := range entries {
+					jsonEntries[i] = web.Data{
+						"is-dir": entry.IsDir(),
+						"name":   entry.Name(),
+					}
+				}
+
+				h.JSON(w, r, web.Data{
+					"dir":           dir,
+					"pretty-dir":    prettyDir,
+					"parent-dir":    parentDir,
+					"entries":       jsonEntries,
+					"entries-count": len(jsonEntries),
+				})
+			} else {
+				h.Template(w, r, "tools/file_explorer.html", web.Data{
+					"Dir":       dir,
+					"PrettyDir": prettyDir,
+					"ParentDir": parentDir,
+					"Entries":   entries,
+					"Readme":    string(readme),
+				})
+			}
 		} else {
 			w.Header().Set("Content-Type", mime.TypeByExtension(filepath.Ext(stats.Name())))
 			w.Header().Set("Content-Disposition", fmt.Sprintf("filename=\"%s\"", stats.Name()))
