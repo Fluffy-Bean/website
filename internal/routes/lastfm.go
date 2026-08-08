@@ -19,6 +19,8 @@ func lastFMThumbnailGet(h *web.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		latest := h.LastFM.GetLatestSong()
 
+		w.Header().Set("Cache-Control", "no-cache")
+
 		if latest == nil {
 			w.WriteHeader(http.StatusNotFound)
 
