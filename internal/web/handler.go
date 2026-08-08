@@ -60,7 +60,7 @@ func (h *Handler) ReadDataDir(dir string) ([]os.DirEntry, error) {
 }
 
 func (h *Handler) Uptime() time.Duration {
-	return time.Now().Sub(h.StartTime)
+	return time.Since(h.StartTime)
 }
 
 func (h *Handler) templateParse(templ *template.Template, patterns ...string) (*template.Template, error) {
