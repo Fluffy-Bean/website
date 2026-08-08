@@ -19,6 +19,9 @@ generate:
 build:
 	go build -o ${BUILD_DIR}/${TARGET} -ldflags "-X main.BuildTime=${BUILD_TIME}" cmd/website/*
 
+run:
+	go run -ldflags "-X main.BuildTime=${BUILD_TIME}" cmd/website/* ${ARGS}
+
 all: clean deps generate build
 
-.PHONY: clean deps generate build all
+.PHONY: clean deps generate build run all

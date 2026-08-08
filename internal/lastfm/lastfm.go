@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -17,8 +18,8 @@ import (
 )
 
 const baseURL = "https://ws.audioscrobbler.com/2.0/"
-const imageURL = "https://lastfm.freetls.fastly.net"
 
+var imageURLs = []string{"https://lastfm.freetls.fastly.net", "https://lastfm-img.freetls.fastly.net"}
 var transparentPixel = []byte("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
 
 type LatestSong struct {
@@ -149,8 +150,13 @@ func (l *LastFM) requestLatestSong() (*LatestSong, error) {
 	}
 
 	image := track.Images[2]
-	if !strings.HasPrefix(image.Text, imageURL) {
-		slog.Error("suspicious latest song thumbnail endpoint", "url", image.Text)
+
+	safePrefix := slices.ContainsFunc(imageURLs, func(url string) bool {
+		return strings.HasPrefix(image.Text, url)
+	})
+
+	if !safePrefix {
+		slog.Debug("suspicious latest song thumbnail endpoint", "url", image.Text)
 
 		return latest, nil
 	}
