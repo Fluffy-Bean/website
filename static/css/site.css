@@ -488,4 +488,12 @@
         flex-direction: row;
         gap: 16px;
     }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .push-inline-end {
+        margin-left: auto;
+    }
 }

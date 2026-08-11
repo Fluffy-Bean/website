@@ -20,8 +20,8 @@ var templateFuncs = template.FuncMap{
 	"format_filesize": templFormatFileSize,
 }
 
-func templProps(args ...interface{}) map[string]interface{} {
-	props := make(map[string]interface{})
+func templProps(args ...any) map[string]any {
+	props := make(map[string]any)
 
 	if len(args)%2 != 0 {
 		panic("args must have even number of parameters")
