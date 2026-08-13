@@ -322,6 +322,9 @@
         font-size: 14px;
         line-height: 24px;
     }
+    .block.markdown img {
+        margin: 8px 0;
+    }
 
     .chat-history {
         margin: 0;
