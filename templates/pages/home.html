@@ -2,12 +2,14 @@
 
 {{define "content"}}
 
-{{template "blocks.latest_song" props
-    "Title" .Vars.LatestSong.Title
-    "Album" .Vars.LatestSong.Album
-    "Artist" .Vars.LatestSong.Artist
-    "Thumbnail" .Vars.LatestSong.Thumbnail
-}}
+{{if .Vars.LatestSong}}
+    {{template "blocks.latest_song" props
+        "Title" .Vars.LatestSong.Title
+        "Album" .Vars.LatestSong.Album
+        "Artist" .Vars.LatestSong.Artist
+        "Thumbnail" .Vars.LatestSong.Thumbnail
+    }}
+{{end}}
 
 {{template "blocks.markdown" props "Markdown" `
 
