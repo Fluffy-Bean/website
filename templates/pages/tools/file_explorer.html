@@ -16,23 +16,30 @@
     "Text" .Vars.PrettyDir
 }}
 
-{{if not (eq .Vars.Dir ".")}}
-    <a href="{{printf "?dir=%s" .Vars.ParentDir}}" class="block file-entry">
-        {{template "icons.folder"}}
-        ../
-    </a>
-{{end}}
+<div class="block clip">
+    {{if not (eq .Vars.Dir ".")}}
+        <p>
+            <a href="{{printf "?dir=%s" .Vars.ParentDir}}" class="row file-entry">
+                {{template "icons.folder"}}
+                ../
+            </a>
+        </p>
+    {{end}}
 
-{{range .Vars.Entries}}
-    <a href="{{printf "?dir=%s" (path_join $.Vars.Dir .Name)}}" {{if not .IsDir}}target="_blank"{{end}} class="block file-entry">
-        {{if.IsDir}}
-            {{template "icons.folder"}}
-        {{else}}
-            {{template "icons.file_open"}}
-        {{end}}
+    {{range .Vars.Entries}}
+        <p>
+            <a href="{{printf "?dir=%s" (path_join $.Vars.Dir .Name)}}" {{if not .IsDir}}target="_blank"{{end}} class="row file-entry">
+                {{if.IsDir}}
+                    {{template "icons.folder"}}
+                {{else}}
+                    {{template "icons.file_open"}}
+                {{end}}
 
-        {{.Name}} {{if not .IsDir}}({{format_filesize .Info.Size}}){{end}}
-    </a>
-{{end}}
+                {{.Name}} {{if not .IsDir}}({{format_filesize .Info.Size}}){{end}}
+            </a>
+        </p>
+    {{end}}
+</div>
+
 
 {{end}}

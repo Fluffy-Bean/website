@@ -2,12 +2,16 @@
 
 {{define "content"}}
 
-{{range .Vars.Blogs}}
-    <a href="{{printf "/blogs/%s" .Slug}}" class="block row">
-        {{.Title}}
+<div class="block">
+    {{range .Vars.Blogs}}
+        <p>
+            <a href="{{printf "/blogs/%s" .Slug}}" class="row">
+                {{.Title}}
 
-        <span class="italic push-inline-end">{{format_time .PublishedAt "DateOnly"}}</span>
-    </a>
-{{end}}
+                <span class="italic push-inline-end">{{format_time .PublishedAt "DateOnly"}}</span>
+            </a>
+        </p>
+    {{end}}
+</div>
 
 {{end}}

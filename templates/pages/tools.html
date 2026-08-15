@@ -2,13 +2,13 @@
 
 {{define "content"}}
 
-{{range .Vars.Tools}}
-    {{$name := index . 0}}
-    {{$path := index . 1}}
+<div class="block">
+    {{range .Vars.Tools}}
+        {{$name := index . 0}}
+        {{$path := index . 1}}
 
-    <a href="{{printf "/tools/%s" $path}}" class="block text">
-        {{$name}}
-    </a>
-{{end}}
+        <p><a href="{{printf "/tools/%s" $path}}" class="row">{{$name}}</a></p>
+    {{end}}
+</div>
 
 {{end}}
