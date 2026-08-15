@@ -66,17 +66,15 @@ To make the site accessible in any way, we use Caddy to serve the files. We can 
   redir /.well-known/carddav /dav.php permanent
   redir /.well-known/caldav /dav.php permanent
 
-  rewrite {path}/ /index.php?{query}
-
-  php_fastcgi 127.0.0.1:9000
-
   root * /var/www/baikal/html
+
+  php_fastcgi 127.0.0.1:9000 {
+    split .php
+  }
 
   file_server
 }
 ```
-
-You can skip the rewrite part, but the URLs look neater with it...
 
 Now start the service
 
@@ -89,6 +87,6 @@ I have another proxmox ct doing the actual proxying to the web, so in there I do
 
 ## Setting up Baikal
 
-You now _should_ be able to go to your favorite web browser of choice (should be Helium), and visit `ip.of.your.server:3000/admin/install` to setup Baikal.
+You now _should_ be able to go to your favorite web browser of choice (should be Helium), and visit `ip.of.your.server:3000/admin/install/index.php` to setup Baikal.
 
 And that's it!
