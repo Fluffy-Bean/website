@@ -8,7 +8,7 @@ First install the dependencies, unsure why php 8.2 is only in the testing repos,
 
 ```
 apk add curl vim unzip caddy
-apk add php82 php82-fpm php82-session php82-pdo_sqlite php82-pdo_pgsql php82-pdo_mysql php82-curl php82-xml php82-xmlreader php82-mbstring --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
+apk add php82 php82-fpm php82-session php82-pdo_sqlite php82-pdo_pgsql php82-pdo_mysql php82-curl php82-xml php82-xmlreader php82-xmlwriter php82-mbstring --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 ```
 
 ## Installing Baikal
