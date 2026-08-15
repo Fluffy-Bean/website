@@ -4,11 +4,10 @@ I'm doing this on alpine 3.24, but I don't think the process should be too diffe
 
 ## Packages
 
-First install the dependencies, unsure why php 8.2 is only in the testing repos, but yolo
+First install all the required dependencies
 
 ```
-apk add curl vim unzip caddy
-apk add php82 php82-fpm php82-session php82-pdo_sqlite php82-pdo_pgsql php82-pdo_mysql php82-curl php82-xml php82-xmlreader php82-xmlwriter php82-mbstring --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
+apk add curl vim unzip caddy php84 php84-fpm php84-session php84-pdo_sqlite php84-pdo_pgsql php84-pdo_mysql php84-curl php84-xml php84-xmlreader php84-xmlwriter php84-mbstring
 ```
 
 ## Installing Baikal
@@ -48,13 +47,13 @@ Now would also be a good time to correctly set the permissions for the www dir w
 chown www-data:www-data /var/www -R
 ```
 
-To make php actually use the www-data user, we must update our config file. You can find it in `/etc/php82/php-fpm.d/www.conf`, set `user` and `group` in  to be `www-data`
+To make php actually use the www-data user, we must update our config file. You can find it in `/etc/php84/php-fpm.d/www.conf`, set `user` and `group` in  to be `www-data`
 
 And start the service!
 
 ```
-rc-update add php-fpm82
-rc-service php-fpm82 start
+rc-update add php-fpm84
+rc-service php-fpm84 start
 ```
 
 ## Caddy
@@ -76,7 +75,9 @@ To make the site accessible in any way, we use Caddy to serve the files. We can 
 }
 ```
 
-Now start the service
+For me the default fpm access with php 8.4 is 127.0.0.1:9000, but you can double check what the port/socket is in `/etc/php84/php-fpm.d/www.conf`.
+
+Now start the service!
 
 ```
 rc-update add caddy
