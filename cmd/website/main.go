@@ -51,9 +51,9 @@ func main() {
 
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Logger)
-	r.Use(middleware.RealIP)
 	r.Use(middleware.RequestSize(maxBodySize))
 
+	routes.RegisterRedirectsRoutes(h, r)
 	routes.RegisterAssetsRoutes(h, r)
 	routes.RegisterLastFMRoutes(h, r)
 	routes.RegisterPagesRoutes(h, r, PagesConfig)
