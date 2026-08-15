@@ -90,4 +90,4 @@ I have another proxmox ct doing the actual proxying to the web, so in there I do
 
 You now _should_ be able to go to your favorite web browser of choice (should be Helium), and visit `ip.of.your.server:3000/admin/install/index.php` to setup Baikal.
 
-And that's it!
+And that's it! You now should also be able to add your calendars on something like Thunderbird on `http://ip.of.your.server:3000/dav.php`
