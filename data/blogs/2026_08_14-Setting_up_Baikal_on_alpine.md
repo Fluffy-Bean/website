@@ -75,7 +75,7 @@ To make the site accessible in any way, we use Caddy to serve the files. We can 
 }
 ```
 
-For me the default fpm access with php 8.4 is 127.0.0.1:9000, but you can double check what the port/socket is in `/etc/php85/php-fpm.d/www.conf`.
+For me the default fpm access with php 8.5 is 127.0.0.1:9000, but you can double check what the port/socket is in `/etc/php85/php-fpm.d/www.conf`.
 
 Now start the service!
 
