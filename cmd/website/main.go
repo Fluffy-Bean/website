@@ -68,8 +68,11 @@ func main() {
 
 	listen := fmt.Sprintf("%s:%d", f.address, f.port)
 
-	slog.Info("Listening on: " + listen)
-	http.ListenAndServe(listen, r)
+	slog.Info("listening on " + listen)
+
+	if err := http.ListenAndServe(listen, r); err != nil {
+		slog.Error("failed to serve", "error", err)
+	}
 }
 
 func parseFlags() *flags {

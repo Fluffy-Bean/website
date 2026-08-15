@@ -373,6 +373,11 @@
         height: auto;
         object-fit: contain;
     }
+    .block.markdown blockquote {
+        margin: 16px 0;
+        padding: 0 0 0 10px;
+        border-left: 3px solid rgba(var(--color-b) / 1);
+    }
 
     .chat-history {
         margin: 0;
