@@ -10,6 +10,21 @@
     <link rel="icon" href="/static/images/icon.png">
 
     <script src="https://umami.leggy.dev/script.js" data-website-id="e8c4fb4f-6ff2-4179-8873-957d635c862c" defer></script>
+
+    <style>
+        {{$hueA := rand 255}}
+        {{$hueB := mod (add $hueA 125) 255}}
+
+        {{$rgbA := hsl_to_rgb $hueA (div 30.0 100) (div 90.0 100)}}
+        {{$rgbB := hsl_to_rgb $hueB (div 90.0 100) (div 20.0 100)}}
+
+        /*
+        :root {
+            --color-a: {{index $rgbA 0}} {{index $rgbA 1}} {{index $rgbA 2}};
+            --color-b: {{index $rgbB 0}} {{index $rgbB 1}} {{index $rgbB 2}};
+        }
+        */
+    </style>
 </head>
 <body>
     <a id="jump-to-content" href="#main">Jump to content</a>

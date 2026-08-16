@@ -255,9 +255,9 @@
 
     .block img {
         max-width: 100%;
-        max-height: 400px;
-        height: auto;
         display: block;
+        background: radial-gradient(rgb(var(--color-b)) 1px, transparent 0);
+        background-size: 5px 5px;
     }
 
     .block.image img {
@@ -303,8 +303,8 @@
         z-index: +1;
     }
     .block.latest-song img {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 80px;
+        max-height: 80px;
         aspect-ratio: 1/1;
         z-index: +1;
     }
@@ -343,7 +343,7 @@
         border-radius: 4px;
     }
     .block.markdown pre {
-        margin: 8px 0;
+        margin: 8px -24px;
         padding: 16px 24px;
         max-width: calc(100% + 48px);
         background: rgba(var(--color-b) / 1);
@@ -365,13 +365,19 @@
         line-height: 24px;
     }
     .block.markdown img {
-        margin: 8px 0;
+        margin: 16px -24px;
+        padding: 8px 24px;
+        width: calc(100% + 48px);
+        max-height: 600px;
+        max-width: unset;
+        height: auto;
+        object-fit: contain;
     }
 
     .chat-history {
         margin: 0;
         padding: 16px 24px;
-        height: 300px;
+        height: max(400px, 60vh);
         overflow-y: auto;
     }
     .chat-history li {
@@ -384,7 +390,7 @@
     }
 
     .message-box {
-        padding: 16px 24px;
+        padding: 8px 24px;
         position: relative;
         display: grid;
         grid-template-columns: 1fr auto;

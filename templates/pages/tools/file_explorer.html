@@ -35,7 +35,9 @@
                     {{template "icons.file_open"}}
                 {{end}}
 
-                {{.Name}} {{if not .IsDir}}({{format_filesize .Info.Size}}){{end}}
+                {{.Name}}
+
+                <span class="italic push-inline-end">{{if not .IsDir}}{{format_filesize .Info.Size}}{{end}}</span>
             </a>
         </p>
     {{end}}

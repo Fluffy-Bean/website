@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"math"
+	"math/rand/v2"
 	"path"
 	"time"
 
@@ -18,6 +20,13 @@ var templateFuncs = template.FuncMap{
 	"format_duration": templFormatDuration,
 	"path_join":       templPathJoin,
 	"format_filesize": templFormatFileSize,
+	"hsl_to_rgb":      templHSLToRGB,
+	"rand":            templRand,
+	"add":             templAdd,
+	"sub":             templSub,
+	"mul":             templMul,
+	"div":             templDiv,
+	"mod":             templMod,
 }
 
 func templProps(args ...any) map[string]any {
@@ -111,4 +120,62 @@ func templFormatFileSize(size int64) string {
 	}
 
 	return fmt.Sprintf("%.0f%s", s, units[i])
+}
+
+// https://github.com/Crazy3lf/colorconv/blob/master/colorconv.go#L97
+func templHSLToRGB(h, s, l float64) ([]int, error) {
+	if h < 0 || h >= 360 || s < 0 || s > 1 || l < 0 || l > 1 {
+		return nil, fmt.Errorf("out of range")
+	}
+
+	// When 0 ≤ h < 360, 0 ≤ s ≤ 1 and 0 ≤ l ≤ 1:
+	C := (1 - math.Abs((2*l)-1)) * s
+	X := C * (1 - math.Abs(math.Mod(h/60, 2)-1))
+	m := l - (C / 2)
+	var Rnot, Gnot, Bnot float64
+
+	switch {
+	case 0 <= h && h < 60:
+		Rnot, Gnot, Bnot = C, X, 0
+	case 60 <= h && h < 120:
+		Rnot, Gnot, Bnot = X, C, 0
+	case 120 <= h && h < 180:
+		Rnot, Gnot, Bnot = 0, C, X
+	case 180 <= h && h < 240:
+		Rnot, Gnot, Bnot = 0, X, C
+	case 240 <= h && h < 300:
+		Rnot, Gnot, Bnot = X, 0, C
+	case 300 <= h && h < 360:
+		Rnot, Gnot, Bnot = C, 0, X
+	}
+
+	r := int(math.Round((Rnot + m) * 255))
+	g := int(math.Round((Gnot + m) * 255))
+	b := int(math.Round((Bnot + m) * 255))
+
+	return []int{r, g, b}, nil
+}
+
+func templRand(max float64) float64 {
+	return rand.Float64() * max
+}
+
+func templAdd(lhs, rhs float64) float64 {
+	return lhs + rhs
+}
+
+func templSub(lhs, rhs float64) float64 {
+	return lhs - rhs
+}
+
+func templMul(lhs, rhs float64) float64 {
+	return lhs * rhs
+}
+
+func templDiv(lhs, rhs float64) float64 {
+	return lhs / rhs
+}
+
+func templMod(lhs, rhs float64) float64 {
+	return math.Mod(lhs, rhs)
 }
