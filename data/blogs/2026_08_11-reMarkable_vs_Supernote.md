@@ -25,15 +25,19 @@ _Sacrifice at every step_
 
 I'll be primarily comparing __stock__ software, without any of their fancy account features. They both offer cloud storage but reMarkable requires a subscription, whilst Supernote does not at the time of writing this.
 
-My reMarkable tablet is refurbished, and seems to have 2 dead pixels. I have also contacted both Supernote and reMarkable in the past about pen accuracy issues, neither of the issues was resolved.
+My reMarkable tablet is refurbished, and seems to have 2 dead pixels. I have also contacted both Supernote and reMarkable in the past about pen accuracy issues, but only reMarkable offered a replacement, Supernote recommended me to not have the stock cover flipped back on itself due to the magnets interfereing with the screen.
 
-(actually, remarkable did get back to me finally and offer a replacement, but I decided to return the device instead)
+By the time this blog is out, __spoilers__, I have also already returned the device. I was originally planning on keeping it for a whole month for testing, but I couldn't last a week. It just wasn't compatible with my workflow at all, and there was no obvious way I could ammend that, not even for this "review" I decided to write on a whim.
 
-(at the time of posting this review, my device has already been returned, I could not stand using it the whole month I planned on keeping it, lasted only 4 days)
+This will be a slightly biased review, as I love repairable and tikerable tech, but considering you're here, I would suspect you're the same.
 
-The reMarkable tablet was also returned only a week after getting it, I actually just couldn't get through the entire month I planned on keeping the device, it completly ruined my workflow at work.
+## The Hardware
 
-## Super duper quick numbers comparason
+On paper, the Supernote should beat the reMarkable, but I wouldn't be making this blog post if it was as simple as that. Lets start simple and at the core of these devces, navigating documents, the reMarkable beats out the Supernote in almost everything here; creating a notebook, turning pages, redoing/undoing, changing templates.
+
+Unfortunatly it doesn't stop there, things like connecting to WiFi, typing on the keyboard, navigating the file system, it's all much more seameless, making a transition from paper to reMarkable much better than paper to Supernote. It unfortunatly made going back to the Supernote pretty bad, especially with the price of the Supernote.
+
+Oh yeah, let's get into the on paper specs and price __[[ Add more fields, cpu, actual dimentons, weight, etc ]]__
 
 > reMarkable Paper Pro
 >
@@ -51,7 +55,15 @@ The reMarkable tablet was also returned only a week after getting it, I actually
 >
 > **What I paid**: £420
 
-Haha funny numbers that are a complete coincidence
+So far, it's not looking too good for Supernote, granted the reMarkable tablet being almost £200 more refurbished, or £300 more when gotten new.
+
+_Fortunatly_, not all hope is lost for the Supernote, as there is something more important to me than responsiveness, battery life. I do not want to switch away from paper notes to a tablet, only to never be able to take notes as I pull the device out my backpack at work, and the battery went *poof* overnight.
+
+On my typical use, taking notes throughout the day during a typucal work week, and some reading once I'm home, I got about 2 weeks battery life with my Supernote. Honestly almost the best part about this device, never needing to worry if I have battery or not, though, the charging is unfortunatly much slower than I wish it was...
+
+The reMarkable got me a whole 3.5 days on the exact same use! Not even a full fucking week. I think the main blame here is the color display, which I will want to talk about more later, but, due to the nature of how eink works currently, it does full screen refreshes a lot more than my supernote needs todo.
+
+Storage, though less important to me specifically, is still important. The Supernote gets 32GBs, with a large portion eaten by Android, and the reMarkable gets 64GB. But, the Supernote offers expandable storage __[[ Check how much upto ]]__, and the reMarkable does not. Neither offer any kind of storage options either, this is all they're gonna get.
 
 ## reMarkable
 
