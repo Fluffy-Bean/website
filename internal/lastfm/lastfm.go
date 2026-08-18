@@ -19,8 +19,6 @@ import (
 
 const baseURL = "https://ws.audioscrobbler.com/2.0/"
 
-var imageURLs = []string{"https://lastfm.freetls.fastly.net", "https://lastfm-img.freetls.fastly.net"}
-
 type LatestSong struct {
 	Title     string
 	Artist    string
@@ -48,7 +46,7 @@ func NewLastFM(ctx context.Context, key string) *LastFM {
 	// ToDo: Maybe this should dynamically scale? If same song has been displayed for a while, or no little/no visitors
 	//       recently, no reason to query so often
 	go func() {
-		ticker := time.NewTicker(15 * time.Second)
+		ticker := time.NewTicker(20 * time.Second)
 		defer ticker.Stop()
 
 		l.updateLatestSong()
@@ -75,7 +73,7 @@ func (l *LastFM) GetLatestSong() *LatestSong {
 }
 
 func (l *LastFM) updateLatestSong() {
-	track, err := l.requestLatestSong()
+	track, err := l.fetchLatestSong()
 	if err != nil {
 		slog.Error("request latest song", "error", err)
 
@@ -85,7 +83,7 @@ func (l *LastFM) updateLatestSong() {
 	l.mut.Lock()
 	defer l.mut.Unlock()
 
-	if l.latest != nil && l.latest.Title != track.Title {
+	if l.latest == nil || l.latest != nil && l.latest.Title != track.Title {
 		go l.Events.BroadcastEvent(events.NewSong{
 			Title:  track.Title,
 			Artist: track.Artist,
@@ -95,7 +93,7 @@ func (l *LastFM) updateLatestSong() {
 	l.latest = track
 }
 
-func (l *LastFM) requestLatestSong() (*LatestSong, error) {
+func (l *LastFM) fetchLatestSong() (*LatestSong, error) {
 	values := url.Values{}
 	values.Set("method", "user.getrecenttracks")
 	values.Set("limit", "1")
@@ -148,40 +146,31 @@ func (l *LastFM) requestLatestSong() (*LatestSong, error) {
 		Thumbnail: nil,
 	}
 
-	image := track.Images[2]
+	imageURL := track.Images[2].Text
 
-	safePrefix := slices.ContainsFunc(imageURLs, func(url string) bool {
-		return strings.HasPrefix(image.Text, url)
-	})
-
-	if !safePrefix {
-		slog.Debug("suspicious latest song thumbnail endpoint", "url", image.Text)
+	if !l.safeImageURL(imageURL) {
+		slog.Debug("suspicious latest song thumbnail endpoint", "url", imageURL)
 
 		return latest, nil
 	}
 
-	current := l.GetLatestSong()
-	if current != nil && current.Title != latest.Title {
-		return latest, nil
-	}
-
-	res, err = http.Get(image.Text)
+	res, err = http.Get(imageURL)
 	if err != nil {
-		slog.Error("get latest song thumbnail", "url", image.Text, "error", err)
+		slog.Error("get latest song thumbnail", "url", imageURL, "error", err)
 
 		return latest, nil
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		slog.Error("get latest song thumbnail", "url", image.Text, "error", res.StatusCode)
+		slog.Error("get latest song thumbnail", "url", imageURL, "error", res.StatusCode)
 
 		return latest, nil
 	}
 
 	thumbnail, err := io.ReadAll(res.Body)
 	if err != nil {
-		slog.Error("read latest song thumbnail", "url", image.Text, "error", err)
+		slog.Error("read latest song thumbnail", "url", imageURL, "error", err)
 
 		return latest, nil
 	}
@@ -191,4 +180,15 @@ func (l *LastFM) requestLatestSong() (*LatestSong, error) {
 	}
 
 	return latest, nil
+}
+
+func (l *LastFM) safeImageURL(url string) bool {
+	var safe = []string{
+		"https://lastfm.freetls.fastly.net",
+		"https://lastfm-img.freetls.fastly.net",
+	}
+
+	return slices.ContainsFunc(safe, func(safe string) bool {
+		return strings.HasPrefix(url, safe)
+	})
 }

@@ -287,8 +287,7 @@
     .block.latest-song {
         --background-image: transparent;
 
-        display: grid;
-        grid-template-columns: 80px 1fr;
+        display: flex;
         gap: 16px;
         align-items: center;
 
@@ -328,11 +327,14 @@
         filter: blur(2px);
     }
 
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 420px) {
         .block.latest-song {
-            grid-template-columns: 1fr;
-            grid-auto-rows: 80px 1fr;
+            flex-direction: column;
             align-items: start;
+        }
+        .block.latest-song img {
+            max-width: 60px;
+            max-height: 60px;
         }
     }
 
@@ -372,6 +374,11 @@
         max-width: unset;
         height: auto;
         object-fit: contain;
+    }
+    .block.markdown blockquote {
+        margin: 16px 0;
+        padding: 0 0 0 10px;
+        border-left: 3px solid rgba(var(--color-b) / 1);
     }
 
     .chat-history {
