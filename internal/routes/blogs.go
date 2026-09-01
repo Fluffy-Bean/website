@@ -96,8 +96,10 @@ func blogGet(h *web.Handler) http.HandlerFunc {
 		}
 
 		h.Template(w, r, "blog_post.html", web.Data{
-			"IsOldBlog": b.IsOldBlog(),
-			"BlogHTML":  b.Data.String(),
+			"IsOldBlog":       b.IsOldBlog(),
+			"BlogTitle":       b.Title,
+			"BlogPublishedAt": b.PublishedAt,
+			"BlogHTML":        b.Data.String(),
 		})
 	}
 }

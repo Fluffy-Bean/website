@@ -1,5 +1,7 @@
 {{template "layout.html" .}}
 
+{{define "title"}}{{.Vars.BlogTitle}}{{end}}
+
 {{define "content"}}
 
 {{if .Vars.IsOldBlog}}
