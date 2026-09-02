@@ -282,8 +282,6 @@
     }
 
     .block.latest-song {
-        --background-image: transparent;
-
         display: grid;
         grid-template-columns: 80px 1fr;
         gap: 16px;
@@ -309,15 +307,15 @@
         content: "";
 
         position: absolute;
-        inset: -16px;
+        inset: -2px;
 
         background-image:
             linear-gradient(
                 to right,
-                rgb(var(--color-a) / 0.9),
-                rgb(var(--color-a) / 0.4)
+                rgb(var(--color-a) / 0.8),
+                rgb(var(--color-a) / 0.2)
             ),
-            var(--background-image);
+            url("/last-fm/thumbnail");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
