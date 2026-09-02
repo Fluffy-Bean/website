@@ -52,6 +52,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Logger)
 	r.Use(middleware.RequestSize(maxBodySize))
+	r.Use(middleware.SetHeader("X-Powered-By", "PHP/6.7"))
 
 	routes.RegisterRedirectsRoutes(h, r)
 	routes.RegisterAssetsRoutes(h, r)
