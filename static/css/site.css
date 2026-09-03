@@ -152,7 +152,6 @@
         max-width: 800px;
         display: flex;
         align-items: center;
-        background: rgba(var(--color-b) / 0.1);
     }
     header .title {
         margin: 0;
@@ -205,11 +204,10 @@
     }
 
     footer {
-        margin: 0 auto;
+        margin: 8px auto;
         max-width: 800px;
         font-size: 11px;
         text-align: center;
-        background: rgba(var(--color-b) / 0.1);
     }
     footer p {
         margin: 0;
@@ -228,14 +226,17 @@
     }
 
     .block {
+        margin: 8px 0;
         padding: 16px 24px;
         display: block;
         background: rgba(var(--color-a) / 1);
         color: rgba(var(--color-b) / 1);
+        border: 1px solid rgba(var(--color-b) / 1);
     }
 
     .block.join:has(+ .block) {
-        border-bottom: 1px solid rgba(var(--color-b) / 1);
+        margin-bottom: -8px;
+        border-bottom: none;
     }
 
     .block.clip *:first-child {
@@ -301,6 +302,7 @@
         max-width: 80px;
         max-height: 80px;
         aspect-ratio: 1/1;
+        border: 1px solid rgba(var(--color-b) / 1);
         z-index: +1;
     }
     .block.latest-song::before {
@@ -370,10 +372,11 @@
     }
 
     .chat-history {
-        margin: 0;
+        margin: 8px 0;
         padding: 16px 24px;
         height: max(400px, 60vh);
         overflow-y: auto;
+        border: 1px solid rgba(var(--color-b) / 1);
     }
     .chat-history li {
         max-width: 100%;
