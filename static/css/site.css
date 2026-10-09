@@ -1,41 +1,30 @@
 @font-face {
-    font-family: "Roboto Variable";
-    font-style: normal;
-    font-display: swap;
-    font-weight: 100 900;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/roboto:vf@latest/latin-wght-normal.woff2)
-        format("woff2-variations");
-    unicode-range:
-        U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-        U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-        U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-    font-family: "JetBrains Mono Variable";
-    font-style: normal;
-    font-display: swap;
-    font-weight: 100 800;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2)
-        format("woff2-variations");
-    unicode-range:
-        U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-        U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-        U+2212, U+2215, U+FEFF, U+FFFD;
+  font-family: "Departure Mono";
+  src:
+    url("/static/fonts/DepartureMono-Regular.woff2") format("woff2"),
+    url("/static/fonts/DepartureMono-Regular.woff") format("woff"),
+    url("/static/fonts/DepartureMono-Regular.otf") format("opentype");
+  font-feature-settings: "locl";
 }
 
 :root {
-    --color-a: 255 255 255;
-    --color-b: 30 30 30;
-    --font-title: "Roboto Variable", sans-serif;
-    --font-body: "Roboto Variable", sans-serif;
-    --font-mono: "JetBrains Mono Variable", mono;
+    font-family: var(--ff);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    color-scheme: light dark;
+
+    --color-a: 242 237 230;
+    --color-b: 26 5 194;
+    --ff: "Departure Mono", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-a: 20 20 20;
-        --color-b: 255 255 255;
+        --color-a: 26 5 194;
+        --color-b: 242 237 230;
     }
 }
 
@@ -51,7 +40,7 @@
     button,
     input,
     textarea {
-        font-family: var(--font-body);
+        font-family: var(--ff);
         font-size: 14px;
         font-weight: 400;
     }
@@ -60,7 +49,6 @@
 @layer universal {
     h1 {
         margin: 16px 0;
-        font-family: var(--font-title);
         font-size: 34px;
         font-weight: 500;
         line-height: 44px;
@@ -68,7 +56,6 @@
 
     h2 {
         margin: 16px 0;
-        font-family: var(--font-title);
         font-size: 24px;
         font-weight: 500;
         line-height: 34px;
@@ -76,7 +63,6 @@
 
     h3 {
         margin: 16px 0;
-        font-family: var(--font-title);
         font-size: 22px;
         font-weight: 500;
         line-height: 32px;
@@ -84,7 +70,6 @@
 
     h4 {
         margin: 16px 0;
-        font-family: var(--font-title);
         font-size: 20px;
         font-weight: 500;
         line-height: 30px;
@@ -92,7 +77,6 @@
 
     h5 {
         margin: 16px 0;
-        font-family: var(--font-title);
         font-size: 16px;
         font-weight: 500;
         line-height: 26px;
@@ -103,7 +87,6 @@
     }
 
     a {
-        font-family: var(--font-body);
         font-size: inherit;
         font-weight: 400;
         color: currentColor;
@@ -113,13 +96,12 @@
     }
 
     code {
-        font-family: var(--font-mono);
+        font-family: var(--ff);
         font-size: 13px;
     }
 
     body {
         margin: 0;
-        font-family: var(--font-body);
         font-size: 14px;
         font-weight: 400;
         line-height: 24px;
@@ -155,7 +137,6 @@
     }
     header .title {
         margin: 0;
-        font-family: var(--font-title);
         font-size: 20px;
         line-height: 20px;
         font-weight: 500;
