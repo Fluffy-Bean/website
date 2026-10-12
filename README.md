@@ -1,3 +1,3 @@
 # Website
 
-![Homepage](.github/Screenshot 2026-10-12 at 23.41.42.png)
+![Homepage](.github/Screenshot_2026-10-12_at_23.41.42.png)
