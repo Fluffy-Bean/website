@@ -93,8 +93,10 @@
         text-decoration-thickness: 2px;
         text-underline-offset: 3px;
     }
-    a:hover {
+    a:hover,
+    a:focus-visible {
         text-decoration: none;
+        outline: none;
     }
 
     code {
@@ -168,6 +170,12 @@
     }
     nav ul li a {
         font-size: 14px;
+        text-decoration: none;
+    }
+    nav ul li a:hover,
+    nav ul li a:focus-visible {
+        background: rgba(var(--color-a) / 1);
+        color: rgba(var(--color-b) / 1);
     }
     body:not(:has(.content-wide)) nav {
         position: sticky;
@@ -232,6 +240,12 @@
         outline: none;
     }
 
+    .block a:hover,
+    .block a:focus-visible {
+        background: rgba(var(--color-b) / 1);
+        color: rgba(var(--color-a) / 1);
+    }
+
     .block img {
         max-width: 100%;
         display: block;
@@ -281,6 +295,7 @@
         z-index: +1;
     }
     .block.latest-song img {
+        width: 100%;
         max-width: 80px;
         max-height: 80px;
         aspect-ratio: 1/1;
@@ -319,7 +334,6 @@
         padding: 2px 4px;
         background: rgba(var(--color-b) / 1);
         color: rgba(var(--color-a) / 1);
-        border-radius: 4px;
     }
     .block.markdown pre {
         margin: 8px -24px;
