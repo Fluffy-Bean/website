@@ -18,7 +18,7 @@ steps:
       chmod 600 ~/.ssh/id_rsa
 
       ssh -tt -o StrictHostKeyChecking=no uncertainty@192.168.1.184 "rm -r $COPY_TO || true"
-      scp -o StrictHostKeyChecking=no -r $COPY_FROM uncertainty@192.168.178.81:$COPY_TO
+      scp -o StrictHostKeyChecking=no -r $COPY_FROM uncertainty@192.168.1.184:$COPY_TO
 
       ssh -tt -o StrictHostKeyChecking=no uncertainty@192.168.1.184 "doas service www-gay-leggy-dev restart"
     environment:
