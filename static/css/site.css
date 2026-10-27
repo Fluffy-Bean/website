@@ -7,8 +7,8 @@
 
     color-scheme: light dark;
 
-    --color-a: 242 237 230;
-    --color-b: 26 5 194;
+    --color-a: 26 5 194;
+    --color-b: 249 247 246;
     --ff-main:
         -apple-system,
 		BlinkMacSystemFont,
@@ -27,13 +27,6 @@
 	    consolas,
 		monospace,
 		sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-a: 26 5 194;
-        --color-b: 242 237 230;
-    }
 }
 
 @layer reset, universal, utility;
@@ -95,8 +88,6 @@
     }
 
     a {
-        margin-inline: -2px;
-        padding-inline: 2px;
         font-size: inherit;
         font-weight: 400;
         color: currentColor;
@@ -107,6 +98,10 @@
     a:focus-visible {
         text-decoration: none;
         outline: none;
+    }
+    a:not(.block, .btn) {
+        margin-inline: -2px;
+        padding-inline: 2px;
     }
 
     code {
@@ -166,6 +161,7 @@
         max-width: 800px;
         background: rgba(var(--color-b) / 1);
         color: rgba(var(--color-a) / 1);
+        border-bottom: 1px solid rgba(var(--color-a) / 1);
     }
     nav ul {
         margin: 0;
@@ -216,9 +212,9 @@
 
     dialog {
         padding: 24px;
-        background: rgba(var(--color-a) / 1);
-        color: rgba(var(--color-b) / 1);
-        border: 2px solid rgba(var(--color-b) / 1);
+        background: rgba(var(--color-b) / 1);
+        color: rgba(var(--color-a) / 1);
+        border: none;
     }
     dialog::backdrop {
         background: rgba(var(--color-b) / 0.1);
@@ -226,12 +222,10 @@
     }
 
     .block {
-        margin: 8px 0;
         padding: 16px 24px;
         display: block;
         background: rgba(var(--color-a) / 1);
         color: rgba(var(--color-b) / 1);
-        border: 2px solid rgba(var(--color-b) / 1);
     }
 
     .block.join:has(+ .block) {
@@ -250,8 +244,15 @@
         outline: none;
     }
 
-    .block a:hover,
-    .block a:focus-visible {
+    .block:not(.markdown) a:hover,
+    .block:not(.markdown) a:hover:focus-visible {
+        text-decoration: none;
+        background: rgba(var(--color-b) / 1);
+        color: rgba(var(--color-a) / 1);
+    }
+
+    .block.markdown a:not(:hover, :focus-visible) {
+        text-decoration: none;
         background: rgba(var(--color-b) / 1);
         color: rgba(var(--color-a) / 1);
     }
@@ -266,7 +267,7 @@
     .block.image img {
         margin: 0 auto;
         max-height: none;
-        background: rgba(var(--color-b) / 0.1);
+        background: rgba(var(--color-b) / 0.2);
     }
 
     .block.notice {
@@ -296,6 +297,8 @@
 
         position: relative;
 
+        text-decoration: none;
+
         color: rgba(var(--color-b) / 1);
 
         overflow: hidden;
@@ -309,7 +312,6 @@
         max-width: 80px;
         max-height: 80px;
         aspect-ratio: 1/1;
-        border: 2px solid rgba(var(--color-b) / 1);
         z-index: +1;
     }
     .block.latest-song::before {
@@ -342,8 +344,8 @@
 
     .block.markdown code {
         padding: 2px 4px;
-        background: rgba(var(--color-b) / 1);
-        color: rgba(var(--color-a) / 1);
+        background: rgba(var(--color-b) / 0.2);
+        color: rgba(var(--color-b) / 1);
     }
     .block.markdown pre {
         margin: 8px -24px;
@@ -356,6 +358,7 @@
     .block.markdown pre code {
         padding: 0;
         background: transparent;
+        color: inherit;
     }
     .block.markdown hr {
         border: none;
@@ -398,7 +401,7 @@
         position: relative;
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: 24px;
+        gap: 8px;
         align-content: center;
         background: rgba(var(--color-b) / 1);
         color: rgba(var(--color-a) / 1);
@@ -408,11 +411,11 @@
         position: relative;
     }
     .composer input {
-        padding: 0;
+        padding: 0 10px;
         height: 30px;
         width: 100%;
         outline: none;
-        background: transparent;
+        background: rgba(var(--color-a) / 0.2);
         color: rgba(var(--color-a) / 1);
         border: none;
         border-bottom: 1px solid rgba(var(--color-a) / 1);
@@ -486,7 +489,7 @@
         width: 100%;
         height: 100%;
         display: block;
-        background: rgba(var(--color-b) / 0.1);
+        background: rgba(var(--color-b) / 0.2);
     }
     .fullscreen-view__artist {
         font-weight: 500;
@@ -509,14 +512,25 @@
         place-content: center;
         background: rgba(var(--color-b) / 1);
         color: rgba(var(--color-a) / 1);
-        border: 2px solid rgba(var(--color-b) / 1);
-        border-radius: 3px;
+        border: 1px solid rgba(var(--color-b) / 1);
         text-decoration: none;
     }
+
     .btn:hover {
         background: rgba(var(--color-a) / 1);
         color: rgba(var(--color-b) / 1);
         outline: none;
+    }
+
+    .btn.inverted {
+        background: rgba(var(--color-a) / 1);
+        color: rgba(var(--color-b) / 1);
+        border: 1px solid rgba(var(--color-a) / 1);
+    }
+
+    .btn:hover.inverted {
+        background: rgba(var(--color-b) / 1);
+        color: rgba(var(--color-a) / 1);
     }
 }
 

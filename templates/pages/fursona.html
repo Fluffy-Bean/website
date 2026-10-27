@@ -52,8 +52,8 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
     <p style="margin-top: 0">The following link may contain NSFW content, continue?</p>
 
     <div class="row">
-        <button class="btn nsfw-warning__close" commandfor="nsfw-warning" command="close">I want out!</button>
-        <a class="btn nsfw-warning__accept" href="#" target="_blank">Continue</a>
+        <button class="btn inverted nsfw-warning__close" commandfor="nsfw-warning" command="close">I want out!</button>
+        <a class="btn inverted nsfw-warning__accept" href="#" target="_blank">Continue</a>
     </div>
 </dialog>
 
@@ -84,6 +84,7 @@ I don't own a fursuit (yet) but there is some art for you to stare at below!
             const artist = artists[node.dataset.artistId]
             const source = node.dataset.sourceFull
 
+            fsDialog.querySelector(".fullscreen-view__image").src = ""
             fsDialog.querySelector(".fullscreen-view__image").src = source
             fsDialog.querySelector(".fullscreen-view__artist").innerText = artist.name
 
