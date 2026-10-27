@@ -1,14 +1,5 @@
-@font-face {
-  font-family: "Departure Mono";
-  src:
-    url("/static/fonts/DepartureMono-Regular.woff2") format("woff2"),
-    url("/static/fonts/DepartureMono-Regular.woff") format("woff"),
-    url("/static/fonts/DepartureMono-Regular.otf") format("opentype");
-  font-feature-settings: "locl";
-}
-
 :root {
-    font-family: var(--ff);
+    font-family: var(--ff-main);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -18,7 +9,24 @@
 
     --color-a: 242 237 230;
     --color-b: 26 5 194;
-    --ff: "Departure Mono", monospace;
+    --ff-main:
+        -apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		Oxygen-Sans,
+		Ubuntu,
+		Cantarell,
+		Helvetica,
+		"Helvetica Neue",
+		Arial,
+		sans-serif,
+		"Apple Color Emoji",
+		"Segoe UI Emoji";
+	--ff-mono:
+	    consolas,
+		monospace,
+		sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,7 +48,7 @@
     button,
     input,
     textarea {
-        font-family: var(--ff);
+        font-family: var(--ff-main);
         font-size: 14px;
         font-weight: 400;
     }
@@ -87,11 +95,13 @@
     }
 
     a {
+        margin-inline: -2px;
+        padding-inline: 2px;
         font-size: inherit;
         font-weight: 400;
         color: currentColor;
-        text-decoration-thickness: 2px;
-        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 2px;
     }
     a:hover,
     a:focus-visible {
@@ -100,7 +110,7 @@
     }
 
     code {
-        font-family: var(--ff);
+        font-family: var(--ff-mono);
         font-size: 13px;
     }
 
