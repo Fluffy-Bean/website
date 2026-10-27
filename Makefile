@@ -10,6 +10,7 @@ clean:
 
 deps:
 	go mod tidy
+	go mod vendor
 
 generate:
 	go run cmd/generate/main.go -input=static/images/art -output="${GENERATED_DIR}/256" -size=256
@@ -22,6 +23,6 @@ build:
 run:
 	go run -ldflags "-X main.BuildTime=${BUILD_TIME}" cmd/website/* ${ARGS}
 
-all: clean deps generate build
+all: clean generate build
 
 .PHONY: clean deps generate build run all
